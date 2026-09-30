@@ -1,0 +1,1401 @@
+package com.example.data
+
+import com.example.R
+import com.example.model.Achievement
+import com.example.model.CaseData
+import com.example.model.ChallengeQuestion
+import com.example.model.ChallengeType
+import com.example.model.Clue
+import com.example.model.DetectiveCharacter
+import com.example.model.DetectiveRank
+import com.example.model.DictionaryEntry
+import com.example.model.Suspect
+
+object GameDataProvider {
+
+    val characters = listOf(
+        DetectiveCharacter(
+            id = "char_arya",
+            name = "Arya Wicaksana",
+            title = "Pakar Filologi & Aksara Kuno",
+            quote = "\"Setiap goresan aksara masa lalu menyimpan kebenaran yang tak bisa disembunyikan.\"",
+            bio = "Peneliti manuskrip berdarah Keraton Surakarta. Berbekal kacamata bulat dan kaca pembesar antik, ia lihai membedakan makna kata dan menyibak kebohongan halus dalam naskah kuno.",
+            specialtyPerk = "Analisis Leksikologi Kuno",
+            perkDescription = "+100 Poin Bonus per teka-teki Sinonim & Antonim, serta pemahaman petunjuk lebih cepat.",
+            avatarDrawableRes = R.drawable.img_char_arya,
+            themeColorHex = 0xFFD4AF37
+        ),
+        DetectiveCharacter(
+            id = "char_kirana",
+            name = "Kirana Danastri",
+            title = "Penyelidik Forensik Kata & Sastra",
+            quote = "\"Dusta selalu meninggalkan retakan pada tata bahasa dan keganjilan alibi.\"",
+            bio = "Detektif wanita cerdas berbusana kebaya modern dan jas investigasi. Ahli mendeteksi kesalahan kata baku KBBI dan menemukan kelemahan dalam alibi saksi.",
+            specialtyPerk = "Mata Rajawali (Deteksi Kontradiksi)",
+            perkDescription = "Menyoroti inkonsistensi kata baku secara instan dan memudahkan identifikasi kebohongan alibi saksi.",
+            avatarDrawableRes = R.drawable.img_char_kirana,
+            themeColorHex = 0xFF0F766E
+        ),
+        DetectiveCharacter(
+            id = "char_panji",
+            name = "Raden Panji Mahesa",
+            title = "Detektif Arkeolog Lapangan Nusantara",
+            quote = "\"Tanah Nusantara penuh dengan misteri, dan kita adalah penjaga pusaka kisahnya.\"",
+            bio = "Petualang tangguh penjelajah situs-situs purba dari Sumatra hingga Bali. Memiliki insting lapangan yang tajam dan ketahanan mental yang tak tergoyahkan.",
+            specialtyPerk = "Naluri Ketahanan Budaya",
+            perkDescription = "+1 Cadangan Kesempatan (Hati Ekstra) saat menghadapi teka-teki sulit dan bonus ketelitian bukti fisik.",
+            avatarDrawableRes = R.drawable.img_char_panji,
+            themeColorHex = 0xFFB45309
+        )
+    )
+
+    val ranks = listOf(
+        DetectiveRank(1, "Detektif Magang", 0, "Lencana Kuningan", "Memulai langkah awal memecahkan teka-teki kata."),
+        DetectiveRank(2, "Detektif Pemula", 300, "Lencana Tembaga", "Mampu menganalisis alibi dasar dan padanan kata."),
+        DetectiveRank(3, "Detektif Penyelidik", 700, "Lencana Perak", "Ahli mengungkap kontradiksi dokumen dan kata baku."),
+        DetectiveRank(4, "Detektif Madya", 1200, "Lencana Emas", "Mampu mengeliminasi tersangka dalam kasus rumit."),
+        DetectiveRank(5, "Detektif Utama", 1800, "Lencana Giok", "Keahlian linguistik dan deduksi tingkat tinggi."),
+        DetectiveRank(6, "Detektif Mahir Nusantara", 2500, "Bintang Pusaka", "Legenda detektif bahasa terbaik di seluruh Nusantara.")
+    )
+
+    val achievements = listOf(
+        Achievement("ach_first_solve", "Detektif Pertama", "Selesaikan kasus pertamamu dengan sukses.", "search", false, 100),
+        Achievement("ach_master_baku", "Ahli Kata Baku", "Jawab 5 tantangan kata baku tanpa kesalahan.", "spellcheck", false, 150),
+        Achievement("ach_antonim_ace", "Pembongkar Dusta", "Selesaikan 5 tantangan antonim untuk mematahkan alibi.", "compare_arrows", false, 150),
+        Achievement("ach_sinonim_pro", "Kamus Berjalan", "Temukan 5 padanan sinonim kata bukti kuno.", "menu_book", false, 150),
+        Achievement("ach_three_stars", "Detektif Sempurna", "Raih 3 Bintang emas dalam sebuah kasus.", "star", false, 200),
+        Achievement("ach_rank_up", "Kenaikan Pangkat", "Capai tingkat Detektif Penyelidik atau lebih tinggi.", "military_tech", false, 250)
+    )
+
+    fun getInitialCases(): List<CaseData> = listOf(
+        CaseData(
+            id = "case_01",
+            numberCode = "Kasus 01",
+            title = "Misteri Hilangnya Pusaka Nusantara",
+            subtitle = "Keris Pusaka Ratusan Tahun Lenyap dari Museum Kebudayaan",
+            region = "D.I. Yogyakarta",
+            locationName = "Museum Kebudayaan, Yogyakarta",
+            drawableRes = R.drawable.img_keraton_case,
+            physicalEvidenceTitle = "Lemari Kaca Museum yang Terbuka",
+            physicalEvidenceDesc = "Sebuah lemari pameran kaca tempat penyimpanan keris pusaka ditemukan terbuka tanpa kerusakan gembok.",
+            storyIntro = "Di Museum Kebudayaan Yogyakarta, sebuah keris pusaka berusia ratusan tahun dilaporkan lenyap pada pagi hari. Kepala museum memintamu — Detektif Bahasa — untuk menyelidiki kasus ini. Ada 6 tersangka yang berada di sekitar museum. Jawab pertanyaan kebahasaan untuk mendapat petunjuk, lalu eliminasi tersangka yang tidak sesuai!",
+            unlockXpRequired = 0,
+            isUnlocked = true,
+            isCompleted = false,
+            suspects = listOf(
+                Suspect(
+                    id = "s_01_0",
+                    name = "Budi Santoso",
+                    roleTitle = "Pedagang Batik",
+                    bio = "Pria 45 tahun, sering terlihat di pasar tradisional.",
+                    initialAlibi = "Saya sedang menjual kain batik di pasar.",
+                    fullAlibi = "Saya berada di los pasar batik sejak pagi melayani pembeli grosir.",
+                    avatarInitials = "BS",
+                    avatarColorHex = 0xFF5D4037,
+                    contradictionClueId = "clue_01_2",
+                    isCulprit = false,
+                    confession = "",
+                    emojiIcon = "🧔",
+                    traits = listOf("berkumis", "memakai topi", "tidak berkacamata", "berbaju batik")
+                ),
+                Suspect(
+                    id = "s_01_1",
+                    name = "Siti Rahayu",
+                    roleTitle = "Guru Bahasa",
+                    bio = "Wanita 38 tahun, dikenal cerdas dan teliti.",
+                    initialAlibi = "Saya sedang memeriksa naskah ujian murid.",
+                    fullAlibi = "Saya mengoreksi tugas esai kebahasaan siswa di ruang guru museum.",
+                    avatarInitials = "SR",
+                    avatarColorHex = 0xFF7B1FA2,
+                    contradictionClueId = "clue_01_1",
+                    isCulprit = false,
+                    confession = "",
+                    emojiIcon = "👩‍🏫",
+                    traits = listOf("berkacamata", "berambut panjang", "tidak berkumis", "berbaju kebaya")
+                ),
+                Suspect(
+                    id = "s_01_2",
+                    name = "Agus Wirawan",
+                    roleTitle = "Seniman Wayang",
+                    bio = "Pria 52 tahun, menguasai berbagai kesenian tradisional.",
+                    initialAlibi = "Saya menata kotak wayang kulit di panggung.",
+                    fullAlibi = "Saya sibuk mempersiapkan kelir dan gamelan untuk pentas malam nanti.",
+                    avatarInitials = "AW",
+                    avatarColorHex = 0xFF212121,
+                    contradictionClueId = "clue_01_1",
+                    isCulprit = false,
+                    confession = "",
+                    emojiIcon = "🎭",
+                    traits = listOf("tidak berkumis", "berkacamata", "berambut pendek", "berbaju hitam")
+                ),
+                Suspect(
+                    id = "s_01_3",
+                    name = "Dewi Kartika",
+                    roleTitle = "Penjual Jamu",
+                    bio = "Wanita 29 tahun, selalu membawa keranjang jamu.",
+                    initialAlibi = "Saya hanya mengantar jamu beras kencur ke staf museum.",
+                    fullAlibi = "Saya mengantar botol jamu ke dapur belakang lalu pulang ke rumah.",
+                    avatarInitials = "DK",
+                    avatarColorHex = 0xFFF57F17,
+                    contradictionClueId = null,
+                    isCulprit = true,
+                    confession = "Ya, aku yang mengambil keris pusaka itu! Usaha jamu keluargaku terancam gulung tikar dan ada kolektor yang menjanjikan uang tebusan sangat besar. Aku menyembunyikannya di dalam keranjang jamuku!",
+                    emojiIcon = "🌿",
+                    traits = listOf("tidak berkacamata", "berambut pendek", "berbaju kuning", "tidak berkumis")
+                ),
+                Suspect(
+                    id = "s_01_4",
+                    name = "Hendra Kusuma",
+                    roleTitle = "Nelayan",
+                    bio = "Pria 41 tahun, ahli berlayar dan mengenal arus laut.",
+                    initialAlibi = "Saya sedang memperbaiki jala di pinggir kali.",
+                    fullAlibi = "Saya menganyam jaring ikan sambil menunggu pasang surut air.",
+                    avatarInitials = "HK",
+                    avatarColorHex = 0xFF1976D2,
+                    contradictionClueId = "clue_01_5",
+                    isCulprit = false,
+                    confession = "",
+                    emojiIcon = "⚓",
+                    traits = listOf("berkumis", "tidak berkacamata", "berambut ikal", "berbaju biru")
+                ),
+                Suspect(
+                    id = "s_01_5",
+                    name = "Ratna Sari",
+                    roleTitle = "Pengrajin Tenun",
+                    bio = "Wanita 33 tahun, terkenal dengan karya tenunnya.",
+                    initialAlibi = "Saya memintal benang warna sutra di galeri.",
+                    fullAlibi = "Saya memasang pakan dan lungsi pada alat tenun bukan mesin.",
+                    avatarInitials = "RS",
+                    avatarColorHex = 0xFFC2185B,
+                    contradictionClueId = "clue_01_4",
+                    isCulprit = false,
+                    confession = "",
+                    emojiIcon = "🧶",
+                    traits = listOf("berkacamata", "berambut dikepang", "berbaju merah", "tidak berkumis")
+                )
+            ),
+            clues = listOf(
+                Clue(
+                    id = "clue_01_1",
+                    title = "Wajah Pelaku Terlihat",
+                    summary = "Saksi mata melihat wajah pelaku saat berlari keluar.",
+                    revealedDetail = "Pelaku tidak memakai kacamata — wajahnya terlihat jelas saat berlari keluar!",
+                    category = "Ciri"
+                ),
+                Clue(
+                    id = "clue_01_2",
+                    title = "Alibi Keramaian Palsu",
+                    summary = "Pelaku berbohong mengenai keberadaannya di tempat ramai.",
+                    revealedDetail = "Alibi soal tempat ramai terbukti bohong. Pelaku ternyata memakai topi saat beraksi!",
+                    category = "Alibi"
+                ),
+                Clue(
+                    id = "clue_01_3",
+                    title = "Warna Pakaian Pelaku",
+                    summary = "Rekaman kamera pengawas menunjukkan warna pakaian.",
+                    revealedDetail = "Cap surat pakai ejaan baku 'Izin'. Rekaman CCTV menunjukkan pelaku berbaju kuning!",
+                    category = "CCTV"
+                ),
+                Clue(
+                    id = "clue_01_4",
+                    title = "Gaya Rambut Pelaku",
+                    summary = "Potongan rambut pelaku tertangkap kamera.",
+                    revealedDetail = "Rekaman kamera menunjukkan pelaku berambut pendek dan tidak dikepang!",
+                    category = "Fisik"
+                ),
+                Clue(
+                    id = "clue_01_5",
+                    title = "Tekstur Rambut di TKP",
+                    summary = "Ditemukan helai rambut di dekat lemari kaca.",
+                    revealedDetail = "Pelaku tenang karena sudah merencanakan ini matang. Jejak rambut ikal ditemukan di TKP!",
+                    category = "Forensik"
+                ),
+                Clue(
+                    id = "clue_01_6",
+                    title = "Ciri Wajah Tanpa Kumis",
+                    summary = "Kesaksian warga di apotek terdekat.",
+                    revealedDetail = "Pelaku membeli sesuatu di apotek terdekat. Warga bersaksi pelaku tidak berkumis!",
+                    category = "Saksi"
+                )
+            ),
+            challenges = listOf(
+                ChallengeQuestion(
+                    id = "q_01_1",
+                    type = ChallengeType.SINONIM,
+                    prompt = "Saksi mata melihat pelaku sedang \"berlari\" meninggalkan museum.\n\nPilih kata yang bermakna paling dekat (sinonim) dengan \"berlari\":",
+                    contextReason = "Temukan padanan kata untuk melacak kecepatan gerak pelaku.",
+                    targetWord = "Berlari",
+                    options = listOf("Berjalan", "Bergegas", "Merayap", "Berenang"),
+                    correctIndex = 1,
+                    explanation = "'Bergegas' adalah sinonim dari 'berlari' — keduanya bermakna bergerak dengan cepat.",
+                    rewardClueId = "clue_01_1",
+                    points = 100,
+                    eliminatedTrait = "berkacamata",
+                    clueHint = "Pelaku tidak memakai kacamata — wajahnya terlihat jelas saat berlari keluar!"
+                ),
+                ChallengeQuestion(
+                    id = "q_01_2",
+                    type = ChallengeType.ANTONIM,
+                    prompt = "Dalam dokumen alibi, tersangka mengklaim sedang berada di tempat yang \"ramai\".\n\nPilih lawan kata (antonim) dari \"ramai\":",
+                    contextReason = "Bongkar kepalsuan suasana tempat yang diklaim tersangka.",
+                    targetWord = "Ramai",
+                    options = listOf("Meriah", "Gaduh", "Sepi", "Ribut"),
+                    correctIndex = 2,
+                    explanation = "'Sepi' adalah antonim dari 'ramai'. Keduanya berlawanan dalam menggambarkan kepadatan tempat.",
+                    rewardClueId = "clue_01_2",
+                    points = 100,
+                    eliminatedTrait = "memakai topi",
+                    clueHint = "Alibi soal tempat ramai terbukti bohong. Pelaku ternyata memakai topi saat beraksi!"
+                ),
+                ChallengeQuestion(
+                    id = "q_01_3",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Di surat izin yang ditemukan dekat TKP, ada kata yang perlu diperiksa.\n\nManakah penulisan yang BENAR menurut KBBI?",
+                    contextReason = "Periksa keabsahan stempel surat yang ditinggalkan pelaku.",
+                    targetWord = "Izin atau Ijin?",
+                    options = listOf("Ijin", "Izin", "Idzin", "Ijzin"),
+                    correctIndex = 1,
+                    explanation = "Kata baku yang benar adalah 'Izin' (bukan Ijin). Penulisan ini sesuai KBBI edisi terbaru.",
+                    rewardClueId = "clue_01_3",
+                    points = 100,
+                    eliminatedTrait = "berbaju kuning",
+                    clueHint = "Cap surat pakai ejaan baku 'Izin'. Rekaman CCTV menunjukkan pelaku berbaju kuning!"
+                ),
+                ChallengeQuestion(
+                    id = "q_01_4",
+                    type = ChallengeType.SINONIM,
+                    prompt = "Laporan menyebutkan keris pusaka itu \"lenyap\" dari dalam lemari kaca.\n\nPilih kata yang bermakna paling dekat (sinonim) dengan \"lenyap\":",
+                    contextReason = "Ketahui kondisi terakhir penyimpanan benda pusaka.",
+                    targetWord = "Lenyap",
+                    options = listOf("Muncul", "Hilang", "Bersinar", "Bertambah"),
+                    correctIndex = 1,
+                    explanation = "'Hilang' adalah sinonim dari 'lenyap' — keduanya bermakna tidak ada atau tidak terlihat lagi.",
+                    rewardClueId = "clue_01_4",
+                    points = 100,
+                    eliminatedTrait = "berambut panjang",
+                    clueHint = "Rekaman kamera menunjukkan pelaku berambut pendek dan tidak dikepang!"
+                ),
+                ChallengeQuestion(
+                    id = "q_01_5",
+                    type = ChallengeType.ANTONIM,
+                    prompt = "Saksi berkata pelaku terlihat \"tenang\" saat berjalan keluar museum.\n\nPilih lawan kata (antonim) dari \"tenang\":",
+                    contextReason = "Analisis bahasa tubuh dan emosi pelaku saat beraksi.",
+                    targetWord = "Tenang",
+                    options = listOf("Damai", "Gugup", "Santai", "Sabar"),
+                    correctIndex = 1,
+                    explanation = "'Gugup' adalah antonim dari 'tenang'. Keduanya berlawanan dalam kondisi emosi seseorang.",
+                    rewardClueId = "clue_01_5",
+                    points = 100,
+                    eliminatedTrait = "berambut ikal",
+                    clueHint = "Pelaku tenang karena sudah merencanakan ini matang. Jejak rambut ikal ditemukan di TKP!"
+                ),
+                ChallengeQuestion(
+                    id = "q_01_6",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Di label produk dekat TKP, ada nama toko yang perlu diperiksa ejaannya.\n\nManakah penulisan yang BENAR menurut KBBI?",
+                    contextReason = "Verifikasi nota pembelian barang dekat lemari kaca.",
+                    targetWord = "Apotek atau Apotik?",
+                    options = listOf("Apotik", "Apotek", "Apoteck", "Apothek"),
+                    correctIndex = 1,
+                    explanation = "Kata baku yang benar adalah 'Apotek' (bukan Apotik). Kata ini diserap dari bahasa Belanda 'apotheek'.",
+                    rewardClueId = "clue_01_6",
+                    points = 100,
+                    eliminatedTrait = "berkumis",
+                    clueHint = "Pelaku membeli sesuatu di apotek terdekat. Warga bersaksi pelaku tidak berkumis!"
+                ),
+                ChallengeQuestion(
+                    id = "q_01_7",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Pada buku tamu kunjungan museum, terdapat kata yang sering keliru ditulis.\n\nManakah penulisan kata baku yang benar?",
+                    contextReason = "Cek log buku tamu antrean pengunjung loket museum.",
+                    targetWord = "Antre atau Antri?",
+                    options = listOf("Antri", "Antre", "Antree", "Antrey"),
+                    correctIndex = 1,
+                    explanation = "Bentuk baku menurut KBBI adalah 'Antre'. Kata kerjanya adalah 'mengantre', bukan 'mengantri'.",
+                    rewardClueId = "clue_01_2",
+                    points = 100,
+                    eliminatedTrait = "berbaju batik",
+                    clueHint = "Pelaku tidak mengantre di loket resmi, melainkan menyusup lewat pintu samping!"
+                ),
+                ChallengeQuestion(
+                    id = "q_01_8",
+                    type = ChallengeType.SINONIM,
+                    prompt = "Saksi mendeskripsikan artefak keris itu sebagai benda yang sangat \"kuno\".\n\nManakah sinonim dari kata \"kuno\"?",
+                    contextReason = "Pahami nilai historis dari barang yang dicuri.",
+                    targetWord = "Kuno",
+                    options = listOf("Modern", "Purba / Antik", "Canggih", "Baru"),
+                    correctIndex = 1,
+                    explanation = "'Purba' atau 'Antik' adalah sinonim dari 'kuno' yang bermakna berasal dari zaman dahulu.",
+                    rewardClueId = "clue_01_4",
+                    points = 100,
+                    eliminatedTrait = "berbaju hitam",
+                    clueHint = "Pelaku mengincar keris karena nilai historisnya yang tak ternilai harganya!"
+                ),
+                ChallengeQuestion(
+                    id = "q_01_9",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Di buku piket jaga malam museum tercatat rencana ronda malam.\n\nManakah penulisan kata baku yang benar menurut KBBI?",
+                    contextReason = "Periksa log pembagian waktu jaga pintu belakang museum.",
+                    targetWord = "Jadwal atau Jadual?",
+                    options = listOf("Jadual", "Jadwal", "Djadwal", "Jatwal"),
+                    correctIndex = 1,
+                    explanation = "Menurut KBBI, kata baku yang tepat adalah 'Jadwal' dengan huruf 'w' (diserap dari bahasa Arab 'jadwal').",
+                    rewardClueId = "clue_01_5",
+                    points = 100,
+                    eliminatedTrait = "berambut ikal",
+                    clueHint = "Catatan jadwal jaga dipalsukan pelaku untuk menghindari petugas patroli!"
+                ),
+                ChallengeQuestion(
+                    id = "q_01_10",
+                    type = ChallengeType.ANTONIM,
+                    prompt = "Lorong museum yang dilewati pelaku digambarkan saksi sangat \"gelap\".\n\nPilihlah lawan kata (antonim) dari \"gelap\":",
+                    contextReason = "Ungkap kondisi pencahayaan lorong belakang museum saat insiden.",
+                    targetWord = "Gelap",
+                    options = listOf("Kelam", "Suram", "Terang", "Baur"),
+                    correctIndex = 2,
+                    explanation = "'Terang' adalah lawan kata (antonim) dari 'gelap'. Keduanya menggambarkan intensitas cahaya yang bertolak belakang.",
+                    rewardClueId = "clue_01_6",
+                    points = 100,
+                    eliminatedTrait = "berkumis",
+                    clueHint = "Kondisi terang dari lampu darurat sempat memperlihatkan siluet wajah pelaku!"
+                )
+            )
+        ),
+        CaseData(
+            id = "case_02",
+            numberCode = "Kasus 02",
+            title = "Surat Hilang di Keraton Yogyakarta",
+            subtitle = "Konspirasi Bahasa di Balik Dinding Bale Prabeyo",
+            region = "Jawa",
+            locationName = "Keraton Ngayogyakarta Hadiningrat",
+            drawableRes = R.drawable.img_keraton_case,
+            physicalEvidenceTitle = "Surat Segel Keraton yang Diubah",
+            physicalEvidenceDesc = "Sebuah amplop sutra emas yang terbuka, berisi naskah wasiat bertinta emas yang kata-katanya sengaja dipalsukan.",
+            storyIntro = "Saat upacara agung malam hari di Keraton Yogyakarta, surat wasiat rahasia Sultan yang disimpan di Bale Prabeyo raib. Hanya abdi dalem berkedudukan tinggi dan orang dalam yang mengetahui seluk-beluk lorong rahasia keraton. Pelaku berusaha memalsukan isi surat dengan kosakata halus. Gunakan ketajaman analisismu!",
+            unlockXpRequired = 300,
+            isUnlocked = false,
+            isCompleted = false,
+            suspects = listOf(
+                Suspect(
+                    id = "s_02_1",
+                    name = "Raden Wirayuda",
+                    roleTitle = "Abdi Dalem Pustaka",
+                    bio = "Penyimpan naskah babad kuno Keraton yang teliti dan pendiam.",
+                    initialAlibi = "Pada saat kejadian, saya membaca naskah lama di perpustakaan.",
+                    fullAlibi = "Saya berada di bilik perpustakaan naskah bersama dua asisten hingga upacara selesai.",
+                    avatarInitials = "RW",
+                    avatarColorHex = 0xFF4E342E,
+                    contradictionClueId = "clue_02_2",
+                    isCulprit = false,
+                    confession = ""
+                ),
+                Suspect(
+                    id = "s_02_2",
+                    name = "Nyai Sekar Arum",
+                    roleTitle = "Penari Utama Bedhaya",
+                    bio = "Penari keraton yang memiliki akses ke ruang rias di dekat paviliun utama.",
+                    initialAlibi = "Saya mempersiapkan sampur tari di keputren.",
+                    fullAlibi = "Saya tidak pernah keluar dari ruang rias penari hingga gamelan pengiring berbunyi nyaring.",
+                    avatarInitials = "NS",
+                    avatarColorHex = 0xFFAD1457,
+                    contradictionClueId = "clue_02_1",
+                    isCulprit = false,
+                    confession = ""
+                ),
+                Suspect(
+                    id = "s_02_3",
+                    name = "Ki Ageng Pratama",
+                    roleTitle = "Prajurit Jagabaya",
+                    bio = "Kepala penjaga keamanan regol pintu gerbang utama.",
+                    initialAlibi = "Saya berjaga di pintu gerbang luar.",
+                    fullAlibi = "Saya memastikan tidak ada orang asing masuk lewat regol barat selama malam tirakatan.",
+                    avatarInitials = "KP",
+                    avatarColorHex = 0xFF2E7D32,
+                    contradictionClueId = "clue_02_3",
+                    isCulprit = false,
+                    confession = ""
+                ),
+                Suspect(
+                    id = "s_02_4",
+                    name = "Bhre Tumapel",
+                    roleTitle = "Kerabat Bangsawan Keraton",
+                    bio = "Tokoh bangsawan terpandang yang memiliki ambisi menguasai tanah pusaka keraton.",
+                    initialAlibi = "Saya sedang berbincang dengan para tamu kehormatan.",
+                    fullAlibi = "Saya tidak mengerti bahasa krama dan sama sekali tidak tahu letak pintu rahasia Bale Prabeyo!",
+                    avatarInitials = "BT",
+                    avatarColorHex = 0xFFF57F17,
+                    contradictionClueId = null,
+                    isCulprit = true,
+                    confession = "Kalian memang detektif tajam! Surat itu menyatakan hak waris tanah pusaka jatuh ke rakyat jelata. Aku memalsukan kata-katanya agar tanah itu jatuh ke tanganku. Aku memanfaatkan pintu rahasia karena menguasai peta naskah lama!"
+                ),
+                Suspect(
+                    id = "s_02_5",
+                    name = "Tumenggung Jayakusuma",
+                    roleTitle = "Menteri Protokoler",
+                    bio = "Pengatur jalannya tata upacara adat dan perjamuan malam.",
+                    initialAlibi = "Saya memandu rombongan tamu di pendopo agung.",
+                    fullAlibi = "Selama jamuan saya berdiri di dekat singgasana Sultan di depan ratusan hadirin.",
+                    avatarInitials = "TJ",
+                    avatarColorHex = 0xFF1565C0,
+                    contradictionClueId = "clue_02_4",
+                    isCulprit = false,
+                    confession = ""
+                )
+            ),
+            clues = listOf(
+                Clue(
+                    id = "clue_02_1",
+                    title = "Waktu Kejadian & Pintu Rahasia",
+                    summary = "Surat hilang saat upacara malam hari.",
+                    revealedDetail = "Surat hilang tepat saat upacara malam hari. Hanya orang dalam keraton yang tahu tuas pintu geser di belakang Bale Prabeyo.",
+                    category = "Waktu"
+                ),
+                Clue(
+                    id = "clue_02_2",
+                    title = "Kemahiran Bahasa Krama",
+                    summary = "Pelaku mahir mengubah bait kalimat keraton.",
+                    revealedDetail = "Pemeriksaan kaligrafi menunjukkan pelaku sangat menguasai tata bahasa krama alus, bertentangan dengan alibi Bhre Tumapel yang mengaku awam sastra!",
+                    category = "Bahasa"
+                ),
+                Clue(
+                    id = "clue_02_3",
+                    title = "Bercak Tinta Emas",
+                    summary = "Tinta khusus hanya dipakai untuk surat Sultan.",
+                    revealedDetail = "Bercak tinta emas khusus ditemukan menempel pada ujung lengan surjan sutra warna kuning emas milik Bhre Tumapel.",
+                    category = "Fisik"
+                ),
+                Clue(
+                    id = "clue_02_4",
+                    title = "Stempel Keraton Asli",
+                    summary = "Pelaku memakai stempel tiruan.",
+                    revealedDetail = "Cap stempel pada surat yang ditinggalkan adalah tiruan. Kata 'Resiko' diubah menjadi 'Risiko' pada surat asli tetapi pelaku salah ketik di surat palsu.",
+                    category = "Bukti"
+                )
+            ),
+            challenges = listOf(
+                ChallengeQuestion(
+                    id = "q_02_1",
+                    type = ChallengeType.SINONIM,
+                    prompt = "Tentukan sinonim dari kata berikut:",
+                    contextReason = "Pahami taktik tipu daya yang digunakan pelaku dalam mengubah dokumen keraton.",
+                    targetWord = "Muslihat",
+                    options = listOf("Tipu daya / Siasat licik", "Kebijaksanaan", "Kejujuran", "Kekuatan fisik"),
+                    correctIndex = 0,
+                    explanation = "Menurut KBBI, 'Muslihat' bermakna daya upaya yang penuh dengan tipu daya atau siasat tersembunyi.",
+                    rewardClueId = "clue_02_1",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_02_2",
+                    type = ChallengeType.ANTONIM,
+                    prompt = "Pilih antonim (lawan kata) yang tepat!",
+                    contextReason = "Bongkar kepalsuan dokumen yang diselundupkan ke dalam kotak perhiasan.",
+                    targetWord = "Autentik",
+                    options = listOf("Palsu / Tiruan", "Murni", "Resmi", "Kuno"),
+                    correctIndex = 0,
+                    explanation = "Lawan kata dari 'Autentik' (asli, sah) adalah 'Palsu' atau tiruan.",
+                    rewardClueId = "clue_02_2",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_02_3",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Manakah bentuk penulisan kata baku yang benar menurut KBBI?",
+                    contextReason = "Kata ini tertulis pada peringatan bahaya di sampul surat wasiat.",
+                    targetWord = "Risiko atau Resiko?",
+                    options = listOf("Risiko", "Resiko", "Riziko", "Rhesiko"),
+                    correctIndex = 0,
+                    explanation = "Bentuk baku bahasa Indonesia adalah 'Risiko' dengan huruf 'i', bukan 'Resiko'.",
+                    rewardClueId = "clue_02_3",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_02_4",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Pilih bentuk kata baku yang tepat:",
+                    contextReason = "Kalimat pengantar surat undangan jamuan resmi keraton.",
+                    targetWord = "Silakan atau Silahkan?",
+                    options = listOf("Silakan", "Silahkan", "Silaqan", "Silahken"),
+                    correctIndex = 0,
+                    explanation = "Kata baku yang tepat adalah 'Silakan' tanpa huruf 'h', berasal dari kata dasar 'sila'.",
+                    rewardClueId = "clue_02_4",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_02_5",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Manakah penulisan kata baku menurut KBBI?",
+                    contextReason = "Laporan hasil penyelidikan forensik naskah wasiat keraton.",
+                    targetWord = "Analisis atau Analisa?",
+                    options = listOf("Analisis", "Analisa", "Analize", "Analyza"),
+                    correctIndex = 0,
+                    explanation = "Bentuk baku dalam bahasa Indonesia adalah 'Analisis' (diserap dari bahasa Belanda/Inggris 'analysis').",
+                    rewardClueId = "clue_02_1",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_02_6",
+                    type = ChallengeType.SINONIM,
+                    prompt = "Tentukan sinonim (padanan kata) yang tepat!",
+                    contextReason = "Gelar kehormatan pusaka keraton yang diagungkan para abdi dalem.",
+                    targetWord = "Luhur",
+                    options = listOf("Mulia / Terpuji", "Sombong / Angkuh", "Sederhana", "Keras kepala"),
+                    correctIndex = 0,
+                    explanation = "Menurut KBBI, 'Luhur' bermakna tinggi, mulia, atau agung mengenai budi pekerti atau martabat keraton.",
+                    rewardClueId = "clue_02_2",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_02_7",
+                    type = ChallengeType.ANTONIM,
+                    prompt = "Pilihlah lawan kata (antonim) dari kata berikut:",
+                    contextReason = "Penyelesaian tugas abdi dalem yang belum tuntas saat kejadian.",
+                    targetWord = "Purna",
+                    options = listOf("Belum selesai / Awal", "Sempurna", "Tamat", "Utuh"),
+                    correctIndex = 0,
+                    explanation = "Kata 'Purna' bermakna selesai, lengkap, atau sempurna. Lawan katanya adalah 'Belum selesai' atau belum tuntas.",
+                    rewardClueId = "clue_02_3",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_02_8",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Manakah bentuk kata baku yang tepat?",
+                    contextReason = "Pakaian saksi saat meninggalkan bangsal keraton.",
+                    targetWord = "Kaus atau Kaos?",
+                    options = listOf("Kaus", "Kaos", "Kahos", "Khaos"),
+                    correctIndex = 0,
+                    explanation = "Bentuk baku bahasa Indonesia menurut KBBI adalah 'Kaus' (misalnya kaus oblong, kaus kaki).",
+                    rewardClueId = "clue_02_4",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_02_9",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Buku catatan rancang bangun Bale Prabeyo mencatat struktur dasar bangunan keraton.\n\nManakah bentuk kata baku yang benar menurut KBBI?",
+                    contextReason = "Periksa denah terowongan rahasia di bawah fondasi keraton.",
+                    targetWord = "Fondasi atau Pondasi?",
+                    options = listOf("Fondasi", "Pondasi", "Pundasi", "Phondasi"),
+                    correctIndex = 0,
+                    explanation = "Bentuk baku menurut KBBI adalah 'Fondasi' dengan huruf 'F' (diserap dari bahasa Belanda 'fundatie').",
+                    rewardClueId = "clue_02_1",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_02_10",
+                    type = ChallengeType.ANTONIM,
+                    prompt = "Dalam bait naskah wasiat keraton, disebutkan kemuliaan budi pekerti yang 'abadi'.\n\nTentukan lawan kata (antonim) dari 'abadi':",
+                    contextReason = "Ungkap filosofi wasiat yang sengaja dikaburkan oleh pelaku.",
+                    targetWord = "Abadi",
+                    options = listOf("Fana / Sementara", "Kekal", "Langgeng", "Tetap"),
+                    correctIndex = 0,
+                    explanation = "Lawan kata dari 'Abadi' (kekal, tidak berkesudahan) adalah 'Fana' (dapat rusak, tidak kekal, sementara).",
+                    rewardClueId = "clue_02_2",
+                    points = 100
+                )
+            )
+        ),
+        CaseData(
+            id = "case_03",
+            numberCode = "Kasus 03",
+            title = "Jejak Kata di Pulau Dewata",
+            subtitle = "Pencurian Prasasti Kidung Suci di Lereng Gunung Agung",
+            region = "Bali",
+            locationName = "Pura Agung Besakih, Karangasem",
+            drawableRes = R.drawable.img_dewata_case,
+            physicalEvidenceTitle = "Lontar Pengganti Bertulisan Kasar",
+            physicalEvidenceDesc = "Sebuah helai lontar tiruan dengan guratan pisau pangutik yang tergesa-gesa ditinggalkan di pelinggih utama.",
+            storyIntro = "Menjelang upacara Bhatara Turun Kabeh, naskah lontar kidung penyucian sakral raib dari pelinggih utama. Jejak kaki di abu dupa menunjukkan seseorang memanjat bale kulkul pada tengah malam berkabut. Pecahkan teka-teki padanan kata dan kaidah baku untuk menangkap pelaku pencurian warisan leluhur Dewata!",
+            unlockXpRequired = 700,
+            isUnlocked = false,
+            isCompleted = false,
+            suspects = listOf(
+                Suspect(
+                    id = "s_03_1",
+                    name = "Wayan Suardana",
+                    roleTitle = "Pengrajin Ukir Lontar",
+                    bio = "Pande lontar tradisional yang bertugas mengawetkan daun rontal di desa Tenganan.",
+                    initialAlibi = "Saya sedang mengeringkan daun lontar di sanggar.",
+                    fullAlibi = "Saya mengasapi daun lontar di tungku bersama murid saya semalaman.",
+                    avatarInitials = "WS",
+                    avatarColorHex = 0xFF00695C,
+                    contradictionClueId = "clue_03_1",
+                    isCulprit = false,
+                    confession = ""
+                ),
+                Suspect(
+                    id = "s_03_2",
+                    name = "Gusti Ayu Ratih",
+                    roleTitle = "Penari Pendet Pura",
+                    bio = "Gadis penari sesaji yang menyiapkan canang sari saat sembahyang.",
+                    initialAlibi = "Saya merangkai canang di bale banjar.",
+                    fullAlibi = "Saya bersama ibu-ibu banjar membuat jaje suci dan hiasan janur hingga pagi hari.",
+                    avatarInitials = "GA",
+                    avatarColorHex = 0xFF8E24AA,
+                    contradictionClueId = "clue_03_2",
+                    isCulprit = false,
+                    confession = ""
+                ),
+                Suspect(
+                    id = "s_03_3",
+                    name = "Made Sudirga",
+                    roleTitle = "Pialang Antik Gelap",
+                    bio = "Pedagang barang pusaka yang kerap bertransaksi di luar negeri.",
+                    initialAlibi = "Saya tidur nyenyak di penginapan Kintamani.",
+                    fullAlibi = "Mobil saya mogok di lereng dan saya tidak pernah menginjak pelataran pura malam itu!",
+                    avatarInitials = "MS",
+                    avatarColorHex = 0xFFD84315,
+                    contradictionClueId = null,
+                    isCulprit = true,
+                    confession = "Sial! Aku sudah membayar pemahat tiruan untuk membuat lontar palsu. Lontar asli itu dipesan pembeli kaya dari Eropa dengan harga miliaran rupiah! Kalian detektif yang luar biasa hebat."
+                ),
+                Suspect(
+                    id = "s_03_4",
+                    name = "Ketut Wardana",
+                    roleTitle = "Juru Kunci Tirta Suci",
+                    bio = "Penjaga sumber mata air suci yang mengelilingi kompleks pura.",
+                    initialAlibi = "Saya membersihkan pancuran air suci.",
+                    fullAlibi = "Saya memeriksa saluran air tirta di hulu jurang, jauh dari bale tempat lontar disimpan.",
+                    avatarInitials = "KW",
+                    avatarColorHex = 0xFF0277BD,
+                    contradictionClueId = "clue_03_3",
+                    isCulprit = false,
+                    confession = ""
+                )
+            ),
+            clues = listOf(
+                Clue(
+                    id = "clue_03_1",
+                    title = "Kwitansi Gelap Pialang Antik",
+                    summary = "Tanda bukti pembayaran bertuliskan nama samaran.",
+                    revealedDetail = "Kuitansi uang muka pembelian artefak mencantumkan nomor ponsel Made Sudirga dan lokasi serah terima di pelabuhan.",
+                    category = "Bukti"
+                ),
+                Clue(
+                    id = "clue_03_2",
+                    title = "Lumpur Abu Vulkanik Ban",
+                    summary = "Bekas roda mobil mewah ditemukan di dekat gerbang pura.",
+                    revealedDetail = "Ban mobil sedan mewah milik Made Sudirga berlumuran abu vulkanik basah yang hanya ada di jalan setapak samping pura Besakih.",
+                    category = "Fisik"
+                ),
+                Clue(
+                    id = "clue_03_3",
+                    title = "Pisau Pangutik Bukan Asli Bali",
+                    summary = "Alat pahat yang digunakan pelaku adalah buatan pabrik modern.",
+                    revealedDetail = "Bilah pisau yang tertinggal bermerek impor, membuktikan pelaku bukan seniman ukir lontar tradisional Bali melainkan orang luar.",
+                    category = "Alibi"
+                )
+            ),
+            challenges = listOf(
+                ChallengeQuestion(
+                    id = "q_03_1",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Pilihlah bentuk penulisan kata baku yang benar:",
+                    contextReason = "Periksa kata pada surat izin riset dan pengerjaan naskah kuno.",
+                    targetWord = "Praktik atau Praktek?",
+                    options = listOf("Praktik", "Praktek", "Practijk", "Prakteg"),
+                    correctIndex = 0,
+                    explanation = "Menurut KBBI, kata baku yang tepat adalah 'Praktik' (diserap dari bahasa Belanda 'praktijk').",
+                    rewardClueId = "clue_03_1",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_03_2",
+                    type = ChallengeType.ANTONIM,
+                    prompt = "Tentukan lawan kata (antonim) dari kata berikut:",
+                    contextReason = "Kidung suci memuat syair tentang sifat alam semesta.",
+                    targetWord = "Kekal",
+                    options = listOf("Fana / Sementara", "Abadi", "Kuat", "Suci"),
+                    correctIndex = 0,
+                    explanation = "Lawan kata dari 'Kekal' (abadi, tidak berkesudahan) adalah 'Fana' (dapat rusak, sementara).",
+                    rewardClueId = "clue_03_2",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_03_3",
+                    type = ChallengeType.SINONIM,
+                    prompt = "Pilih sinonim (padanan kata) yang tepat!",
+                    contextReason = "Ungkap arti istilah benda suci warisan leluhur.",
+                    targetWord = "Pusaka",
+                    options = listOf("Warisan leluhur berharga", "Perhiasan mahal", "Barang komoditas", "Alat perang"),
+                    correctIndex = 0,
+                    explanation = "Pusaka bermakna benda turun-temurun peninggalan orang tua atau leluhur yang dipandang bernilai tinggi.",
+                    rewardClueId = "clue_03_3",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_03_4",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Pilihlah bentuk kata baku yang benar menurut KBBI:",
+                    contextReason = "Sebutan untuk para cendekiawan penelaah lontar kuno Bali.",
+                    targetWord = "Cendekia atau Cendikia?",
+                    options = listOf("Cendekia", "Cendikia", "Tjendekia", "Chendekia"),
+                    correctIndex = 0,
+                    explanation = "Bentuk baku dalam bahasa Indonesia adalah 'Cendekia' (orang yang cerdik pandai disebut cendekiawan).",
+                    rewardClueId = "clue_03_1",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_03_5",
+                    type = ChallengeType.SINONIM,
+                    prompt = "Tentukan padanan kata (sinonim) yang tepat!",
+                    contextReason = "Sifat kidung penyucian yang dilantunkan saat upacara agung.",
+                    targetWord = "Sakral",
+                    options = listOf("Suci / Kudus", "Kuno / Tua", "Misterius", "Megah"),
+                    correctIndex = 0,
+                    explanation = "Kata 'Sakral' bersinonim dengan suci atau keramat mengenai upacara dan peninggalan keagamaan.",
+                    rewardClueId = "clue_03_2",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_03_6",
+                    type = ChallengeType.ANTONIM,
+                    prompt = "Pilih lawan kata (antonim) yang tepat!",
+                    contextReason = "Pergerakan posisi para penjaga pura saat pergantian waktu jaga malam.",
+                    targetWord = "Statis",
+                    options = listOf("Dinamis / Bergerak", "Diam", "Tenang", "Kaku"),
+                    correctIndex = 0,
+                    explanation = "Lawan kata (antonim) dari 'Statis' (keadaan diam) adalah 'Dinamis' (penuh gerak dan perkembangan).",
+                    rewardClueId = "clue_03_3",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_03_7",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Manakah penulisan kata baku yang sesuai kaidah?",
+                    contextReason = "Tingkatan susunan bangunan pura Besakih yang menjulang tinggi.",
+                    targetWord = "Hierarki atau Hirarki?",
+                    options = listOf("Hierarki", "Hirarki", "Hyraki", "Hiyerarki"),
+                    correctIndex = 0,
+                    explanation = "Bentuk baku menurut KBBI adalah 'Hierarki' dengan huruf 'e' (diserap dari bahasa Inggris 'hierarchy').",
+                    rewardClueId = "clue_03_1",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_03_8",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Pilihlah bentuk kata baku yang benar:",
+                    contextReason = "Pencatatan barang bukti lontar yang diamankan tim detektif.",
+                    targetWord = "Objek atau Obyek?",
+                    options = listOf("Objek", "Obyek", "Objeck", "Obiekt"),
+                    correctIndex = 0,
+                    explanation = "Kata baku bahasa Indonesia adalah 'Objek' dengan huruf 'j', bukan 'Obyek'.",
+                    rewardClueId = "clue_03_2",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_03_9",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Naskah kidung rontal tersebut tercatat ditulis pada era kejayaan masa lampau.\n\nManakah penulisan kata baku menurut KBBI?",
+                    contextReason = "Verifikasi tarikh penanggalan lontar purbakala Bali.",
+                    targetWord = "Zaman atau Jaman?",
+                    options = listOf("Zaman", "Jaman", "Djaman", "Jhaman"),
+                    correctIndex = 0,
+                    explanation = "Bentuk baku menurut KBBI adalah 'Zaman' dengan huruf 'Z' (diserap dari bahasa Arab 'zaman').",
+                    rewardClueId = "clue_03_3",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_03_10",
+                    type = ChallengeType.SINONIM,
+                    prompt = "Suasana pura saat malam pencurian naskah digambarkan sangat \"sunyi\".\n\nTentukan sinonim (padanan kata) dari \"sunyi\":",
+                    contextReason = "Pahami kesaksian penjaga malam di sekitar bale kulkul pura.",
+                    targetWord = "Sunyi",
+                    options = listOf("Senyap / Hening", "Gaduh", "Riuh", "Bising"),
+                    correctIndex = 0,
+                    explanation = "'Senyap' atau 'Hening' adalah padanan kata (sinonim) dari 'sunyi' — bermakna tidak ada suara atau lengang.",
+                    rewardClueId = "clue_03_1",
+                    points = 100
+                )
+            )
+        ),
+        CaseData(
+            id = "case_04",
+            numberCode = "Kasus 04",
+            title = "Rahasia Naskah Minangkabau",
+            subtitle = "Sobekan Tambo Adat di Balik Ukiran Rumah Gadang",
+            region = "Sumatra Barat",
+            locationName = "Istano Basa Pagaruyung, Tanah Datar",
+            drawableRes = R.drawable.img_hero_map,
+            physicalEvidenceTitle = "Segel Cap Tanduk Kerbau",
+            physicalEvidenceDesc = "Sebuah segel timah kuno bermotif tanduk kerbau yang terlepas dari gulungan Tambo Minang.",
+            storyIntro = "Dokumen Tambo Alam Minangkabau yang memuat silsilah ninik mamak dan pembagian ulayat adat dicuri dari bilik loteng Rumah Gadang. Hanya petunjuk kata yang mampu membongkar dalang perselisihan adat ini!",
+            unlockXpRequired = 1200,
+            isUnlocked = false,
+            isCompleted = false,
+            suspects = listOf(
+                Suspect(
+                    id = "s_04_1",
+                    name = "Sutan Batuah",
+                    roleTitle = "Kemenakan Pewaris Rumah Gadang",
+                    bio = "Pemuda pewaris gelar pusaka yang gigih mempertahankan tanah ulayat.",
+                    initialAlibi = "Saya berada di surau mengaji.",
+                    fullAlibi = "Saya bersama puluhan santri berada di surau hingga larut malam.",
+                    avatarInitials = "SB",
+                    avatarColorHex = 0xFF37474F,
+                    contradictionClueId = "clue_04_1",
+                    isCulprit = false,
+                    confession = ""
+                ),
+                Suspect(
+                    id = "s_04_2",
+                    name = "Rangga Malelo",
+                    roleTitle = "Saudagar Kain Songket",
+                    bio = "Saudagar licik yang berniat mengubah batas tanah demi membangun pabrik tenun.",
+                    initialAlibi = "Saya tidur di penginapan Bukittinggi.",
+                    fullAlibi = "Saya tidak paham isi naskah adat dan tidak berada di Tanah Datar saat malam kejadian!",
+                    avatarInitials = "RM",
+                    avatarColorHex = 0xFFC62828,
+                    contradictionClueId = null,
+                    isCulprit = true,
+                    confession = "Benar, saya yang mengambil naskah tambo itu! Dengan menghapus lembar silsilah, saya bisa mengklaim tanah ulayat tepi lembah untuk pabrik songket terbesar se-Sumatra. Tapi kecerdikan kata kalian berhasil menghentikan saya!"
+                ),
+                Suspect(
+                    id = "s_04_3",
+                    name = "Datuk Maringgai",
+                    roleTitle = "Tuanku Imam Adat",
+                    bio = "Tetua nagari penyelesai sengketa adat.",
+                    initialAlibi = "Saya memimpin sidang kerapatan adat.",
+                    fullAlibi = "Saya duduk bersama para penghulu suku di balai adat hingga tengah malam.",
+                    avatarInitials = "DM",
+                    avatarColorHex = 0xFF2E7D32,
+                    contradictionClueId = "clue_04_2",
+                    isCulprit = false,
+                    confession = ""
+                ),
+                Suspect(
+                    id = "s_04_4",
+                    name = "Siti Nurlela",
+                    roleTitle = "Peneliti Filologi",
+                    bio = "Dosen filologi universitas yang meneliti naskah kuno Minang.",
+                    initialAlibi = "Saya sedang menyalin transliterasi di penginapan.",
+                    fullAlibi = "Saya menginap di Bukittinggi menyusun catatan kamus istilah Minangkabau.",
+                    avatarInitials = "SN",
+                    avatarColorHex = 0xFF5C6BC0,
+                    contradictionClueId = "clue_04_3",
+                    isCulprit = false,
+                    confession = ""
+                ),
+                Suspect(
+                    id = "s_04_5",
+                    name = "Buyung Malin",
+                    roleTitle = "Kusir Bendi Wisata",
+                    bio = "Kusir bendi tradisional yang mangkal di pelataran istano.",
+                    initialAlibi = "Saya memberi makan kuda di kandang belakang.",
+                    fullAlibi = "Bendi saya rusak rodanya dan saya memperbaikinya bersama montir desa.",
+                    avatarInitials = "BM",
+                    avatarColorHex = 0xFF795548,
+                    contradictionClueId = "clue_04_4",
+                    isCulprit = false,
+                    confession = ""
+                )
+            ),
+            clues = listOf(
+                Clue(
+                    id = "clue_04_1",
+                    title = "Kuitansi Pembelian Cat Emas",
+                    summary = "Nota pembelian tinta emas ditemukan di selokan.",
+                    revealedDetail = "Kuitansi resmi toko cat Bukittinggi menunjukkan Rangga Malelo membeli tinta emas yang sama persis dengan naskah palsu.",
+                    category = "Bukti"
+                ),
+                Clue(
+                    id = "clue_04_2",
+                    title = "Serat Benang Songket Merah",
+                    summary = "Serat kain mahal tersangkut di jendela loteng.",
+                    revealedDetail = "Serat benang songket emas merah marun yang hanya diproduksi oleh toko Rangga Malelo ditemukan pada grendel jendela bilik naskah.",
+                    category = "Fisik"
+                ),
+                Clue(
+                    id = "clue_04_3",
+                    title = "Alat Tulis Modern di Luar Kebiasaan",
+                    summary = "Ditemukan mata pena besi modern di bawah lantai bambu.",
+                    revealedDetail = "Pena impor yang digunakan pelaku membuktikan pelaku bukan peneliti universitas yang memakai sarung tangan pelindung.",
+                    category = "Forensik"
+                ),
+                Clue(
+                    id = "clue_04_4",
+                    title = "Jejak Roda Kereta Malam",
+                    summary = "Bekas roda bendi bukan roda yang rusak milik Buyung Malin.",
+                    revealedDetail = "Roda bendi yang mengangkut naskah berukuran ban karet modern milik saudagar kain, bukan bendi tradisional kayu.",
+                    category = "Alibi"
+                )
+            ),
+            challenges = listOf(
+                ChallengeQuestion(
+                    id = "q_04_1",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Manakah bentuk kata baku yang tepat menurut pedoman KBBI?",
+                    contextReason = "Periksa kata tanda terima transaksi pada bukti pembongkaran alibi.",
+                    targetWord = "Kuitansi atau Kwitansi?",
+                    options = listOf("Kuitansi", "Kwitansi", "Kwitansie", "Kwitangsi"),
+                    correctIndex = 0,
+                    explanation = "Kata baku yang tepat adalah 'Kuitansi' dengan huruf 'ui', bukan 'kwitansi'.",
+                    rewardClueId = "clue_04_1",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_04_2",
+                    type = ChallengeType.ANTONIM,
+                    prompt = "Tentukan antonim (lawan kata) dari kata berikut:",
+                    contextReason = "Pahami makna tersembunyi dalam bait tambo adat.",
+                    targetWord = "Tersirat",
+                    options = listOf("Tersurat / Terbuka", "Tersembunyi", "Kabur", "Rahasia"),
+                    correctIndex = 0,
+                    explanation = "Lawan kata dari 'Tersirat' (terkandung secara halus/tersembunyi) adalah 'Tersurat' (tertulis jelas secara eksplisit).",
+                    rewardClueId = "clue_04_2",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_04_3",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Tersangka menunjukkan dokumen tanda tamat belajar adat.\n\nManakah penulisan kata baku yang tepat menurut KBBI?",
+                    contextReason = "Verifikasi keaslian surat keterangan silsilah keturunan.",
+                    targetWord = "Ijazah atau Ijasah?",
+                    options = listOf("Ijazah", "Ijasah", "Idjazah", "Ijazat"),
+                    correctIndex = 0,
+                    explanation = "Bentuk baku menurut KBBI adalah 'Ijazah' dengan huruf 'z' (diserap dari bahasa Arab 'ijazah').",
+                    rewardClueId = "clue_04_1",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_04_4",
+                    type = ChallengeType.SINONIM,
+                    prompt = "Dalam kerapatan adat nagari, keputusan penting diambil secara \"mufakat\".\n\nTentukan sinonim (padanan kata) dari \"mufakat\":",
+                    contextReason = "Ketahui prinsip pengambilan keputusan ninik mamak Minangkabau.",
+                    targetWord = "Mufakat",
+                    options = listOf("Setuju / Sepakat", "Bantah", "Sengketa", "Paksaan"),
+                    correctIndex = 0,
+                    explanation = "'Setuju' atau 'Sepakat' adalah sinonim dari 'Mufakat', yaitu persetujuan bulat yang dicapai bersama.",
+                    rewardClueId = "clue_04_2",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_04_5",
+                    type = ChallengeType.ANTONIM,
+                    prompt = "Hubungan persaudaraan kaum di nagari menjadi \"akrab\" berkat petuah tambo.\n\nPilihlah lawan kata (antonim) dari \"akrab\":",
+                    contextReason = "Analisis dinamika hubungan antar-keluarga pewaris tanah ulayat.",
+                    targetWord = "Akrab",
+                    options = listOf("Renggang / Asing", "Dekat", "Mesra", "Kental"),
+                    correctIndex = 0,
+                    explanation = "Lawan kata (antonim) dari 'Akrab' (dekat dan erat hubungannya) adalah 'Renggang' atau 'Asing'.",
+                    rewardClueId = "clue_04_3",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_04_6",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Kain songket tenun tangan itu dinilai memiliki mutu yang sangat tinggi.\n\nManakah penulisan kata baku menurut KBBI?",
+                    contextReason = "Cek buku kas pesanan kain songket milik tersangka.",
+                    targetWord = "Kualitas atau Kwalitas?",
+                    options = listOf("Kualitas", "Kwalitas", "Qualitas", "Kwalitet"),
+                    correctIndex = 0,
+                    explanation = "Bentuk baku dalam bahasa Indonesia adalah 'Kualitas' dengan huruf 'Ku', bukan 'Kwalitas'.",
+                    rewardClueId = "clue_04_4",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_04_7",
+                    type = ChallengeType.SINONIM,
+                    prompt = "Tokoh pembaca naskah tambo dikenal sebagai seorang yang sangat \"arif\".\n\nTentukan sinonim (padanan kata) dari \"arif\":",
+                    contextReason = "Kenali karakter tetua adat penyimpan rahasia tambo.",
+                    targetWord = "Arif",
+                    options = listOf("Bijaksana / Pandai", "Licik", "Kasar", "Acuh"),
+                    correctIndex = 0,
+                    explanation = "'Bijaksana' adalah sinonim dari 'Arif' — menggambarkan orang yang cerdik, pandai, dan bertindak adil.",
+                    rewardClueId = "clue_04_1",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_04_8",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Upacara pengambilan sumpah penghulu suku adat berlangsung penuh kesungguhan.\n\nManakah bentuk kata baku yang tepat?",
+                    contextReason = "Laporan suasana sidang kerapatan adat di Istano Basa Pagaruyung.",
+                    targetWord = "Khidmat atau Kidmat?",
+                    options = listOf("Khidmat", "Kidmat", "Kitmat", "Chidmat"),
+                    correctIndex = 0,
+                    explanation = "Menurut KBBI, kata baku yang tepat adalah 'Khidmat' dengan gugus konsonan 'Kh'.",
+                    rewardClueId = "clue_04_2",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_04_9",
+                    type = ChallengeType.ANTONIM,
+                    prompt = "Adat Minangkabau mengedepankan cara musyawarah yang \"tradisional\".\n\nTentukan lawan kata (antonim) dari \"tradisional\":",
+                    contextReason = "Bongkar motif pelaku yang ingin memodernisasi sepihak pabrik tenun.",
+                    targetWord = "Tradisional",
+                    options = listOf("Modern / Kontemporer", "Kuno", "Klasik", "Lama"),
+                    correctIndex = 0,
+                    explanation = "Lawan kata (antonim) dari 'Tradisional' (berpegang pada tradisi/turun-temurun) adalah 'Modern' atau 'Kontemporer'.",
+                    rewardClueId = "clue_04_3",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_04_10",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Bait gurindam tambo adat memuat ajaran moral yang luhur bagi anak kemenakan.\n\nManakah penulisan kata baku yang sesuai KBBI?",
+                    contextReason = "Pemeriksaan kutipan naskah tambo yang ditemukan di loteng.",
+                    targetWord = "Nasihat atau Nasehat?",
+                    options = listOf("Nasihat", "Nasehat", "Nasehad", "Nasihat-an"),
+                    correctIndex = 0,
+                    explanation = "Bentuk baku menurut pedoman KBBI adalah 'Nasihat' dengan huruf 'i', bukan 'Nasehat'.",
+                    rewardClueId = "clue_04_4",
+                    points = 100
+                )
+            )
+        ),
+        CaseData(
+            id = "case_05",
+            numberCode = "Kasus 05",
+            title = "Misteri Prasasti Emas Sriwijaya",
+            subtitle = "Lempengan Emas Huruf Pallawa Raib dari Tepian Sungai Musi",
+            region = "Sumatra Selatan",
+            locationName = "Taman Purbakala Sriwijaya, Palembang",
+            drawableRes = R.drawable.img_hero_map,
+            physicalEvidenceTitle = "Lempengan Tembaga Tiruan",
+            physicalEvidenceDesc = "Sebuah lempeng logam kuningan murahan diletakkan di kotak penyimpanan prasasti emas Kedukan Bukit.",
+            storyIntro = "Sebuah prasasti emas bertarikh abad ke-7 peninggalan kemaharajaan bahari Sriwijaya dilaporkan lenyap beberapa jam sebelum pameran artefak internasional dibuka di Palembang. Tim Detektif Nusantara harus menelusuri dermaga Sungai Musi, memecahkan teka-teki istilah maritim dan kata baku untuk menemukan artefak tak ternilai ini!",
+            unlockXpRequired = 1800,
+            isUnlocked = false,
+            isCompleted = false,
+            suspects = listOf(
+                Suspect(
+                    id = "s_05_1",
+                    name = "Tengku Badaruddin",
+                    roleTitle = "Kolektor Purbakala",
+                    bio = "Pria 48 tahun, pengusaha kapal tongkang yang gemar mengoleksi koin kuno.",
+                    initialAlibi = "Saya sedang mengawasi bongkar muat kapal di dermaga Boom Baru.",
+                    fullAlibi = "Saya berada di kantor pelabuhan bersama staf bea cukai hingga larut malam.",
+                    avatarInitials = "TB",
+                    avatarColorHex = 0xFF455A64,
+                    contradictionClueId = "clue_05_1",
+                    isCulprit = false,
+                    confession = ""
+                ),
+                Suspect(
+                    id = "s_05_2",
+                    name = "Kapten Arsyad",
+                    roleTitle = "Nahkoda Kapal Cepat",
+                    bio = "Pelaut kawakan yang hafal liku anak sungai Musi hingga Selat Bangka.",
+                    initialAlibi = "Kapal saya lego jangkar di muara karena mesin panas.",
+                    fullAlibi = "Saya tidak membawa muatan kargo khusus malam itu selain sayuran pasar!",
+                    avatarInitials = "KA",
+                    avatarColorHex = 0xFF1976D2,
+                    contradictionClueId = null,
+                    isCulprit = true,
+                    confession = "Tertangkap basah! Aku menyembunyikan lempengan emas itu di dalam tangki palka kedap air. Seorang perantara di Singapura menjanjikan kapal pesiar baru jika aku berhasil menyelundupkannya keluar dari muara Musi!"
+                ),
+                Suspect(
+                    id = "s_05_3",
+                    name = "Dr. Melinda Zahra",
+                    roleTitle = "Kurator Balai Arkeologi",
+                    bio = "Arkeolog lulusan luar negeri yang meneliti naskah prasasti Melayu Kuno.",
+                    initialAlibi = "Saya menyusun katalog digital di ruang arsip museum.",
+                    fullAlibi = "CCTV koridor merekam saya sedang mengetik laporan hingga jam 2 pagi.",
+                    avatarInitials = "MZ",
+                    avatarColorHex = 0xFF8E24AA,
+                    contradictionClueId = "clue_05_2",
+                    isCulprit = false,
+                    confession = ""
+                ),
+                Suspect(
+                    id = "s_05_4",
+                    name = "Cik Siti Salmah",
+                    roleTitle = "Pemandu Wisata Pulau Kemaro",
+                    bio = "Gadis lokal yang memandu tur keliling benteng dan pagoda sungai.",
+                    initialAlibi = "Saya mengantar rombongan wisatawan berlayar sore hari.",
+                    fullAlibi = "Saya pulang ke rumah orang tua di Seberang Ulu setelah perahu ditambatkan.",
+                    avatarInitials = "SS",
+                    avatarColorHex = 0xFFE65100,
+                    contradictionClueId = "clue_05_3",
+                    isCulprit = false,
+                    confession = ""
+                ),
+                Suspect(
+                    id = "s_05_5",
+                    name = "Haji Gani",
+                    roleTitle = "Pedagang Kain Songket Palembang",
+                    bio = "Pedagang pasar 16 Ilir yang sering mensponsori kegiatan budaya.",
+                    initialAlibi = "Saya menghitung omzet toko di ruko Ilir.",
+                    fullAlibi = "Toko saya ramai dikunjungi pelanggan grosir kain tajung hingga malam.",
+                    avatarInitials = "HG",
+                    avatarColorHex = 0xFF2E7D32,
+                    contradictionClueId = "clue_05_4",
+                    isCulprit = false,
+                    confession = ""
+                )
+            ),
+            clues = listOf(
+                Clue(
+                    id = "clue_05_1",
+                    title = "Bahan Bakar Minyak Kapal Cepat",
+                    summary = "Tumpahan solar khusus kapal cepat ditemukan di ponton museum.",
+                    revealedDetail = "Bahan bakar oktan tinggi ini hanya digunakan oleh speedboat milik Kapten Arsyad, bukan kapal tongkang milik Tengku Badaruddin.",
+                    category = "Forensik"
+                ),
+                Clue(
+                    id = "clue_05_2",
+                    title = "Sarung Tangan Karet Pelaut",
+                    summary = "Sarung tangan berlapis garam laut tertinggal di dermaga.",
+                    revealedDetail = "Sarung tangan anti-licin bertuliskan inisial 'KA' ditemukan tergeletak dekat tali tambatan kapal.",
+                    category = "Fisik"
+                ),
+                Clue(
+                    id = "clue_05_3",
+                    title = "Peta Alur Pelayaran Ilegal",
+                    summary = "Secarik kertas rute tersembunyi menuju Selat Bangka.",
+                    revealedDetail = "Catatan navigasi malam tanpa lampu suar yang menunjukkan rencana penyelundupan ke kapal kargo asing.",
+                    category = "Dokumen"
+                ),
+                Clue(
+                    id = "clue_05_4",
+                    title = "Jadwal Pasang Surut Air Sungai",
+                    summary = "Catatan waktu air pasang tertinggi pada pukul 01.30 dini hari.",
+                    revealedDetail = "Pelaku memanfaatkan pasang tertinggi untuk memacu kapal bermuatan lempengan emas tanpa tersangkut lumpur dangkal.",
+                    category = "Alibi"
+                )
+            ),
+            challenges = listOf(
+                ChallengeQuestion(
+                    id = "q_05_1",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Tim forensik memeriksa bukti sidik jari di atas lempengan tembaga secara teliti.\n\nManakah penulisan kata baku yang benar menurut KBBI?",
+                    contextReason = "Periksa laporan ketelitian analisis laboratorium forensik.",
+                    targetWord = "Saksama atau Seksama?",
+                    options = listOf("Saksama", "Seksama", "Saksema", "Sekzama"),
+                    correctIndex = 0,
+                    explanation = "Menurut KBBI, kata baku yang tepat adalah 'Saksama' dengan huruf 'a', bukan 'Seksama'.",
+                    rewardClueId = "clue_05_1",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_05_2",
+                    type = ChallengeType.SINONIM,
+                    prompt = "Sriwijaya dikenal di seantero dunia sebagai kerajaan yang berwatak \"bahari\".\n\nTentukan padanan kata (sinonim) dari \"bahari\":",
+                    contextReason = "Pahami karakter geografis kemaharajaan maritim Sriwijaya.",
+                    targetWord = "Bahari",
+                    options = listOf("Kelautan / Maritim", "Pegunungan", "Gurun pasir", "Daratan luas"),
+                    correctIndex = 0,
+                    explanation = "'Kelautan' atau 'Maritim' adalah sinonim dari 'Bahari' mengenai kehidupan dan pelayaran laut.",
+                    rewardClueId = "clue_05_2",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_05_3",
+                    type = ChallengeType.ANTONIM,
+                    prompt = "Armada kapal perang Sriwijaya berlayar dengan sangat \"megah\".\n\nPilihlah lawan kata (antonim) dari \"megah\":",
+                    contextReason = "Bongkar penyamaran perahu pelaku yang mencoba terlihat biasa.",
+                    targetWord = "Megah",
+                    options = listOf("Sederhana / Bersahaja", "Mewah", "Gagah", "Agung"),
+                    correctIndex = 0,
+                    explanation = "Lawan kata (antonim) dari 'Megah' (gagah dan mewah) adalah 'Sederhana' atau 'Bersahaja'.",
+                    rewardClueId = "clue_05_3",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_05_4",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Strategi pengamanan pelabuhan harus berjalan secara berdaya guna.\n\nManakah bentuk kata baku yang tepat?",
+                    contextReason = "Evaluasi protokol patroli dermaga sungai Musi.",
+                    targetWord = "Efektif atau Efektip?",
+                    options = listOf("Efektif", "Efektip", "Effectief", "Ephektif"),
+                    correctIndex = 0,
+                    explanation = "Bentuk baku dalam bahasa Indonesia adalah 'Efektif' dengan akhiran huruf 'f', bukan 'efektip'.",
+                    rewardClueId = "clue_05_4",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_05_5",
+                    type = ChallengeType.SINONIM,
+                    prompt = "Dapunta Hyang memimpin ribuan prajurit dalam sebuah \"armada\" laut.\n\nTentukan sinonim (padanan kata) dari \"armada\":",
+                    contextReason = "Artikan istilah rombongan kapal pelindung prasasti purba.",
+                    targetWord = "Armada",
+                    options = listOf("Rombongan kapal / Pasukan laut", "Pasukan darat", "Kelompok perajin", "Rombongan musafir"),
+                    correctIndex = 0,
+                    explanation = "'Armada' bersinonim dengan rombongan kapal perang atau kapal niaga yang bergerak bersama.",
+                    rewardClueId = "clue_05_1",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_05_6",
+                    type = ChallengeType.ANTONIM,
+                    prompt = "Radar patroli pantai sempat dalam keadaan \"pasif\" saat kapal pelaku melintas.\n\nPilihlah lawan kata (antonim) dari \"pasif\":",
+                    contextReason = "Buktikan waktu sabotase pemancar radar stasiun pelabuhan.",
+                    targetWord = "Pasif",
+                    options = listOf("Aktif / Beroperasi", "Padam", "Diam", "Mati"),
+                    correctIndex = 0,
+                    explanation = "Lawan kata (antonim) dari 'Pasif' (tidak aktif/diam saja) adalah 'Aktif' (giat/bergerak menjalankan fungsi).",
+                    rewardClueId = "clue_05_2",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_05_7",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Prasasti emas itu merupakan perbendaharaan warisan sejarah Nusantara yang berharga.\n\nManakah penulisan kata baku menurut KBBI?",
+                    contextReason = "Cek dokumen inventaris pusaka cagar budaya nasional.",
+                    targetWord = "Khazanah atau Khasanah?",
+                    options = listOf("Khazanah", "Khasanah", "Hasanah", "Khajanah"),
+                    correctIndex = 0,
+                    explanation = "Menurut KBBI, kata baku yang tepat adalah 'Khazanah' dengan huruf 'z' (diserap dari bahasa Arab 'khizanah').",
+                    rewardClueId = "clue_05_3",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_05_8",
+                    type = ChallengeType.SINONIM,
+                    prompt = "Tafsir makna aksara Pallawa pada prasasti memuat amanat yang sangat \"bernas\".\n\nTentukan sinonim dari kata \"bernas\":",
+                    contextReason = "Pahami kedalaman isi syair sumpah Sriwijaya.",
+                    targetWord = "Bernas",
+                    options = listOf("Padat / Penuh makna", "Kosong", "Hampa", "Dangkal"),
+                    correctIndex = 0,
+                    explanation = "'Bernas' bermakna berisi penuh, berbobot, atau penuh dengan kebenaran dan makna luhur.",
+                    rewardClueId = "clue_05_4",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_05_9",
+                    type = ChallengeType.SINONIM,
+                    prompt = "Penyelidikan membuktikan motif kejahatan pelaku demi keuntungan yang bukan \"hakiki\".\n\nManakah padanan kata (sinonim) dari \"hakiki\"?",
+                    contextReason = "Analisis aspek psikologis dan motif keserakahan pelaku.",
+                    targetWord = "Hakiki",
+                    options = listOf("Sejati / Murni", "Khayalan", "Sementara", "Palsu"),
+                    correctIndex = 0,
+                    explanation = "'Hakiki' bersinonim dengan sejati, sesungguhnya, atau sebenarnya menurut hakikatnya.",
+                    rewardClueId = "clue_05_1",
+                    points = 100
+                ),
+                ChallengeQuestion(
+                    id = "q_05_10",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Pelaku berusaha menyamarkan lempengan emas sebagai tanda mata kenang-kenangan turis.\n\nManakah penulisan kata baku yang benar menurut KBBI?",
+                    contextReason = "Periksa stiker deklarasi barang bawaan palka kapal cepat.",
+                    targetWord = "Cenderamata atau Cinderamata?",
+                    options = listOf("Cenderamata", "Cinderamata", "Cenderahmata", "Cenderamatas"),
+                    correctIndex = 0,
+                    explanation = "Bentuk baku menurut pedoman KBBI adalah 'Cenderamata' dengan huruf 'e', bukan 'Cinderamata'.",
+                    rewardClueId = "clue_05_2",
+                    points = 100
+                )
+            )
+        )
+    )
+
+    val initialDictionary = listOf(
+        DictionaryEntry(
+            id = "dict_01",
+            term = "Maju",
+            category = ChallengeType.ANTONIM,
+            definition = "Bergerak ke muka; berkembang; menjadi lebih baik.",
+            pairOrOpposite = "Mundur (bergerak ke belakang)",
+            exampleInCase = "Perahu penyelundup naskah berlayar mundur perlahan dari dermaga.",
+            caseTag = "Kasus 01"
+        ),
+        DictionaryEntry(
+            id = "dict_02",
+            term = "Wasiat",
+            category = ChallengeType.SINONIM,
+            definition = "Pesan terakhir yang disampaikan oleh orang yang akan meninggal (mengenai harta atau amanat pusaka).",
+            pairOrOpposite = "Pesan pusaka, Amanat akhir",
+            exampleInCase = "Naskah wasiat Sultan memuat pembagian tanah keraton untuk kesejahteraan rakyat.",
+            caseTag = "Kasus 01"
+        ),
+        DictionaryEntry(
+            id = "dict_03",
+            term = "Izin",
+            category = ChallengeType.KATA_BAKU,
+            definition = "Pernyataan mengabulkan; tidak melarang; persetujuan membolehkan.",
+            nonStandardForm = "Ijin (Tidak Baku)",
+            exampleInCase = "Surat izin berlayar resmi pelabuhan mencantumkan nama samaran saudagar.",
+            caseTag = "Kasus 01"
+        ),
+        DictionaryEntry(
+            id = "dict_04",
+            term = "Apotek",
+            category = ChallengeType.KATA_BAKU,
+            definition = "Toko tempat meramu dan menjual obat berdasarkan resep dokter atau bahan herbal resmi.",
+            nonStandardForm = "Apotik (Tidak Baku)",
+            exampleInCase = "Pelaku membeli botol kaca pengawet naskah di apotek resmi pelabuhan.",
+            caseTag = "Kasus 01"
+        ),
+        DictionaryEntry(
+            id = "dict_05",
+            term = "Muslihat",
+            category = ChallengeType.SINONIM,
+            definition = "Daya upaya; siasat licik atau rencana tersembunyi untuk memperdaya lawan.",
+            pairOrOpposite = "Tipu daya, Siasat licik",
+            exampleInCase = "Bhre Tumapel menggunakan muslihat agar naskah palsu terlihat seperti aslinya.",
+            caseTag = "Kasus 02"
+        ),
+        DictionaryEntry(
+            id = "dict_06",
+            term = "Autentik",
+            category = ChallengeType.ANTONIM,
+            definition = "Dapat dipercaya; asli; sah menurut hukum dan pembuktian dokumen.",
+            pairOrOpposite = "Palsu / Tiruan",
+            exampleInCase = "Dokumen wasiat itu tidak autentik karena terdapat tanda tangan tiruan.",
+            caseTag = "Kasus 02"
+        ),
+        DictionaryEntry(
+            id = "dict_07",
+            term = "Risiko",
+            category = ChallengeType.KATA_BAKU,
+            definition = "Akibat yang kurang menyenangkan (merugikan, membahayakan) dari suatu perbuatan atau tindakan.",
+            nonStandardForm = "Resiko (Tidak Baku)",
+            exampleInCase = "Pelaku bersedia menanggung risiko hukum demi menguasai tanah pusaka keraton.",
+            caseTag = "Kasus 02"
+        ),
+        DictionaryEntry(
+            id = "dict_08",
+            term = "Silakan",
+            category = ChallengeType.KATA_BAKU,
+            definition = "Kata ajakan halus untuk mempersilakan seseorang melakukan sesuatu.",
+            nonStandardForm = "Silahkan (Tidak Baku)",
+            exampleInCase = "Dalam undangan resmi keraton tertulis: 'Silakan hadiri upacara malam tirakatan.'",
+            caseTag = "Kasus 02"
+        ),
+        DictionaryEntry(
+            id = "dict_09",
+            term = "Praktik",
+            category = ChallengeType.KATA_BAKU,
+            definition = "Pelaksanaan secara nyata apa yang disebut dalam teori; perbuatan.",
+            nonStandardForm = "Praktek (Tidak Baku)",
+            exampleInCase = "Praktik penyelundupan artefak kuno di lereng pura berhasil digagalkan.",
+            caseTag = "Kasus 03"
+        ),
+        DictionaryEntry(
+            id = "dict_10",
+            term = "Kekal",
+            category = ChallengeType.ANTONIM,
+            definition = "Abadi; tidak berkesudahan; ada untuk selama-lamanya.",
+            pairOrOpposite = "Fana / Sementara",
+            exampleInCase = "Mantra kidung lontar mengajarkan bahwa hidup di dunia ini fana sedangkan kebajikan itu kekal.",
+            caseTag = "Kasus 03"
+        ),
+        DictionaryEntry(
+            id = "dict_11",
+            term = "Pusaka",
+            category = ChallengeType.SINONIM,
+            definition = "Harta peninggalan orang tua atau leluhur; barang berharga warisan zaman lampau.",
+            pairOrOpposite = "Warisan leluhur, Benda cagar budaya",
+            exampleInCase = "Lontar berukir kidung suci merupakan pusaka tak ternilai bagi masyarakat pura.",
+            caseTag = "Kasus 03"
+        ),
+        DictionaryEntry(
+            id = "dict_12",
+            term = "Kuitansi",
+            category = ChallengeType.KATA_BAKU,
+            definition = "Surat bukti penerimaan uang yang ditandatangani oleh penerima.",
+            nonStandardForm = "Kwitansi (Tidak Baku)",
+            exampleInCase = "Kuitansi pembelian cat emas tercecer di dekat tangga Rumah Gadang.",
+            caseTag = "Kasus 04"
+        ),
+        DictionaryEntry(
+            id = "dict_13",
+            term = "Tersirat",
+            category = ChallengeType.ANTONIM,
+            definition = "Terkandung di dalamnya; tersembunyi (tentang makna kalimat).",
+            pairOrOpposite = "Tersurat (tertulis secara gamblang)",
+            exampleInCase = "Pesan tersirat dalam tambo adat akhirnya dapat dibaca secara gamblang oleh detektif.",
+            caseTag = "Kasus 04"
+        )
+    )
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Kata Nusantara",
+  "description": "Game edukasi detektif bahasa Indonesia bertema nusantara dengan investigasi misteri, puzzle sinonim, antonim, kata baku, papan investigasi alibi, dan sistem progresi level detektif.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
