@@ -186,6 +186,46 @@ object EnglishTranslationProvider {
             explanationEn = "'Terang' (bright/illuminated) is the direct antonym of 'gelap' (dark).",
             grammarRuleEn = "Antonim: Opposites of light intensity in descriptive Indonesian."
         ),
+        "q_01_11" to QuestionEnglishTranslation(
+            promptEn = "On the museum notice board, there is a message written for visitors.\n\nWhich spelling is correct according to standard Indonesian?",
+            contextReasonEn = "Examine the reminder note written by the museum head.",
+            targetWordMeaningEn = "'Nasihat' = Advice / counsel / moral guidance.",
+            optionsEn = listOf("Nasehat", "Nasihat", "Nasihat-an", "Nasehad"),
+            explanationEn = "The standard spelling according to KBBI is 'Nasihat' with an 'i', not 'Nasehat'.",
+            grammarRuleEn = "Kata Baku: Standard Indonesian orthography for advice."
+        ),
+        "q_01_12" to QuestionEnglishTranslation(
+            promptEn = "The detective praised the night patrol officer who is always 'waspada' (vigilant) on duty.\n\nChoose the synonym of 'waspada':",
+            contextReasonEn = "Understand the alertness of the night watchman when the incident occurred.",
+            targetWordMeaningEn = "'Waspada' = Vigilant, watchful, alert, cautious.",
+            optionsEn = listOf("Careless", "Alert / Watchful", "Ignore", "Sleep"),
+            explanationEn = "'Siaga' or 'Hati-hati' is a synonym of 'waspada' — both mean being constantly prepared for danger.",
+            grammarRuleEn = "Sinonim: Words denoting vigilance and readiness."
+        ),
+        "q_01_13" to QuestionEnglishTranslation(
+            promptEn = "Outside the exhibition room, the main museum corridor felt very 'ramai' (crowded).\n\nChoose the opposite word (antonym) of 'ramai':",
+            contextReasonEn = "Examine the contradiction in the atmosphere of the suspect's hiding place.",
+            targetWordMeaningEn = "'Ramai' = Crowded, busy, bustling.",
+            optionsEn = listOf("Festive", "Quiet / Deserted", "Noisy", "Crowded"),
+            explanationEn = "'Sepi' or 'Lengang' (quiet/deserted) is the antonym of 'ramai'.",
+            grammarRuleEn = "Antonim: Bustling vs quiet/empty location states."
+        ),
+        "q_01_14" to QuestionEnglishTranslation(
+            promptEn = "Antique registration documents were arranged neatly inside the filing cabinet.\n\nWhich spelling is correct?",
+            contextReasonEn = "Verify the authenticity of the file arrangement of sacred heirlooms.",
+            targetWordMeaningEn = "'Rapi' = Neat, orderly, tidy.",
+            optionsEn = listOf("Rapih", "Rapi", "Rapie", "Rapihh"),
+            explanationEn = "The standard spelling according to KBBI is 'Rapi' without an 'h' at the end.",
+            grammarRuleEn = "Kata Baku: Correct Indonesian ending without unneeded 'h'."
+        ),
+        "q_01_15" to QuestionEnglishTranslation(
+            promptEn = "The museum curator's report notes the keris as an 'indah' (beautiful) work of art.\n\nChoose the synonym of 'indah':",
+            contextReasonEn = "Uncover the aesthetic value of the royal palace heirloom.",
+            targetWordMeaningEn = "'Indah' = Beautiful, fine, lovely.",
+            optionsEn = listOf("Bad / Ugly", "Fine / Beautiful", "Coarse", "Worn out"),
+            explanationEn = "'Elok' or 'Cantik' is the synonym of 'indah' describing exquisite physical beauty.",
+            grammarRuleEn = "Sinonim: Describing artistic beauty and aesthetic value."
+        ),
 
         // CASE 02
         "q_02_1" to QuestionEnglishTranslation(
@@ -267,6 +307,46 @@ object EnglishTranslationProvider {
             optionsEn = listOf("Transient / Ephemeral", "Eternal", "Enduring", "Fixed"),
             explanationEn = "The opposite of 'Abadi' (everlasting) is 'Fana' (transient/mortal/ephemeral).",
             grammarRuleEn = "Antonim: Metaphysical and poetic Indonesian terminology."
+        ),
+        "q_02_11" to QuestionEnglishTranslation(
+            promptEn = "An eyewitness described the appearance of the royal retainer as very 'rapi' (neat).\n\nWhich word is a synonym of 'rapi'?",
+            contextReasonEn = "Uncover the neatness of attire among witnesses near Bale Prabeyo.",
+            targetWordMeaningEn = "'Rapi' = Neat, tidy, well-organized.",
+            optionsEn = listOf("Orderly / Clean", "Messy", "Dirty", "Disorganized"),
+            explanationEn = "'Teratur' or 'Bersih' is a synonym of 'rapi'.",
+            grammarRuleEn = "Sinonim: Orderliness and cleanliness terms."
+        ),
+        "q_02_12" to QuestionEnglishTranslation(
+            promptEn = "The suspect presented a palace education graduation certificate.\n\nWhich spelling is correct according to KBBI?",
+            contextReasonEn = "Verify the nobility diploma document.",
+            targetWordMeaningEn = "'Ijazah' = Diploma / graduation certificate.",
+            optionsEn = listOf("Ijazah", "Ijasah", "Idjazah", "Ijasat"),
+            explanationEn = "The standard spelling according to KBBI is 'Ijazah' with the letter 'z'.",
+            grammarRuleEn = "Kata Baku: Arabic loanwords preserving 'z' sound."
+        ),
+        "q_02_13" to QuestionEnglishTranslation(
+            promptEn = "The stone wall of Bale Prabeyo was built with a very 'kokoh' (sturdy) construction.\n\nChoose the antonym (opposite word) of 'kokoh':",
+            contextReasonEn = "Analyze vulnerabilities in the secret palace tunnel wall.",
+            targetWordMeaningEn = "'Kokoh' = Sturdy, solid, strong.",
+            optionsEn = listOf("Fragile / Weak", "Strong", "Steadfast", "Tough"),
+            explanationEn = "'Rapuh' (fragile) is the antonym of 'kokoh' (sturdy/solid).",
+            grammarRuleEn = "Antonim: Structural durability terms in Indonesian."
+        ),
+        "q_02_14" to QuestionEnglishTranslation(
+            promptEn = "The Sultan is known by all his people as a very 'dermawan' (generous) figure.\n\nChoose the synonym of 'dermawan':",
+            contextReasonEn = "Understand the Sultan's generosity to the community around the keraton.",
+            targetWordMeaningEn = "'Dermawan' = Generous, charitable, benevolent.",
+            optionsEn = listOf("Generous / Big-hearted", "Stingy / Miserly", "Arrogant", "Selfish"),
+            explanationEn = "'Murah Hati' is a synonym of 'dermawan' (generous/charitable).",
+            grammarRuleEn = "Sinonim: Virtuous character traits in Indonesian."
+        ),
+        "q_02_15" to QuestionEnglishTranslation(
+            promptEn = "On the antique manuscript cover there is a paper manufacturer trade stamp.\n\nWhich spelling is correct?",
+            contextReasonEn = "Check the trade mark stamp on the historical paper.",
+            targetWordMeaningEn = "'Merek' = Brand / trade mark.",
+            optionsEn = listOf("Merek", "Merk", "Merck", "Merek-an"),
+            explanationEn = "The standard Indonesian spelling according to KBBI is 'Merek' with an 'e'.",
+            grammarRuleEn = "Kata Baku: Dutch loanword 'merk' becomes 'merek' in Indonesian."
         ),
 
         // CASE 03
@@ -350,6 +430,46 @@ object EnglishTranslationProvider {
             explanationEn = "'Senyap' and 'Hening' are synonymous with 'sunyi' describing absence of noise.",
             grammarRuleEn = "Sinonim: Atmospheric descriptive words in Indonesian storytelling."
         ),
+        "q_03_11" to QuestionEnglishTranslation(
+            promptEn = "The temple's wooden bell tower is situated on a 'tinggi' (high) mountain slope.\n\nChoose the opposite word (antonym) of 'tinggi':",
+            contextReasonEn = "Analyze the stairway direction taken by the fleeing suspect.",
+            targetWordMeaningEn = "'Tinggi' = High, tall, elevated.",
+            optionsEn = listOf("Low", "Long", "Wide", "Deep"),
+            explanationEn = "'Rendah' (low) is the antonym of 'tinggi' (high).",
+            grammarRuleEn = "Antonim: Spatial elevation opposites in Indonesian."
+        ),
+        "q_03_12" to QuestionEnglishTranslation(
+            promptEn = "The temple schedule lists the rehearsal timetable for the Pendet dance.\n\nWhich spelling is correct according to KBBI?",
+            contextReasonEn = "Check the temple dancers' practice schedule book.",
+            targetWordMeaningEn = "'Geladi' = Rehearsal / practice run.",
+            optionsEn = listOf("Geladi", "Gladi", "Gheladi", "Geladie"),
+            explanationEn = "The standard form according to KBBI is 'Geladi' with an 'e'.",
+            grammarRuleEn = "Kata Baku: Standard Indonesian spelling for practice/rehearsal."
+        ),
+        "q_03_13" to QuestionEnglishTranslation(
+            promptEn = "The elder priest at the temple is known by villagers as very 'pintar' (smart).\n\nChoose the synonym of 'pintar':",
+            contextReasonEn = "Recognize the wisdom of temple elders keeping ancient scriptures.",
+            targetWordMeaningEn = "'Pintar' = Smart, intelligent, clever.",
+            optionsEn = listOf("Smart / Intelligent", "Foolish", "Forgetful", "Indifferent"),
+            explanationEn = "'Cerdas' or 'Pandai' is the synonym of 'pintar'.",
+            grammarRuleEn = "Sinonim: Intelligence and mental capacity terms."
+        ),
+        "q_03_14" to QuestionEnglishTranslation(
+            promptEn = "An eyewitness felt very 'cemas' (anxious) when seeing smoke on the temple slope.\n\nChoose the antonym (opposite word) of 'cemas':",
+            contextReasonEn = "Uncover the emotions of villagers when the alarm sounded.",
+            targetWordMeaningEn = "'Cemas' = Anxious, worried, apprehensive.",
+            optionsEn = listOf("Calm / Peaceful", "Fearful", "Restless", "Worried"),
+            explanationEn = "'Tenang' or 'Damai' (calm/peaceful) is the antonym of 'cemas'.",
+            grammarRuleEn = "Antonim: Emotional states in Indonesian."
+        ),
+        "q_03_15" to QuestionEnglishTranslation(
+            promptEn = "During silent prayer, devotees are asked to ease their 'napas' (breath) slowly.\n\nWhich spelling is correct according to KBBI?",
+            contextReasonEn = "Examine the purification prayer text at Besakih Temple.",
+            targetWordMeaningEn = "'Napas' = Breath / breathing.",
+            optionsEn = listOf("Napas", "Nafas", "Naphas", "Naphss"),
+            explanationEn = "The standard spelling according to KBBI is 'Napas' with a 'p', not 'Nafas'.",
+            grammarRuleEn = "Kata Baku: Arabic loanword standardized with 'p' in Indonesian."
+        ),
 
         // CASE 04
         "q_04_1" to QuestionEnglishTranslation(
@@ -432,6 +552,46 @@ object EnglishTranslationProvider {
             explanationEn = "The correct spelling is 'Nasihat' with 'i', not 'Nasehat'.",
             grammarRuleEn = "Kata Baku: Very frequently tested Indonesian word; standard is 'nasihat' with 'i'."
         ),
+        "q_04_11" to QuestionEnglishTranslation(
+            promptEn = "Customary elders advised village residents to maintain 'akrab' (close) family bonds.\n\nChoose the synonym of 'akrab':",
+            contextReasonEn = "Understand the intimacy of familial relationships among villagers.",
+            targetWordMeaningEn = "'Akrab' = Close, intimate, friendly.",
+            optionsEn = listOf("Tight / Close", "Distant / Estranged", "Far", "Alienated"),
+            explanationEn = "'Erat' or 'Dekat' is a synonym of 'akrab'.",
+            grammarRuleEn = "Sinonim: Words describing closeness of social ties."
+        ),
+        "q_04_12" to QuestionEnglishTranslation(
+            promptEn = "Songket fabric artisans guarantee their woven cloth is of high quality.\n\nWhich spelling is correct according to KBBI?",
+            contextReasonEn = "Check the woven songket fabric inventory report owned by the suspect.",
+            targetWordMeaningEn = "'Kualitas' = Quality / grade.",
+            optionsEn = listOf("Kualitas", "Kwalitas", "Qualitas", "Kwalitet"),
+            explanationEn = "The standard form according to KBBI is 'Kualitas' with 'Ku'.",
+            grammarRuleEn = "Kata Baku: Loanwords with 'qu/kw' standardized as 'ku'."
+        ),
+        "q_04_13" to QuestionEnglishTranslation(
+            promptEn = "The area around the custom hall felt very 'sepi' (quiet) toward midnight.\n\nChoose the opposite word (antonym) of 'sepi':",
+            contextReasonEn = "Examine the truthfulness of the suspect's midnight alibi.",
+            targetWordMeaningEn = "'Sepi' = Quiet, deserted, silent.",
+            optionsEn = listOf("Crowded / Bustling", "Deserted", "Silent", "Quiet"),
+            explanationEn = "'Ramai' or 'Riuh' (bustling/crowded) is the antonym of 'sepi'.",
+            grammarRuleEn = "Antonim: Quiet vs bustling atmosphere."
+        ),
+        "q_04_14" to QuestionEnglishTranslation(
+            promptEn = "Scripture researchers noted that bamboo manuscript sheets were made to be 'awet' (durable).\n\nChoose the synonym of 'awet':",
+            contextReasonEn = "Understand the physical durability of ancient tambo scroll sheets.",
+            targetWordMeaningEn = "'Awet' = Durable, long-lasting.",
+            optionsEn = listOf("Long-lasting / Durable", "Perishable", "Fragile", "Faded"),
+            explanationEn = "'Tahan Lama' is the synonym of 'awet'.",
+            grammarRuleEn = "Sinonim: Durability and longevity terms."
+        ),
+        "q_04_15" to QuestionEnglishTranslation(
+            promptEn = "To resolve customary land disputes, an official village working committee was formed.\n\nWhich spelling is correct according to KBBI?",
+            contextReasonEn = "Verify the names of the custom council committee board.",
+            targetWordMeaningEn = "'Panitia' = Committee / organizing board.",
+            optionsEn = listOf("Panitia", "Panitya", "Panitiah", "Phanitia"),
+            explanationEn = "The standard spelling according to KBBI is 'Panitia' with 'ia'.",
+            grammarRuleEn = "Kata Baku: Standard Indonesian spelling for organizing committees."
+        ),
 
         // CASE 05
         "q_05_1" to QuestionEnglishTranslation(
@@ -513,6 +673,46 @@ object EnglishTranslationProvider {
             optionsEn = listOf("Souvenir / keepsake", "Souvenir / keepsake", "Souvenir / keepsake", "Souvenir / keepsake"),
             explanationEn = "The correct spelling is 'Cenderamata' with 'e', not 'Cinderamata'.",
             grammarRuleEn = "Kata Baku: Compound Indonesian noun for commemorative gifts."
+        ),
+        "q_05_11" to QuestionEnglishTranslation(
+            promptEn = "The Musi harbor dock felt very 'tenang' (calm) at night.\n\nChoose the opposite word (antonym) of 'tenang':",
+            contextReasonEn = "Uncover strange atmosphere changes at the dock when the ship passed.",
+            targetWordMeaningEn = "'Tenang' = Calm, tranquil, peaceful.",
+            optionsEn = listOf("Noisy / Agitated", "Peaceful", "Quiet", "Silent"),
+            explanationEn = "'Bising' or 'Gelisah' is the antonym of 'tenang'.",
+            grammarRuleEn = "Antonim: Calm vs noisy/troubled states."
+        ),
+        "q_05_12" to QuestionEnglishTranslation(
+            promptEn = "Inside the ship hold logistics order note, a grocery shopping list was found.\n\nWhich spelling is correct according to KBBI?",
+            contextReasonEn = "Check the suspect's ship logistics purchase receipt.",
+            targetWordMeaningEn = "'Cabai' = Chili pepper.",
+            optionsEn = listOf("Cabai", "Cabe", "Tjabai", "Chabe"),
+            explanationEn = "The standard spelling according to KBBI is 'Cabai' with 'ai', not 'Cabe'.",
+            grammarRuleEn = "Kata Baku: Standard Indonesian ending 'ai' vs colloquial 'e'."
+        ),
+        "q_05_13" to QuestionEnglishTranslation(
+            promptEn = "The speedboat captain is known for having 'hebat' (great) navigation skills.\n\nChoose the synonym of 'hebat':",
+            contextReasonEn = "Understand the skill level of the smuggler ship's captain.",
+            targetWordMeaningEn = "'Hebat' = Great, highly skilled, expert.",
+            optionsEn = listOf("Expert / Masterful", "Weak", "Novice", "Ordinary"),
+            explanationEn = "'Ulung' or 'Mahir' is a synonym of 'hebat' describing expert mastery.",
+            grammarRuleEn = "Sinonim: Words for high expertise and skill."
+        ),
+        "q_05_14" to QuestionEnglishTranslation(
+            promptEn = "At night, the waters of the Musi river tributary appeared very 'gelap' (dark).\n\nChoose the antonym (opposite word) of 'gelap':",
+            contextReasonEn = "Analyze lighting conditions when the boat dropped anchor.",
+            targetWordMeaningEn = "'Gelap' = Dark, unlit.",
+            optionsEn = listOf("Bright / Light", "Dark", "Gloomy", "Blurry"),
+            explanationEn = "'Terang' (bright) is the antonym of 'gelap'.",
+            grammarRuleEn = "Antonim: Light vs darkness."
+        ),
+        "q_05_15" to QuestionEnglishTranslation(
+            promptEn = "The wooden box storing the inscription must be kept in a room that is not 'lembap' (humid).\n\nWhich spelling is correct according to KBBI?",
+            contextReasonEn = "Verify humidity conditions in the cultural relic storage facility.",
+            targetWordMeaningEn = "'Lembap' = Humid, damp, moist.",
+            optionsEn = listOf("Lembap", "Lembab", "Lembap-an", "Lembabb"),
+            explanationEn = "The standard spelling according to KBBI is 'Lembap' with a 'p' at the end, not 'Lembab'.",
+            grammarRuleEn = "Kata Baku: Standard Indonesian ending consonant 'p'."
         )
     )
 

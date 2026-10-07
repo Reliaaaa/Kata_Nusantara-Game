@@ -138,8 +138,9 @@ object AudioEffects {
     fun playWrong() {
         if (!isSoundEnabled) return
         audioScope.launch {
-            playSingleTone(220.0, 90, 0.4f)
-            playSingleTone(164.81, 140, 0.45f)
+            // Crisp, punchy game-show error buzz (renyah)
+            playSingleTone(311.13, 80, 0.5f, waveShape = "SQUARE_BLEND") // Eb4 staccato
+            playSingleTone(233.08, 130, 0.55f, waveShape = "SQUARE_BLEND") // Bb3 staccato
         }
     }
 
@@ -181,17 +182,32 @@ object AudioEffects {
         }
     }
 
-    private fun playSingleTone(freq: Double, durationMs: Int, volume: Float) {
+    private fun playSingleTone(
+        freq: Double,
+        durationMs: Int,
+        volume: Float,
+        waveShape: String = "SINE"
+    ) {
         try {
             val sampleRate = 22050
             val numSamples = (durationMs * sampleRate) / 1000
             val sample = ShortArray(numSamples)
 
             for (i in 0 until numSamples) {
-                // Generate sine wave with gentle envelope fade out
-                val envelope = 1.0 - (i.toDouble() / numSamples.toDouble())
+                // Generate tone with crisp attack and exponential decay envelope
+                val progress = i.toDouble() / numSamples.toDouble()
+                val envelope = Math.pow(1.0 - progress, 1.2)
                 val angle = 2.0 * Math.PI * i / (sampleRate / freq)
-                val value = (sin(angle) * Short.MAX_VALUE * volume * envelope).toInt()
+                
+                val rawVal = if (waveShape == "SQUARE_BLEND") {
+                    val sine = sin(angle)
+                    val sq = if (sine >= 0) 0.6 else -0.6
+                    sine * 0.7 + sq * 0.3
+                } else {
+                    sin(angle)
+                }
+
+                val value = (rawVal * Short.MAX_VALUE * volume * envelope).toInt()
                 sample[i] = value.coerceIn(Short.MIN_VALUE.toInt(), Short.MAX_VALUE.toInt()).toShort()
             }
 
