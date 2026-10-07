@@ -231,7 +231,8 @@ object GameDataProvider {
                     rewardClueId = "clue_01_1",
                     points = 100,
                     eliminatedTrait = "berkacamata",
-                    clueHint = "Pelaku tidak memakai kacamata — wajahnya terlihat jelas saat berlari keluar!"
+                    clueHint = "Pelaku tidak memakai kacamata — wajahnya terlihat jelas saat berlari keluar!",
+                    difficulty = com.example.model.GameDifficulty.SANTAI
                 ),
                 ChallengeQuestion(
                     id = "q_01_2",
@@ -245,7 +246,8 @@ object GameDataProvider {
                     rewardClueId = "clue_01_2",
                     points = 100,
                     eliminatedTrait = "memakai topi",
-                    clueHint = "Alibi soal tempat ramai terbukti bohong. Pelaku ternyata memakai topi saat beraksi!"
+                    clueHint = "Alibi soal tempat ramai terbukti bohong. Pelaku ternyata memakai topi saat beraksi!",
+                    difficulty = com.example.model.GameDifficulty.SANTAI
                 ),
                 ChallengeQuestion(
                     id = "q_01_3",
@@ -259,7 +261,8 @@ object GameDataProvider {
                     rewardClueId = "clue_01_3",
                     points = 100,
                     eliminatedTrait = "berbaju kuning",
-                    clueHint = "Cap surat pakai ejaan baku 'Izin'. Rekaman CCTV menunjukkan pelaku berbaju kuning!"
+                    clueHint = "Cap surat pakai ejaan baku 'Izin'. Rekaman CCTV menunjukkan pelaku berbaju kuning!",
+                    difficulty = com.example.model.GameDifficulty.SANTAI
                 ),
                 ChallengeQuestion(
                     id = "q_01_4",
@@ -271,9 +274,10 @@ object GameDataProvider {
                     correctIndex = 1,
                     explanation = "'Hilang' adalah sinonim dari 'lenyap' — keduanya bermakna tidak ada atau tidak terlihat lagi.",
                     rewardClueId = "clue_01_4",
-                    points = 100,
+                    points = 150,
                     eliminatedTrait = "berambut panjang",
-                    clueHint = "Rekaman kamera menunjukkan pelaku berambut pendek dan tidak dikepang!"
+                    clueHint = "Rekaman kamera menunjukkan pelaku berambut pendek dan tidak dikepang!",
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_01_5",
@@ -285,9 +289,10 @@ object GameDataProvider {
                     correctIndex = 1,
                     explanation = "'Gugup' adalah antonim dari 'tenang'. Keduanya berlawanan dalam kondisi emosi seseorang.",
                     rewardClueId = "clue_01_5",
-                    points = 100,
+                    points = 150,
                     eliminatedTrait = "berambut ikal",
-                    clueHint = "Pelaku tenang karena sudah merencanakan ini matang. Jejak rambut ikal ditemukan di TKP!"
+                    clueHint = "Pelaku tenang karena sudah merencanakan ini matang. Jejak rambut ikal ditemukan di TKP!",
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_01_6",
@@ -299,9 +304,10 @@ object GameDataProvider {
                     correctIndex = 1,
                     explanation = "Kata yang benar adalah 'Apotek' (bukan Apotik). Kata ini diserap dari bahasa Belanda 'apotheek'.",
                     rewardClueId = "clue_01_6",
-                    points = 100,
+                    points = 150,
                     eliminatedTrait = "berkumis",
-                    clueHint = "Pelaku membeli sesuatu di apotek terdekat. Warga bersaksi pelaku tidak berkumis!"
+                    clueHint = "Pelaku membeli sesuatu di apotek terdekat. Warga bersaksi pelaku tidak berkumis!",
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_01_7",
@@ -313,51 +319,130 @@ object GameDataProvider {
                     correctIndex = 1,
                     explanation = "Bentuk penulisan yang tepat adalah 'Antre'. Kata kerjanya adalah 'mengantre', bukan 'mengantri'.",
                     rewardClueId = "clue_01_2",
-                    points = 100,
+                    points = 150,
                     eliminatedTrait = "berbaju batik",
-                    clueHint = "Pelaku tidak mengantre di loket resmi, melainkan menyusup lewat pintu samping!"
+                    clueHint = "Pelaku tidak mengantre di loket resmi, melainkan menyusup lewat pintu samping!",
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_01_8",
                     type = ChallengeType.SINONIM,
-                    prompt = "Saksi mendeskripsikan artefak keris itu sebagai benda yang sangat \"kuno\".\n\nManakah sinonim dari kata \"kuno\"?",
-                    contextReason = "Pahami nilai historis dari barang yang dicuri.",
-                    targetWord = "Kuno",
-                    options = listOf("Modern", "Purba / Antik", "Canggih", "Baru"),
+                    prompt = "Saksi mata menyebutkan pelaku bertindak sangat \"cermat\" dalam merencanakan aksinya.\n\nManakah sinonim dari kata \"cermat\"?",
+                    contextReason = "Uji tingkat ketelitian perencanaan pelaku saat menerobos museum.",
+                    targetWord = "Cermat",
+                    options = listOf("Gegabah", "Teliti / Hati-hati", "Ceroboh", "Malas"),
                     correctIndex = 1,
-                    explanation = "'Purba' atau 'Antik' adalah sinonim dari 'kuno' yang bermakna berasal dari zaman dahulu.",
+                    explanation = "'Teliti' adalah sinonim dari 'cermat' — keduanya bermakna memperhatikan setiap detail secara saksama.",
                     rewardClueId = "clue_01_4",
-                    points = 100,
+                    points = 250,
                     eliminatedTrait = "berbaju hitam",
-                    clueHint = "Pelaku mengincar keris karena nilai historisnya yang tak ternilai harganya!"
+                    clueHint = "Pelaku yang cermat tidak meninggalkan sidik jari langsung pada kaca lemari!",
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_01_9",
                     type = ChallengeType.KATA_BAKU,
-                    prompt = "Di buku piket jaga malam museum tercatat rencana ronda malam.\n\nManakah penulisan kata yang tepat dan benar?",
-                    contextReason = "Periksa log pembagian waktu jaga pintu belakang museum.",
-                    targetWord = "Jadwal atau Jadual?",
-                    options = listOf("Jadual", "Jadwal", "Djadwal", "Jatwal"),
+                    prompt = "Di buku petunjuk pengelolaan museum tercatat prosedur kerja pengamanan.\n\nManakah penulisan kata baku yang tepat menurut KBBI?",
+                    contextReason = "Periksa tata cara pengoperasian alarm otomatis ruang pusaka.",
+                    targetWord = "Sistem atau Sistim?",
+                    options = listOf("Sistim", "Sistem", "Sisthema", "Cistem"),
                     correctIndex = 1,
-                    explanation = "Penulisan yang tepat adalah 'Jadwal' dengan huruf 'w' (diserap dari bahasa Arab 'jadwal').",
+                    explanation = "Bentuk kata baku yang tepat menurut KBBI adalah 'Sistem' dengan huruf 'e', bukan 'Sistim'.",
                     rewardClueId = "clue_01_5",
-                    points = 100,
+                    points = 250,
                     eliminatedTrait = "berambut ikal",
-                    clueHint = "Catatan jadwal jaga dipalsukan pelaku untuk menghindari petugas patroli!"
+                    clueHint = "Pelaku meretas sistem alarm dengan memasukkan kode akses internal!",
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_01_10",
                     type = ChallengeType.ANTONIM,
-                    prompt = "Lorong museum yang dilewati pelaku digambarkan saksi sangat \"gelap\".\n\nPilihlah lawan kata (antonim) dari \"gelap\":",
-                    contextReason = "Ungkap kondisi pencahayaan lorong belakang museum saat insiden.",
-                    targetWord = "Gelap",
-                    options = listOf("Kelam", "Suram", "Terang", "Baur"),
+                    prompt = "Laporan penjualan tiket museum mencatat bahwa transaksi bulanan mengalami \"untung\".\n\nPilihlah lawan kata (antonim) dari \"untung\":",
+                    contextReason = "Analisis motif keuangan dan kondisi ekonomi para tersangka.",
+                    targetWord = "Untung",
+                    options = listOf("Laba", "Bonus", "Rugi", "Hasil"),
                     correctIndex = 2,
-                    explanation = "'Terang' adalah lawan kata (antonim) dari 'gelap'. Keduanya menggambarkan intensitas cahaya yang bertolak belakang.",
+                    explanation = "'Rugi' adalah lawan kata (antonim) dari 'untung' — menggambarkan kondisi kekurangan modal.",
                     rewardClueId = "clue_01_6",
-                    points = 100,
+                    points = 250,
                     eliminatedTrait = "berkumis",
-                    clueHint = "Kondisi terang dari lampu darurat sempat memperlihatkan siluet wajah pelaku!"
+                    clueHint = "Motif pelaku terdesak oleh kondisi keuangan yang rugi besar!",
+                    difficulty = com.example.model.GameDifficulty.SEDANG
+                ),
+                ChallengeQuestion(
+                    id = "q_01_11",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Di papan imbauan museum tercantum kalimat pesan untuk para pengunjung.\n\nManakah penulisan kata baku yang tepat?",
+                    contextReason = "Periksa surat pesan pengingat yang ditulis kepala museum.",
+                    targetWord = "Nasihat atau Nasehat?",
+                    options = listOf("Nasehat", "Nasihat", "Nasihat-an", "Nasehad"),
+                    correctIndex = 1,
+                    explanation = "Kata baku yang tepat menurut KBBI adalah 'Nasihat' dengan huruf 'i', bukan 'Nasehat'.",
+                    rewardClueId = "clue_01_1",
+                    points = 250,
+                    eliminatedTrait = "berkacamata",
+                    clueHint = "Pesan nasihat tua di dinding museum tidak dihiraukan oleh pelaku!",
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
+                ),
+                ChallengeQuestion(
+                    id = "q_01_12",
+                    type = ChallengeType.SINONIM,
+                    prompt = "Detektif memuji petugas patroli malam yang selalu \"waspada\" saat bertugas.\n\nTentukan padanan kata (sinonim) dari \"waspada\":",
+                    contextReason = "Pahami kesiapsiagaan penjaga malam saat insiden terjadi.",
+                    targetWord = "Waspada",
+                    options = listOf("Lengah", "Siaga / Hati-hati", "Abaikan", "Tidur"),
+                    correctIndex = 1,
+                    explanation = "'Siaga' atau 'Hati-hati' adalah padanan kata dari 'waspada' — bermakna selalu bersiap menghadapi bahaya.",
+                    rewardClueId = "clue_01_2",
+                    points = 250,
+                    eliminatedTrait = "memakai topi",
+                    clueHint = "Pelaku menunggu sampai petugas ronda malam sedikit lengah dari kewaspadaannya!",
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
+                ),
+                ChallengeQuestion(
+                    id = "q_01_13",
+                    type = ChallengeType.ANTONIM,
+                    prompt = "Di luar ruangan pameran, suasana lorong utama museum terasa sangat \"ramai\".\n\nTentukan lawan kata (antonim) dari \"ramai\":",
+                    contextReason = "Periksa kontradiksi suasana lokasi persembunyian pelaku.",
+                    targetWord = "Ramai",
+                    options = listOf("Meriah", "Sepi / Lengang", "Bising", "Padat"),
+                    correctIndex = 1,
+                    explanation = "'Sepi' atau 'Lengang' adalah lawan kata dari 'ramai'.",
+                    rewardClueId = "clue_01_3",
+                    points = 250,
+                    eliminatedTrait = "berbaju kuning",
+                    clueHint = "Pelaku sengaja kabur menuju arah lorong yang sepi!",
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
+                ),
+                ChallengeQuestion(
+                    id = "q_01_14",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Dokumen pendaftaran barang antik tersusun secara rapi di dalam lemari berkas.\n\nManakah ejaan kata baku yang tepat?",
+                    contextReason = "Verifikasi keaslian susunan berkas pendaftaran benda pusaka.",
+                    targetWord = "Rapi atau Rapih?",
+                    options = listOf("Rapih", "Rapi", "Rapie", "Rapihh"),
+                    correctIndex = 1,
+                    explanation = "Kata baku yang tepat menurut KBBI adalah 'Rapi' tanpa huruf 'h' di akhir.",
+                    rewardClueId = "clue_01_4",
+                    points = 250,
+                    eliminatedTrait = "berambut panjang",
+                    clueHint = "Susunan berkas yang rapi membuktikan pelaku membuka lemari secara hati-hati!",
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
+                ),
+                ChallengeQuestion(
+                    id = "q_01_15",
+                    type = ChallengeType.SINONIM,
+                    prompt = "Laporan kurator museum mencatat keris pusaka sebagai benda seni yang \"indah\".\n\nManakah padanan kata (sinonim) dari \"indah\"?",
+                    contextReason = "Ungkap nilai estetika karya seni pusaka keraton.",
+                    targetWord = "Indah",
+                    options = listOf("Buruk", "Elok / Cantik", "Kasar", "Usang"),
+                    correctIndex = 1,
+                    explanation = "'Elok' atau 'Cantik' adalah padanan kata dari 'indah' yang menggambarkan keindahan rupa.",
+                    rewardClueId = "clue_01_5",
+                    points = 250,
+                    eliminatedTrait = "berambut ikal",
+                    clueHint = "Nilai ukiran keris yang elok membuat kolektor berani membayar harga tinggi!",
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
                 )
             )
         ),
@@ -483,7 +568,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "'Muslihat' bermakna daya upaya yang penuh dengan tipu daya atau siasat tersembunyi.",
                     rewardClueId = "clue_02_1",
-                    points = 100
+                    points = 100,
+                    difficulty = com.example.model.GameDifficulty.SANTAI
                 ),
                 ChallengeQuestion(
                     id = "q_02_2",
@@ -495,7 +581,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Lawan kata dari 'Autentik' (asli, sah) adalah 'Palsu' atau tiruan.",
                     rewardClueId = "clue_02_2",
-                    points = 100
+                    points = 100,
+                    difficulty = com.example.model.GameDifficulty.SANTAI
                 ),
                 ChallengeQuestion(
                     id = "q_02_3",
@@ -507,7 +594,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Bentuk penulisan yang tepat adalah 'Risiko' dengan huruf 'i', bukan 'Resiko'.",
                     rewardClueId = "clue_02_3",
-                    points = 100
+                    points = 100,
+                    difficulty = com.example.model.GameDifficulty.SANTAI
                 ),
                 ChallengeQuestion(
                     id = "q_02_4",
@@ -519,7 +607,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Penulisan kata yang tepat adalah 'Silakan' tanpa huruf 'h', berasal dari kata dasar 'sila'.",
                     rewardClueId = "clue_02_4",
-                    points = 100
+                    points = 150,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_02_5",
@@ -531,7 +620,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Bentuk yang tepat dalam bahasa Indonesia adalah 'Analisis' (diserap dari bahasa Belanda/Inggris 'analysis').",
                     rewardClueId = "clue_02_1",
-                    points = 100
+                    points = 150,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_02_6",
@@ -543,7 +633,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "'Luhur' bermakna tinggi, mulia, atau agung mengenai budi pekerti atau martabat keraton.",
                     rewardClueId = "clue_02_2",
-                    points = 100
+                    points = 150,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_02_7",
@@ -555,31 +646,34 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Kata 'Purna' bermakna selesai, lengkap, atau sempurna. Lawan katanya adalah 'Belum selesai' atau belum tuntas.",
                     rewardClueId = "clue_02_3",
-                    points = 100
+                    points = 150,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_02_8",
                     type = ChallengeType.KATA_BAKU,
-                    prompt = "Manakah bentuk kata yang tepat?",
-                    contextReason = "Pakaian saksi saat meninggalkan bangsal keraton.",
-                    targetWord = "Kaus atau Kaos?",
-                    options = listOf("Kaus", "Kaos", "Kahos", "Khaos"),
+                    prompt = "Tanda terima bukti transaksi pembayaran tinta emas tercantum pada lembar kertas.\n\nManakah ejaan kata baku menurut KBBI?",
+                    contextReason = "Cek kuitansi pembelian barang yang ditinggalkan di bilik perhiasan.",
+                    targetWord = "Kuitansi atau Kwitansi?",
+                    options = listOf("Kuitansi", "Kwitansi", "Kwitansie", "Kuytansi"),
                     correctIndex = 0,
-                    explanation = "Bentuk penulisan yang tepat adalah 'Kaus' (misalnya kaus oblong, kaus kaki).",
+                    explanation = "Bentuk kata baku yang tepat dalam KBBI adalah 'Kuitansi' menggunakan 'ui'.",
                     rewardClueId = "clue_02_4",
-                    points = 100
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_02_9",
                     type = ChallengeType.KATA_BAKU,
-                    prompt = "Buku catatan rancang bangun Bale Prabeyo mencatat struktur dasar bangunan keraton.\n\nManakah bentuk kata yang tepat dan benar?",
+                    prompt = "Buku catatan rancang bangun Bale Prabeyo mencatat struktur dasar bangunan keraton.\n\nManakah bentuk kata baku yang tepat dan benar?",
                     contextReason = "Periksa denah terowongan rahasia di bawah fondasi keraton.",
                     targetWord = "Fondasi atau Pondasi?",
                     options = listOf("Fondasi", "Pondasi", "Pundasi", "Phondasi"),
                     correctIndex = 0,
                     explanation = "Bentuk penulisan yang tepat adalah 'Fondasi' dengan huruf 'F' (diserap dari bahasa Belanda 'fundatie').",
                     rewardClueId = "clue_02_1",
-                    points = 100
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_02_10",
@@ -591,7 +685,73 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Lawan kata dari 'Abadi' (kekal, tidak berkesudahan) adalah 'Fana' (dapat rusak, tidak kekal, sementara).",
                     rewardClueId = "clue_02_2",
-                    points = 100
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
+                ),
+                ChallengeQuestion(
+                    id = "q_02_11",
+                    type = ChallengeType.SINONIM,
+                    prompt = "Saksi mata mendeskripsikan penampilan abdi dalem yang sangat \"rapi\".\n\nManakah sinonim dari kata \"rapi\"?",
+                    contextReason = "Ungkap kerapian busana para saksi di sekitar Bale Prabeyo.",
+                    targetWord = "Rapi",
+                    options = listOf("Teratur / Bersih", "Berantakan", "Kotor", "Acak-acakan"),
+                    correctIndex = 0,
+                    explanation = "'Teratur' atau 'Bersih' adalah sinonim dari 'rapi'.",
+                    rewardClueId = "clue_02_3",
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
+                ),
+                ChallengeQuestion(
+                    id = "q_02_12",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Tersangka menunjukkan surat tanda kelulusan pendidikan keraton.\n\nManakah ejaan kata baku yang tepat?",
+                    contextReason = "Verifikasi dokumen ijazah keturunan bangsawan.",
+                    targetWord = "Ijazah atau Ijasah?",
+                    options = listOf("Ijazah", "Ijasah", "Idjazah", "Ijasat"),
+                    correctIndex = 0,
+                    explanation = "Kata baku yang tepat menurut KBBI adalah 'Ijazah' dengan huruf 'z'.",
+                    rewardClueId = "clue_02_4",
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
+                ),
+                ChallengeQuestion(
+                    id = "q_02_13",
+                    type = ChallengeType.ANTONIM,
+                    prompt = "Dinding batu Bale Prabeyo dibangun dengan konstruksi yang sangat \"kokoh\".\n\nTentukan lawan kata (antonim) dari \"kokoh\":",
+                    contextReason = "Analisis titik celah tembok terowongan rahasia keraton.",
+                    targetWord = "Kokoh",
+                    options = listOf("Rapuh / Lemah", "Kuat", "Tegar", "Tangguh"),
+                    correctIndex = 0,
+                    explanation = "'Rapuh' adalah lawan kata (antonim) dari 'kokoh'.",
+                    rewardClueId = "clue_02_1",
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
+                ),
+                ChallengeQuestion(
+                    id = "q_02_14",
+                    type = ChallengeType.SINONIM,
+                    prompt = "Sultan dikenal oleh seluruh rakyatnya sebagai sosok yang sangat \"dermawan\".\n\nManakah padanan kata (sinonim) dari \"dermawan\"?",
+                    contextReason = "Pahami kedermawanan Sultan kepada masyarakat sekitar keraton.",
+                    targetWord = "Dermawan",
+                    options = listOf("Murah Hati / Suka Memberi", "Kikir / Pelit", "Sombong", "Egois"),
+                    correctIndex = 0,
+                    explanation = "'Murah Hati' adalah padanan kata dari 'dermawan'.",
+                    rewardClueId = "clue_02_2",
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
+                ),
+                ChallengeQuestion(
+                    id = "q_02_15",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Pada sampul naskah kuno terdapat cap tanda dagang pabrik pembuat kertas.\n\nManakah penulisan kata baku yang tepat?",
+                    contextReason = "Periksa cap merek dagang pada kertas peninggalan keraton.",
+                    targetWord = "Merek atau Merk?",
+                    options = listOf("Merek", "Merk", "Merck", "Merek-an"),
+                    correctIndex = 0,
+                    explanation = "Bentuk kata baku yang tepat menurut KBBI adalah 'Merek' dengan huruf 'e'.",
+                    rewardClueId = "clue_02_3",
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
                 )
             )
         ),
@@ -697,7 +857,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Kata yang tepat adalah 'Praktik' (diserap dari bahasa Belanda 'praktijk').",
                     rewardClueId = "clue_03_1",
-                    points = 100
+                    points = 100,
+                    difficulty = com.example.model.GameDifficulty.SANTAI
                 ),
                 ChallengeQuestion(
                     id = "q_03_2",
@@ -709,7 +870,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Lawan kata dari 'Kekal' (abadi, tidak berkesudahan) adalah 'Fana' (dapat rusak, sementara).",
                     rewardClueId = "clue_03_2",
-                    points = 100
+                    points = 100,
+                    difficulty = com.example.model.GameDifficulty.SANTAI
                 ),
                 ChallengeQuestion(
                     id = "q_03_3",
@@ -721,7 +883,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Pusaka bermakna benda turun-temurun peninggalan orang tua atau leluhur yang dipandang bernilai tinggi.",
                     rewardClueId = "clue_03_3",
-                    points = 100
+                    points = 100,
+                    difficulty = com.example.model.GameDifficulty.SANTAI
                 ),
                 ChallengeQuestion(
                     id = "q_03_4",
@@ -733,7 +896,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Bentuk yang tepat dalam bahasa Indonesia adalah 'Cendekia' (orang yang cerdik pandai disebut cendekiawan).",
                     rewardClueId = "clue_03_1",
-                    points = 100
+                    points = 150,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_03_5",
@@ -745,7 +909,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Kata 'Sakral' bersinonim dengan suci atau keramat mengenai upacara dan peninggalan keagamaan.",
                     rewardClueId = "clue_03_2",
-                    points = 100
+                    points = 150,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_03_6",
@@ -757,7 +922,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Lawan kata (antonim) dari 'Statis' (keadaan diam) adalah 'Dinamis' (penuh gerak dan perkembangan).",
                     rewardClueId = "clue_03_3",
-                    points = 100
+                    points = 150,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_03_7",
@@ -769,31 +935,34 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Bentuk penulisan yang tepat adalah 'Hierarki' dengan huruf 'e' (diserap dari bahasa Inggris 'hierarchy').",
                     rewardClueId = "clue_03_1",
-                    points = 100
+                    points = 150,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_03_8",
                     type = ChallengeType.KATA_BAKU,
-                    prompt = "Pilihlah bentuk kata yang tepat:",
-                    contextReason = "Pencatatan barang bukti lontar yang diamankan tim detektif.",
+                    prompt = "Pencatatan barang bukti lontar yang diamankan tim detektif.\n\nManakah penulisan kata baku yang tepat?",
+                    contextReason = "Periksa laporan inventaris barang bukti di pura Besakih.",
                     targetWord = "Objek atau Obyek?",
                     options = listOf("Objek", "Obyek", "Objeck", "Obiekt"),
                     correctIndex = 0,
                     explanation = "Penulisan yang tepat adalah 'Objek' dengan huruf 'j', bukan 'Obyek'.",
                     rewardClueId = "clue_03_2",
-                    points = 100
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_03_9",
                     type = ChallengeType.KATA_BAKU,
-                    prompt = "Naskah kidung rontal tersebut tercatat ditulis pada era kejayaan masa lampau.\n\nManakah penulisan kata yang tepat dan benar?",
+                    prompt = "Naskah kidung rontal tersebut tercatat ditulis pada era kejayaan masa lampau.\n\nManakah penulisan kata baku yang tepat?",
                     contextReason = "Verifikasi tarikh penanggalan lontar purbakala Bali.",
                     targetWord = "Zaman atau Jaman?",
                     options = listOf("Zaman", "Jaman", "Djaman", "Jhaman"),
                     correctIndex = 0,
                     explanation = "Bentuk penulisan yang tepat adalah 'Zaman' dengan huruf 'Z' (diserap dari bahasa Arab 'zaman').",
                     rewardClueId = "clue_03_3",
-                    points = 100
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_03_10",
@@ -803,9 +972,75 @@ object GameDataProvider {
                     targetWord = "Sunyi",
                     options = listOf("Senyap / Hening", "Gaduh", "Riuh", "Bising"),
                     correctIndex = 0,
-                    explanation = "'Senyap' atau 'Hening' adalah padanan kata (sinonim) dari 'sunyi' — bermakna tidak ada suara atau lengang.",
+                    explanation = "'Senyap' atau 'Hening' adalah padanan kata dari 'sunyi'.",
                     rewardClueId = "clue_03_1",
-                    points = 100
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
+                ),
+                ChallengeQuestion(
+                    id = "q_03_11",
+                    type = ChallengeType.ANTONIM,
+                    prompt = "Bangunan bale kulkul pura terletak di posisi lereng gunung yang \"tinggi\".\n\nTentukan lawan kata (antonim) dari \"tinggi\":",
+                    contextReason = "Analisis arah tangga tempat pelaku melarikan diri.",
+                    targetWord = "Tinggi",
+                    options = listOf("Rendah", "Panjang", "Lebar", "Dalam"),
+                    correctIndex = 0,
+                    explanation = "'Rendah' adalah lawan kata (antonim) dari 'tinggi'.",
+                    rewardClueId = "clue_03_2",
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
+                ),
+                ChallengeQuestion(
+                    id = "q_03_12",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Di jadwal kegiatan pura tercantum jadwal gladi bersih tarian pendet.\n\nManakah ejaan kata baku menurut KBBI?",
+                    contextReason = "Cek buku jadwal latihan penari pura.",
+                    targetWord = "Geladi atau Gladi?",
+                    options = listOf("Geladi", "Gladi", "Gheladi", "Geladie"),
+                    correctIndex = 0,
+                    explanation = "Bentuk kata baku yang tepat menurut KBBI adalah 'Geladi' dengan huruf 'e'.",
+                    rewardClueId = "clue_03_3",
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
+                ),
+                ChallengeQuestion(
+                    id = "q_03_13",
+                    type = ChallengeType.SINONIM,
+                    prompt = "Pemangku tua di pura dikenal oleh warga sebagai sosok yang sangat \"pintar\".\n\nManakah padanan kata (sinonim) dari \"pintar\"?",
+                    contextReason = "Kenali kecerdasan para tetua pura penyimpan lontar.",
+                    targetWord = "Pintar",
+                    options = listOf("Cerdas / Pandai", "Bodoh", "Lupa", "Acuh"),
+                    correctIndex = 0,
+                    explanation = "'Cerdas' atau 'Pandai' adalah padanan kata dari 'pintar'.",
+                    rewardClueId = "clue_03_1",
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
+                ),
+                ChallengeQuestion(
+                    id = "q_03_14",
+                    type = ChallengeType.ANTONIM,
+                    prompt = "Saksi mata merasa sangat \"cemas\" saat melihat kepulan asap di lereng pura.\n\nTentukan lawan kata (antonim) dari \"cemas\":",
+                    contextReason = "Ungkap emosi para warga pura saat alarm berbunyi.",
+                    targetWord = "Cemas",
+                    options = listOf("Tenang / Damai", "Takut", "Gelisah", "Khawatir"),
+                    correctIndex = 0,
+                    explanation = "'Tenang' atau 'Damai' adalah lawan kata dari 'cemas'.",
+                    rewardClueId = "clue_03_2",
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
+                ),
+                ChallengeQuestion(
+                    id = "q_03_15",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Dalam hening doa, umat diminta untuk mengantarkan napas secara perlahan.\n\nManakah ejaan kata baku yang tepat?",
+                    contextReason = "Periksa naskah doa penyucian di Pura Besakih.",
+                    targetWord = "Napas atau Nafas?",
+                    options = listOf("Napas", "Nafas", "Naphas", "Naphss"),
+                    correctIndex = 0,
+                    explanation = "Kata baku yang tepat menurut KBBI adalah 'Napas' dengan huruf 'p', bukan 'Nafas'.",
+                    rewardClueId = "clue_03_3",
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
                 )
             )
         ),
@@ -931,7 +1166,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Kata yang tepat adalah 'Kuitansi' dengan huruf 'ui', bukan 'kwitansi'.",
                     rewardClueId = "clue_04_1",
-                    points = 100
+                    points = 100,
+                    difficulty = com.example.model.GameDifficulty.SANTAI
                 ),
                 ChallengeQuestion(
                     id = "q_04_2",
@@ -943,7 +1179,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Lawan kata dari 'Tersirat' (terkandung secara halus/tersembunyi) adalah 'Tersurat' (tertulis jelas secara eksplisit).",
                     rewardClueId = "clue_04_2",
-                    points = 100
+                    points = 100,
+                    difficulty = com.example.model.GameDifficulty.SANTAI
                 ),
                 ChallengeQuestion(
                     id = "q_04_3",
@@ -955,7 +1192,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Bentuk penulisan yang tepat adalah 'Ijazah' dengan huruf 'z' (diserap dari bahasa Arab 'ijazah').",
                     rewardClueId = "clue_04_1",
-                    points = 100
+                    points = 100,
+                    difficulty = com.example.model.GameDifficulty.SANTAI
                 ),
                 ChallengeQuestion(
                     id = "q_04_4",
@@ -967,7 +1205,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "'Setuju' atau 'Sepakat' adalah sinonim dari 'Mufakat', yaitu persetujuan bulat yang dicapai bersama.",
                     rewardClueId = "clue_04_2",
-                    points = 100
+                    points = 150,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_04_5",
@@ -979,7 +1218,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Lawan kata (antonim) dari 'Akrab' (dekat dan erat hubungannya) adalah 'Renggang' atau 'Asing'.",
                     rewardClueId = "clue_04_3",
-                    points = 100
+                    points = 150,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_04_6",
@@ -991,7 +1231,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Bentuk penulisan yang tepat dalam bahasa Indonesia adalah 'Kualitas' dengan huruf 'Ku', bukan 'Kwalitas'.",
                     rewardClueId = "clue_04_4",
-                    points = 100
+                    points = 150,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_04_7",
@@ -1003,7 +1244,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "'Bijaksana' adalah sinonim dari 'Arif' — menggambarkan orang yang cerdik, pandai, dan bertindak adil.",
                     rewardClueId = "clue_04_1",
-                    points = 100
+                    points = 150,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_04_8",
@@ -1015,7 +1257,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Kata yang tepat adalah 'Khidmat' dengan gugus konsonan 'Kh'.",
                     rewardClueId = "clue_04_2",
-                    points = 100
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_04_9",
@@ -1025,9 +1268,10 @@ object GameDataProvider {
                     targetWord = "Tradisional",
                     options = listOf("Modern / Kontemporer", "Kuno", "Klasik", "Lama"),
                     correctIndex = 0,
-                    explanation = "Lawan kata (antonim) dari 'Tradisional' (berpegang pada tradisi/turun-temurun) adalah 'Modern' atau 'Kontemporer'.",
+                    explanation = "Lawan kata (antonim) dari 'Tradisional' adalah 'Modern' atau 'Kontemporer'.",
                     rewardClueId = "clue_04_3",
-                    points = 100
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_04_10",
@@ -1039,7 +1283,73 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Bentuk penulisan yang tepat adalah 'Nasihat' dengan huruf 'i', bukan 'Nasehat'.",
                     rewardClueId = "clue_04_4",
-                    points = 100
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
+                ),
+                ChallengeQuestion(
+                    id = "q_04_11",
+                    type = ChallengeType.SINONIM,
+                    prompt = "Tetua adat berpesan agar warga nagari selalu menjaga tali persaudaraan yang \"akrab\".\n\nTentukan sinonim dari kata \"akrab\":",
+                    contextReason = "Pahami keakraban hubungan kekeluargaan warga nagari.",
+                    targetWord = "Akrab",
+                    options = listOf("Erat / Dekat", "Renggang", "Jauh", "Asing"),
+                    correctIndex = 0,
+                    explanation = "'Erat' atau 'Dekat' adalah sinonim dari 'akrab'.",
+                    rewardClueId = "clue_04_1",
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
+                ),
+                ChallengeQuestion(
+                    id = "q_04_12",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Pengrajin kain songket menjamin kain hasil tenunannya memiliki tingkat mutu tinggi.\n\nManakah penulisan kata baku yang tepat?",
+                    contextReason = "Cek laporan persediaan kain tenun songket milik tersangka.",
+                    targetWord = "Kualitas atau Kwalitas?",
+                    options = listOf("Kualitas", "Kwalitas", "Qualitas", "Kwalitet"),
+                    correctIndex = 0,
+                    explanation = "Bentuk penulisan yang tepat menurut KBBI adalah 'Kualitas' dengan huruf 'Ku'.",
+                    rewardClueId = "clue_04_2",
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
+                ),
+                ChallengeQuestion(
+                    id = "q_04_13",
+                    type = ChallengeType.ANTONIM,
+                    prompt = "Suasana di sekitar balai adat terasa sangat \"sepi\" menjelang tengah malam.\n\nManakah lawan kata (antonim) dari \"sepi\"?",
+                    contextReason = "Periksa kebenaran alibi jam keberadaan tersangka.",
+                    targetWord = "Sepi",
+                    options = listOf("Ramai / Riuh", "Lengang", "Hening", "Sunyi"),
+                    correctIndex = 0,
+                    explanation = "'Ramai' atau 'Riuh' adalah lawan kata dari 'sepi'.",
+                    rewardClueId = "clue_04_3",
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
+                ),
+                ChallengeQuestion(
+                    id = "q_04_14",
+                    type = ChallengeType.SINONIM,
+                    prompt = "Peneliti naskah kuno mencatat bahwa lembaran naskah bambu dibuat agar tahan lama dan \"awet\".\n\nTentukan padanan kata (sinonim) dari \"awet\":",
+                    contextReason = "Pahami daya tahan fisik lembaran tambo kuno.",
+                    targetWord = "Awet",
+                    options = listOf("Tahan Lama / Tahan Cepat", "Cepat Rusak", "Rapuh", "Pudar"),
+                    correctIndex = 0,
+                    explanation = "'Tahan Lama' adalah padanan kata dari 'awet'.",
+                    rewardClueId = "clue_04_4",
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
+                ),
+                ChallengeQuestion(
+                    id = "q_04_15",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Dalam penyelesaian sengketa tanah ulayat, dibentuk kelompok kerja resmi nagari.\n\nManakah ejaan kata baku yang tepat?",
+                    contextReason = "Verifikasi susunan nama pengurus panitia musyawarah adat.",
+                    targetWord = "Panitia atau Panitya?",
+                    options = listOf("Panitia", "Panitya", "Panitiah", "Phanitia"),
+                    correctIndex = 0,
+                    explanation = "Kata baku yang tepat menurut KBBI adalah 'Panitia' dengan huruf 'ia'.",
+                    rewardClueId = "clue_04_1",
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
                 )
             )
         ),
@@ -1165,7 +1475,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Penulisan yang tepat adalah 'Saksama' dengan huruf 'a', bukan 'Seksama'.",
                     rewardClueId = "clue_05_1",
-                    points = 100
+                    points = 100,
+                    difficulty = com.example.model.GameDifficulty.SANTAI
                 ),
                 ChallengeQuestion(
                     id = "q_05_2",
@@ -1177,7 +1488,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "'Kelautan' atau 'Maritim' adalah sinonim dari 'Bahari' mengenai kehidupan dan pelayaran laut.",
                     rewardClueId = "clue_05_2",
-                    points = 100
+                    points = 100,
+                    difficulty = com.example.model.GameDifficulty.SANTAI
                 ),
                 ChallengeQuestion(
                     id = "q_05_3",
@@ -1189,7 +1501,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Lawan kata (antonim) dari 'Megah' (gagah dan mewah) adalah 'Sederhana' atau 'Bersahaja'.",
                     rewardClueId = "clue_05_3",
-                    points = 100
+                    points = 100,
+                    difficulty = com.example.model.GameDifficulty.SANTAI
                 ),
                 ChallengeQuestion(
                     id = "q_05_4",
@@ -1201,7 +1514,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Bentuk baku dalam bahasa Indonesia adalah 'Efektif' dengan akhiran huruf 'f', bukan 'efektip'.",
                     rewardClueId = "clue_05_4",
-                    points = 100
+                    points = 150,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_05_5",
@@ -1213,7 +1527,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "'Armada' bersinonim dengan rombongan kapal perang atau kapal niaga yang bergerak bersama.",
                     rewardClueId = "clue_05_1",
-                    points = 100
+                    points = 150,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_05_6",
@@ -1225,7 +1540,8 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Lawan kata (antonim) dari 'Pasif' (tidak aktif/diam saja) adalah 'Aktif' (giat/bergerak menjalankan fungsi).",
                     rewardClueId = "clue_05_2",
-                    points = 100
+                    points = 150,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_05_7",
@@ -1237,34 +1553,24 @@ object GameDataProvider {
                     correctIndex = 0,
                     explanation = "Penulisan kata yang tepat adalah 'Khazanah' dengan huruf 'z' (diserap dari bahasa Arab 'khizanah').",
                     rewardClueId = "clue_05_3",
-                    points = 100
+                    points = 150,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_05_8",
-                    type = ChallengeType.SINONIM,
-                    prompt = "Tafsir makna aksara Pallawa pada prasasti memuat amanat yang sangat \"bernas\".\n\nTentukan sinonim dari kata \"bernas\":",
-                    contextReason = "Pahami kedalaman isi syair sumpah Sriwijaya.",
-                    targetWord = "Bernas",
-                    options = listOf("Padat / Penuh makna", "Kosong", "Hampa", "Dangkal"),
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Laporan rutin kegiatan operasi patroli pelabuhan mencatat pergerakan kapal cepat.\n\nManakah ejaan kata baku menurut KBBI?",
+                    contextReason = "Periksa log catatan kerja petugas jaga malam pelabuhan.",
+                    targetWord = "Aktivitas atau Aktifitas?",
+                    options = listOf("Aktivitas", "Aktifitas", "Aktipitas", "Activiteit"),
                     correctIndex = 0,
-                    explanation = "'Bernas' bermakna berisi penuh, berbobot, atau penuh dengan kebenaran dan makna luhur.",
+                    explanation = "Bentuk kata baku yang tepat dalam KBBI adalah 'Aktivitas' dengan huruf 'v', bukan 'f'.",
                     rewardClueId = "clue_05_4",
-                    points = 100
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
                 ),
                 ChallengeQuestion(
                     id = "q_05_9",
-                    type = ChallengeType.SINONIM,
-                    prompt = "Penyelidikan membuktikan motif kejahatan pelaku demi keuntungan yang bukan \"hakiki\".\n\nManakah padanan kata (sinonim) dari \"hakiki\"?",
-                    contextReason = "Analisis aspek psikologis dan motif keserakahan pelaku.",
-                    targetWord = "Hakiki",
-                    options = listOf("Sejati / Murni", "Khayalan", "Sementara", "Palsu"),
-                    correctIndex = 0,
-                    explanation = "'Hakiki' bersinonim dengan sejati, sesungguhnya, atau sebenarnya menurut hakikatnya.",
-                    rewardClueId = "clue_05_1",
-                    points = 100
-                ),
-                ChallengeQuestion(
-                    id = "q_05_10",
                     type = ChallengeType.KATA_BAKU,
                     prompt = "Pelaku berusaha menyamarkan lempengan emas sebagai tanda mata kenang-kenangan turis.\n\nManakah penulisan kata yang tepat dan benar?",
                     contextReason = "Periksa stiker deklarasi barang bawaan palka kapal cepat.",
@@ -1272,8 +1578,87 @@ object GameDataProvider {
                     options = listOf("Cenderamata", "Cinderamata", "Cenderahmata", "Cenderamatas"),
                     correctIndex = 0,
                     explanation = "Bentuk penulisan yang tepat adalah 'Cenderamata' dengan huruf 'e', bukan 'Cinderamata'.",
+                    rewardClueId = "clue_05_1",
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
+                ),
+                ChallengeQuestion(
+                    id = "q_05_10",
+                    type = ChallengeType.SINONIM,
+                    prompt = "Prasasti emas Kedukan Bukit dianggap sebagai warisan budaya yang sangat \"berharga\".\n\nTentukan sinonim dari kata \"berharga\":",
+                    contextReason = "Pahami nilai kebudayaan prasasti bagi sejarah Nusantara.",
+                    targetWord = "Berharga",
+                    options = listOf("Bernilai / Mulia", "Murah", "Cacat", "Tidak Berguna"),
+                    correctIndex = 0,
+                    explanation = "'Bernilai' atau 'Mulia' adalah sinonim dari 'berharga'.",
                     rewardClueId = "clue_05_2",
-                    points = 100
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SEDANG
+                ),
+                ChallengeQuestion(
+                    id = "q_05_11",
+                    type = ChallengeType.ANTONIM,
+                    prompt = "Dermaga pelabuhan Musi pada malam hari terasa sangat \"tenang\".\n\nTentukan lawan kata (antonim) dari \"tenang\":",
+                    contextReason = "Ungkap kejanggalan suasana dermaga saat kapal melintas.",
+                    targetWord = "Tenang",
+                    options = listOf("Bising / Gelisah", "Damai", "Sepi", "Hening"),
+                    correctIndex = 0,
+                    explanation = "'Bising' atau 'Gelisah' adalah lawan kata dari 'tenang'.",
+                    rewardClueId = "clue_05_3",
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
+                ),
+                ChallengeQuestion(
+                    id = "q_05_12",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Di dalam nota pesanan logistik palka kapal tercantum daftar belanja bahan masakan.\n\nManakah penulisan kata baku yang tepat?",
+                    contextReason = "Cek kuitansi pembelian logistik kapal pelaku.",
+                    targetWord = "Cabai atau Cabe?",
+                    options = listOf("Cabai", "Cabe", "Tjabai", "Chabe"),
+                    correctIndex = 0,
+                    explanation = "Kata baku yang tepat menurut KBBI adalah 'Cabai' dengan huruf 'ai', bukan 'Cabe'.",
+                    rewardClueId = "clue_05_4",
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
+                ),
+                ChallengeQuestion(
+                    id = "q_05_13",
+                    type = ChallengeType.SINONIM,
+                    prompt = "Nahkoda kapal cepat dikenal memiliki keahlian bernavigasi yang sangat \"hebat\".\n\nManakah padanan kata (sinonim) dari \"hebat\"?",
+                    contextReason = "Pahami tingkat keahlian nahkoda kapal penyelundup.",
+                    targetWord = "Hebat",
+                    options = listOf("Ulung / Mahir", "Lemah", "Pemula", "Biasa"),
+                    correctIndex = 0,
+                    explanation = "'Ulung' atau 'Mahir' adalah padanan kata dari 'hebat'.",
+                    rewardClueId = "clue_05_1",
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
+                ),
+                ChallengeQuestion(
+                    id = "q_05_14",
+                    type = ChallengeType.ANTONIM,
+                    prompt = "Malam hari di perairan anak sungai Musi terlihat sangat \"gelap\".\n\nTentukan lawan kata (antonim) dari \"gelap\":",
+                    contextReason = "Analisis pencahayaan lampu kapal saat lego jangkar.",
+                    targetWord = "Gelap",
+                    options = listOf("Terang", "Kelam", "Suram", "Baur"),
+                    correctIndex = 0,
+                    explanation = "'Terang' adalah lawan kata (antonim) dari 'gelap'.",
+                    rewardClueId = "clue_05_2",
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
+                ),
+                ChallengeQuestion(
+                    id = "q_05_15",
+                    type = ChallengeType.KATA_BAKU,
+                    prompt = "Peti kayu penyimpanan prasasti harus diletakkan di ruangan yang tidak lembap.\n\nManakah penulisan kata baku yang tepat?",
+                    contextReason = "Verifikasi kondisi kelembapan tempat penyimpanan benda cagar budaya.",
+                    targetWord = "Lembap atau Lembab?",
+                    options = listOf("Lembap", "Lembab", "Lembap-an", "Lembabb"),
+                    correctIndex = 0,
+                    explanation = "Kata baku yang tepat menurut KBBI adalah 'Lembap' dengan huruf 'p' di akhir, bukan 'Lembab'.",
+                    rewardClueId = "clue_05_3",
+                    points = 250,
+                    difficulty = com.example.model.GameDifficulty.SANGAT_SULIT
                 )
             )
         )

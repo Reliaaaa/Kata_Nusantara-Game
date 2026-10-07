@@ -1256,7 +1256,15 @@ fun SolveQuestionsStage(
     onNextQuestion: () -> Unit,
     onProceedToEvidence: () -> Unit
 ) {
-    val challenges = storyline.activeCase.challenges
+    val currentDiff = viewModel.uiState.value.difficulty
+    val rawChallenges = storyline.activeCase.challenges
+    val challenges = remember(rawChallenges, currentDiff) {
+        when (currentDiff) {
+            com.example.model.GameDifficulty.SANTAI -> rawChallenges.take(6)
+            com.example.model.GameDifficulty.SEDANG -> rawChallenges.take(10)
+            com.example.model.GameDifficulty.SANGAT_SULIT -> rawChallenges
+        }
+    }
     val currentIndex = storyline.currentQuestionIndex.coerceIn(0, challenges.size - 1)
     val question = challenges.getOrNull(currentIndex)
     val totalQuestions = challenges.size
@@ -1546,17 +1554,35 @@ fun SolveQuestionsStage(
                             horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            Surface(
-                                shape = RoundedCornerShape(4.dp),
-                                color = Color(question.type.badgeColorHex)
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                verticalAlignment = Alignment.CenterVertically
                             ) {
-                                Text(
-                                    text = question.type.label,
-                                    color = Color.White,
-                                    fontSize = 10.sp,
-                                    fontWeight = FontWeight.Black,
-                                    modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)
-                                )
+                                Surface(
+                                    shape = RoundedCornerShape(4.dp),
+                                    color = Color(question.type.badgeColorHex)
+                                ) {
+                                    Text(
+                                        text = question.type.label,
+                                        color = Color.White,
+                                        fontSize = 10.sp,
+                                        fontWeight = FontWeight.Black,
+                                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp)
+                                    )
+                                }
+
+                                Surface(
+                                    shape = RoundedCornerShape(4.dp),
+                                    color = Color(question.difficulty.colorHex)
+                                ) {
+                                    Text(
+                                        text = question.difficulty.badge,
+                                        color = Color.White,
+                                        fontSize = 10.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp)
+                                    )
+                                }
                             }
 
                             Text(

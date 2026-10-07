@@ -144,6 +144,13 @@ class MainActivity : ComponentActivity() {
     override fun onPause() {
         super.onPause()
         AudioEffects.pauseBgm()
+        viewModel.stopAudio()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        AudioEffects.pauseBgm()
+        viewModel.stopAudio()
     }
 
     override fun onResume() {
@@ -156,5 +163,6 @@ class MainActivity : ComponentActivity() {
     override fun onDestroy() {
         super.onDestroy()
         AudioEffects.stopBgm()
+        viewModel.stopAudio()
     }
 }

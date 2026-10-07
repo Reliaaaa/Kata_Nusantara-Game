@@ -119,8 +119,36 @@ fun InvestigationScreen(
     viewModel: GameViewModel,
     onBack: () -> Unit
 ) {
-    val activeCase = investigation.activeCase ?: return
     BackHandler { onBack() }
+    val activeCase = investigation.activeCase
+
+    if (activeCase == null) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(WoodDark),
+            contentAlignment = Alignment.Center
+        ) {
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Text(
+                    text = "Memuat data berkas kasus...",
+                    color = GoldBright,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
+                Button(
+                    onClick = onBack,
+                    colors = ButtonDefaults.buttonColors(containerColor = AntiqueGold)
+                ) {
+                    Text("Kembali ke Menu", color = InkDark, fontWeight = FontWeight.Bold)
+                }
+            }
+        }
+        return
+    }
 
     var selectedTabIndex by remember { mutableIntStateOf(0) }
     val tabs = listOf("PAPAN INVESTIGASI", "DAFTAR TERSANGKA (${activeCase.suspects.size})", "SOAL KEBASAHAAN")
@@ -861,17 +889,35 @@ private fun ChallengesTab(
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    Surface(
-                        color = Color(challenge.type.badgeColorHex),
-                        shape = RoundedCornerShape(4.dp)
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(4.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(
-                            text = challenge.type.label,
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 10.sp,
-                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp)
-                        )
+                        Surface(
+                            color = Color(challenge.type.badgeColorHex),
+                            shape = RoundedCornerShape(4.dp)
+                        ) {
+                            Text(
+                                text = challenge.type.label,
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 10.sp,
+                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp)
+                            )
+                        }
+
+                        Surface(
+                            color = Color(challenge.difficulty.colorHex),
+                            shape = RoundedCornerShape(4.dp)
+                        ) {
+                            Text(
+                                text = challenge.difficulty.badge,
+                                color = Color.White,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 10.sp,
+                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp)
+                            )
+                        }
                     }
 
                     Column(modifier = Modifier.weight(1f)) {

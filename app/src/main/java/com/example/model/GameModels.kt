@@ -13,36 +13,36 @@ enum class GameDifficulty(
 ) {
     SANTAI(
         title = "Pemula / Santai",
-        subtitle = "Mode Belajar Santai",
+        subtitle = "Mode Belajar Santai (6 Soal)",
         badge = "🟢 PEMULA",
         colorHex = 0xFF10B981,
         initialSuspectNervousnessMultiplier = 1.0f,
         clueNervousnessBoost = 30,
         wrongAccusePenalty = 10,
         xpMultiplier = 1.0f,
-        description = "Pengumpulan petunjuk memberikan keunggulan besar. Petunjuk otomatis melemahkan pembelaan tersangka."
+        description = "Menyajikan 6 soal kebahasaan dasar per kasus. Petunjuk otomatis melemahkan pembelaan tersangka."
     ),
     SEDANG(
         title = "Detektif Handal",
-        subtitle = "Mode Standar Detektif",
+        subtitle = "Mode Standar Detektif (10 Soal)",
         badge = "🟡 SEDANG",
         colorHex = 0xFFF59E0B,
         initialSuspectNervousnessMultiplier = 0.8f,
         clueNervousnessBoost = 20,
         wrongAccusePenalty = 20,
         xpMultiplier = 1.25f,
-        description = "Tingkat kesulitan standar. Membutuhkan kecermatan pencocokan bukti fisik dan jam alibi."
+        description = "Tingkat kesulitan standar dengan 10 soal kebahasaan per kasus. Membutuhkan kecermatan pencocokan bukti dan alibi."
     ),
     SANGAT_SULIT(
         title = "Sangat Sulit / Kasus Berat",
-        subtitle = "Mode Kritis & Presisi Tinggi",
+        subtitle = "Mode Kritis & Tantangan Panjang (15 Soal)",
         badge = "🔴 SANGAT SULIT",
         colorHex = 0xFFEF4444,
         initialSuspectNervousnessMultiplier = 0.5f,
         clueNervousnessBoost = 5,
         wrongAccusePenalty = 35,
         xpMultiplier = 1.75f,
-        description = "Seluruh petunjuk dapat dikumpulkan, namun tingkat kegugupan tersangka di sidang tetap SETARA (50%). Pemain wajib berpikir kritis memilih argumen bukti presisi sebelum mengambil keputusan!"
+        description = "Tantangan penuh dengan 15 soal kebahasaan sehari-hari per kasus. Tingkat kegugupan tersangka di sidang tetap SETARA (50%) sehingga membutuhkan analisis bukti kritis!"
     )
 }
 
@@ -64,7 +64,8 @@ data class ChallengeQuestion(
     val rewardClueId: String,
     val points: Int = 100,
     val eliminatedTrait: String? = null,
-    val clueHint: String = ""
+    val clueHint: String = "",
+    val difficulty: GameDifficulty = GameDifficulty.SEDANG
 )
 
 data class Clue(

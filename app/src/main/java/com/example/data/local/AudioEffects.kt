@@ -26,18 +26,36 @@ object AudioEffects {
 
     private var bgmPlayer: MediaPlayer? = null
     private var appContext: Context? = null
+    private var currentTrackType: String? = null
 
     fun initContext(context: Context) {
         appContext = context.applicationContext
     }
 
+    @Synchronized
     fun startBgm(context: Context? = null, trackType: String = "MYSTERY") {
         if (context != null) {
             appContext = context.applicationContext
         }
-        stopBgm()
-        if (!isBgmEnabled) return
+        if (!isBgmEnabled) {
+            stopBgm()
+            return
+        }
         val ctx = appContext ?: return
+
+        // If the same track is already playing, do NOT restart/cut the music!
+        if (bgmPlayer != null && currentTrackType == trackType) {
+            try {
+                if (bgmPlayer?.isPlaying == false) {
+                    bgmPlayer?.start()
+                }
+                return
+            } catch (_: Exception) {
+                // If checking fails, proceed to recreate below
+            }
+        }
+
+        stopBgm()
 
         try {
             val rawResId = if (trackType == "COURT") R.raw.bgm_court else R.raw.bgm_mystery
@@ -46,11 +64,13 @@ object AudioEffects {
             player.setVolume(bgmVolume, bgmVolume)
             player.start()
             bgmPlayer = player
+            currentTrackType = trackType
         } catch (_: Exception) {
             // Graceful fallback
         }
     }
 
+    @Synchronized
     fun stopBgm() {
         try {
             bgmPlayer?.apply {
@@ -59,10 +79,12 @@ object AudioEffects {
                 }
                 release()
             }
-            bgmPlayer = null
         } catch (_: Exception) {}
+        bgmPlayer = null
+        currentTrackType = null
     }
 
+    @Synchronized
     fun pauseBgm() {
         try {
             bgmPlayer?.let {
@@ -73,6 +95,7 @@ object AudioEffects {
         } catch (_: Exception) {}
     }
 
+    @Synchronized
     fun resumeBgm(context: Context? = null) {
         if (!isBgmEnabled) return
         try {
@@ -81,11 +104,12 @@ object AudioEffects {
                     it.start()
                 }
             } ?: run {
-                startBgm(context)
+                startBgm(context, currentTrackType ?: "MYSTERY")
             }
         } catch (_: Exception) {}
     }
 
+    @Synchronized
     fun toggleBgm(context: Context? = null, enabled: Boolean = true, trackType: String = "MYSTERY") {
         isBgmEnabled = enabled
         if (enabled) {

@@ -592,8 +592,8 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun startCase(caseId: String) {
-        val selectedCase = _uiState.value.cases.find { it.id == caseId } ?: return
-        if (!selectedCase.isUnlocked) return
+        val availableCases = _uiState.value.cases.ifEmpty { GameDataProvider.getInitialCases() }
+        val selectedCase = availableCases.find { it.id == caseId } ?: availableCases.firstOrNull() ?: return
 
         timerJob?.cancel()
         _uiState.update { current ->
@@ -613,7 +613,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
                     accusedSuspect = null,
                     lastAnswerResult = null,
                     isAccusationOpen = false,
-                    hintsCount = current.userProgress.hintsAvailable
+                    hintsCount = current.userProgress.hintsAvailable.coerceAtLeast(3)
                 )
             )
         }
