@@ -172,6 +172,10 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         val database = AppDatabase.getDatabase(application)
         repository = GameRepository(database.gameDao())
 
+        // Initialize AudioEffects context
+        com.example.data.local.AudioEffects.initContext(application)
+        com.example.data.local.AudioEffects.startBgm(application, "MYSTERY")
+
         // Initial check for Firebase Auth state
         val currentFirebaseUser = firebaseService.getCurrentUser()
         _uiState.update { it.copy(cloud = it.cloud.copy(userProfile = currentFirebaseUser)) }
@@ -421,7 +425,7 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
 
     fun toggleBgm(enabled: Boolean) {
         _uiState.update { it.copy(isBgmEnabled = enabled) }
-        com.example.data.local.AudioEffects.toggleBgm(enabled)
+        com.example.data.local.AudioEffects.toggleBgm(getApplication(), enabled)
     }
 
     fun setBgmVolume(volume: Float) {
