@@ -1,5 +1,51 @@
 package com.example.model
 
+enum class GameDifficulty(
+    val title: String,
+    val subtitle: String,
+    val badge: String,
+    val colorHex: Long,
+    val initialSuspectNervousnessMultiplier: Float,
+    val clueNervousnessBoost: Int,
+    val wrongAccusePenalty: Int,
+    val xpMultiplier: Float,
+    val description: String
+) {
+    SANTAI(
+        title = "Pemula / Santai",
+        subtitle = "Mode Belajar Santai",
+        badge = "🟢 PEMULA",
+        colorHex = 0xFF10B981,
+        initialSuspectNervousnessMultiplier = 1.0f,
+        clueNervousnessBoost = 30,
+        wrongAccusePenalty = 10,
+        xpMultiplier = 1.0f,
+        description = "Pengumpulan petunjuk memberikan keunggulan besar. Petunjuk otomatis melemahkan pembelaan tersangka."
+    ),
+    SEDANG(
+        title = "Detektif Handal",
+        subtitle = "Mode Standar Detektif",
+        badge = "🟡 SEDANG",
+        colorHex = 0xFFF59E0B,
+        initialSuspectNervousnessMultiplier = 0.8f,
+        clueNervousnessBoost = 20,
+        wrongAccusePenalty = 20,
+        xpMultiplier = 1.25f,
+        description = "Tingkat kesulitan standar. Membutuhkan kecermatan pencocokan bukti fisik dan jam alibi."
+    ),
+    SANGAT_SULIT(
+        title = "Sangat Sulit / Kasus Berat",
+        subtitle = "Mode Kritis & Presisi Tinggi",
+        badge = "🔴 SANGAT SULIT",
+        colorHex = 0xFFEF4444,
+        initialSuspectNervousnessMultiplier = 0.5f,
+        clueNervousnessBoost = 5,
+        wrongAccusePenalty = 35,
+        xpMultiplier = 1.75f,
+        description = "Seluruh petunjuk dapat dikumpulkan, namun tingkat kegugupan tersangka di sidang tetap SETARA (50%). Pemain wajib berpikir kritis memilih argumen bukti presisi sebelum mengambil keputusan!"
+    )
+}
+
 enum class ChallengeType(val label: String, val badgeColorHex: Long) {
     SINONIM("SINONIM", 0xFF0F766E),
     ANTONIM("ANTONIM", 0xFFB45309),

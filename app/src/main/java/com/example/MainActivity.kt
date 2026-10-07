@@ -71,7 +71,8 @@ class MainActivity : ComponentActivity() {
                                 uiState = uiState,
                                 onNavigate = { viewModel.navigateTo(it) },
                                 onStartCase = { caseId -> viewModel.startCase(caseId) },
-                                onStartStoryline = { fromBeginning -> viewModel.startLinearStoryline(fromBeginning) }
+                                onStartStoryline = { fromBeginning -> viewModel.startLinearStoryline(fromBeginning) },
+                                onToggleEnglish = { viewModel.toggleStorylineEnglish() }
                             )
 
                             Screen.CASE_SELECTION -> CaseSelectionScreen(
@@ -98,6 +99,7 @@ class MainActivity : ComponentActivity() {
                             )
 
                             Screen.SETTINGS -> SettingsScreen(
+                                viewModel = viewModel,
                                 onBack = { viewModel.navigateTo(Screen.HOME) },
                                 onResetProgress = { viewModel.resetAllProgress() }
                             )
@@ -127,6 +129,7 @@ class MainActivity : ComponentActivity() {
                             )
 
                             Screen.CLOUD_SYNC -> SettingsScreen(
+                                viewModel = viewModel,
                                 onBack = { viewModel.navigateTo(Screen.HOME) },
                                 onResetProgress = { viewModel.resetAllProgress() }
                             )

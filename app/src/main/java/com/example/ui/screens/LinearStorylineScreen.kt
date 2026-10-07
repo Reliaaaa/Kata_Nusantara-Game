@@ -22,6 +22,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -41,6 +42,7 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Gavel
 import androidx.compose.material.icons.filled.Lightbulb
 import androidx.compose.material.icons.filled.MenuBook
+import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Psychology
 import androidx.compose.material.icons.filled.Search
@@ -69,6 +71,7 @@ import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -95,6 +98,7 @@ import com.example.data.GameDataProvider
 import com.example.data.local.AudioEffects
 import com.example.model.ChallengeQuestion
 import com.example.model.DetectiveCharacter
+import com.example.model.GameDifficulty
 import com.example.model.StorylineStage
 import com.example.model.Suspect
 import com.example.ui.components.ParchmentCard
@@ -129,6 +133,8 @@ fun LinearStorylineScreen(
     val currentStage = storyline.stage
     val selectedCharacter = storyline.selectedCharacter
 
+    val gameUiState by viewModel.uiState.collectAsState()
+    val difficulty = gameUiState.difficulty
     var soundEnabled by remember { mutableStateOf(AudioEffects.isSoundEnabled) }
 
     Box(
@@ -149,6 +155,8 @@ fun LinearStorylineScreen(
                 score = storyline.chapterScore,
                 character = selectedCharacter,
                 soundEnabled = soundEnabled,
+                isBgmEnabled = gameUiState.isBgmEnabled,
+                difficulty = difficulty,
                 isEnglishEnabled = storyline.isEnglishEnabled,
                 onToggleEnglish = {
                     AudioEffects.playClick()
@@ -158,6 +166,10 @@ fun LinearStorylineScreen(
                     soundEnabled = !soundEnabled
                     AudioEffects.isSoundEnabled = soundEnabled
                     if (soundEnabled) AudioEffects.playClick()
+                },
+                onToggleBgm = {
+                    AudioEffects.playClick()
+                    viewModel.toggleBgm(!gameUiState.isBgmEnabled)
                 },
                 onBack = {
                     AudioEffects.playClick()
@@ -293,9 +305,12 @@ fun StorylineTopBar(
     score: Int,
     character: DetectiveCharacter,
     soundEnabled: Boolean,
+    isBgmEnabled: Boolean = true,
+    difficulty: GameDifficulty = GameDifficulty.SEDANG,
     isEnglishEnabled: Boolean = false,
     onToggleEnglish: () -> Unit = {},
     onToggleSound: () -> Unit,
+    onToggleBgm: () -> Unit = {},
     onBack: () -> Unit
 ) {
     Surface(
@@ -329,25 +344,42 @@ fun StorylineTopBar(
                 }
 
                 Column {
-                    Text(
-                        text = "BAB $chapterNumber: $chapterTitle",
-                        color = GoldBright,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold,
-                        maxLines = 1
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Text(
+                            text = "BAB $chapterNumber: $chapterTitle",
+                            color = GoldBright,
+                            fontSize = 11.5.sp,
+                            fontWeight = FontWeight.Bold,
+                            maxLines = 1
+                        )
+                        Surface(
+                            shape = RoundedCornerShape(3.dp),
+                            color = Color(difficulty.colorHex)
+                        ) {
+                            Text(
+                                text = difficulty.badge,
+                                color = InkDark,
+                                fontSize = 8.sp,
+                                fontWeight = FontWeight.Black,
+                                modifier = Modifier.padding(horizontal = 4.dp, vertical = 1.dp)
+                            )
+                        }
+                    }
                     Text(
                         text = if (isEnglishEnabled) "Stage ${stage.stageNumber}/6: ${stage.title}" else "Tahap ${stage.stageNumber}/6: ${stage.title}",
                         color = ParchmentLight.copy(alpha = 0.8f),
-                        fontSize = 10.sp
+                        fontSize = 9.5.sp
                     )
                 }
             }
 
-            // Stats: Language Toggle & Sound & Hearts & Score
+            // Stats: Language Toggle & Sound & BGM & Hearts & Score
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(5.dp)
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 // Language Switcher (ID / EN)
                 Surface(
@@ -359,35 +391,48 @@ fun StorylineTopBar(
                         .testTag("storyline_language_toggle")
                 ) {
                     Row(
-                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp),
+                        modifier = Modifier.padding(horizontal = 5.dp, vertical = 3.dp),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(3.dp)
+                        horizontalArrangement = Arrangement.spacedBy(2.dp)
                     ) {
                         Icon(
                             imageVector = Icons.Default.Translate,
                             contentDescription = "Terjemah Bahasa",
                             tint = if (isEnglishEnabled) EmeraldGreen else AntiqueGold,
-                            modifier = Modifier.size(13.dp)
+                            modifier = Modifier.size(12.dp)
                         )
                         Text(
                             text = if (isEnglishEnabled) "🇬🇧 EN" else "🇮🇩 ID",
                             color = if (isEnglishEnabled) EmeraldGreen else ParchmentLight,
                             fontWeight = FontWeight.Bold,
-                            fontSize = 10.sp
+                            fontSize = 9.5.sp
                         )
                     }
                 }
 
-                // Sound toggle
+                // BGM Music Toggle
+                IconButton(
+                    onClick = onToggleBgm,
+                    modifier = Modifier.size(28.dp).testTag("storyline_bgm_toggle")
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.MusicNote,
+                        contentDescription = "Musik Backsound",
+                        tint = if (isBgmEnabled) GoldBright else Color.Gray,
+                        modifier = Modifier.size(15.dp)
+                    )
+                }
+
+                // Sound Effects toggle
                 IconButton(
                     onClick = onToggleSound,
-                    modifier = Modifier.size(30.dp).testTag("storyline_sound_toggle")
+                    modifier = Modifier.size(28.dp).testTag("storyline_sound_toggle")
                 ) {
                     Icon(
                         imageVector = if (soundEnabled) Icons.Default.VolumeUp else Icons.Default.VolumeOff,
                         contentDescription = "Audio Suara Game",
                         tint = if (soundEnabled) AntiqueGold else Color.Gray,
-                        modifier = Modifier.size(16.dp)
+                        modifier = Modifier.size(15.dp)
                     )
                 }
 
@@ -738,10 +783,13 @@ data class CrimeSceneHotspot(
 @Composable
 fun ChapterPrologueStage(
     storyline: StorylineUiState,
+    viewModel: GameViewModel,
     onStartQuestions: () -> Unit
 ) {
     val activeCase = storyline.activeCase
     val character = storyline.selectedCharacter
+    val caseEn = EnglishTranslationProvider.getCaseTranslation(activeCase.id)
+    var showEnglishPrologue by remember(storyline.isEnglishEnabled) { mutableStateOf(storyline.isEnglishEnabled) }
 
     // Interactive Crime Scene Spotting State
     val hotspots = remember {
@@ -1028,19 +1076,82 @@ fun ChapterPrologueStage(
 
                     HorizontalDivider(color = ParchmentBorder.copy(alpha = 0.4f))
 
-                    Text(
-                        text = "Laporan Peristiwa di Tempat Kejadian:",
-                        color = InkDark,
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 13.sp
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = if (showEnglishPrologue) "Case Assignment Briefing (English):" else "Laporan Peristiwa di Tempat Kejadian:",
+                            color = InkDark,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 13.sp
+                        )
+
+                        // Translator Switch Button
+                        Surface(
+                            shape = RoundedCornerShape(4.dp),
+                            color = if (showEnglishPrologue) EmeraldGreen.copy(alpha = 0.2f) else ParchmentBorder.copy(alpha = 0.35f),
+                            border = BorderStroke(1.dp, if (showEnglishPrologue) EmeraldGreen else ParchmentBorder),
+                            modifier = Modifier
+                                .clickable {
+                                    AudioEffects.playClick()
+                                    showEnglishPrologue = !showEnglishPrologue
+                                }
+                                .testTag("prologue_translate_button")
+                        ) {
+                            Row(
+                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                Icon(Icons.Default.Translate, contentDescription = null, tint = InkBrown, modifier = Modifier.size(12.dp))
+                                Text(
+                                    text = if (showEnglishPrologue) "🇬🇧 English Active" else "🇬🇧 Terjemah EN",
+                                    color = InkDark,
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                        }
+                    }
 
                     Text(
-                        text = activeCase.storyIntro,
+                        text = if (showEnglishPrologue) (caseEn?.storyIntroEn ?: activeCase.storyIntro) else activeCase.storyIntro,
                         color = InkBrown,
                         fontSize = 11.sp,
                         lineHeight = 16.sp
                     )
+
+                    // English Cultural & Educational Notes
+                    if (showEnglishPrologue && caseEn != null) {
+                        Surface(
+                            modifier = Modifier.fillMaxWidth(),
+                            shape = RoundedCornerShape(6.dp),
+                            color = CorkBoard.copy(alpha = 0.12f),
+                            border = BorderStroke(1.dp, ParchmentBorder)
+                        ) {
+                            Column(
+                                modifier = Modifier.padding(8.dp),
+                                verticalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                Text(
+                                    text = "📖 Cultural & Language Learning Notes (for English Learners):",
+                                    color = InkDark,
+                                    fontSize = 10.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+                                caseEn.culturalNotesEn.forEach { note ->
+                                    Text(
+                                        text = "• $note",
+                                        color = InkBrown,
+                                        fontSize = 9.5.sp,
+                                        lineHeight = 13.sp
+                                    )
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
@@ -1136,6 +1247,7 @@ fun ChapterPrologueStage(
 @Composable
 fun SolveQuestionsStage(
     storyline: StorylineUiState,
+    viewModel: GameViewModel,
     onAnswer: (String, Int) -> Unit,
     onNextQuestion: () -> Unit,
     onProceedToEvidence: () -> Unit
@@ -1148,6 +1260,10 @@ fun SolveQuestionsStage(
     val answerResult = storyline.currentAnswerResult
     val hasAnsweredCurrent = question != null && storyline.answeredQuestions.containsKey(question.id)
     val selectedOptionIndex = if (question != null) storyline.answeredQuestions[question.id] else null
+
+    // English Translation & Decoding State
+    var showEnglishQuestion by remember(question?.id) { mutableStateOf(storyline.isEnglishEnabled) }
+    val questionEn = remember(question?.id) { question?.let { EnglishTranslationProvider.getQuestionTranslation(it.id) } }
 
     // Game Lifeline Power-Up States
     var eliminatedOptionIndices by remember(question?.id) { mutableStateOf(setOf<Int>()) }
@@ -1325,10 +1441,37 @@ fun SolveQuestionsStage(
                             Text(text = "Naluri", color = Color(storyline.selectedCharacter.themeColorHex), fontSize = 10.sp, fontWeight = FontWeight.Bold)
                         }
                     }
+
+                    // English Translation / Subtitle Toggle Button
+                    OutlinedButton(
+                        onClick = {
+                            AudioEffects.playClick()
+                            showEnglishQuestion = !showEnglishQuestion
+                        },
+                        modifier = Modifier.weight(1.2f).height(38.dp),
+                        shape = RoundedCornerShape(6.dp),
+                        colors = ButtonDefaults.outlinedButtonColors(
+                            containerColor = if (showEnglishQuestion) AntiqueGold.copy(alpha = 0.25f) else WoodBoard
+                        ),
+                        border = BorderStroke(1.dp, if (showEnglishQuestion) GoldBright else AntiqueGold)
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            Icon(imageVector = Icons.Default.Translate, contentDescription = null, tint = if (showEnglishQuestion) GoldBright else AntiqueGold, modifier = Modifier.size(14.dp))
+                            Text(
+                                text = if (showEnglishQuestion) "🇬🇧 Subtitle: ON" else "🇬🇧 Subtitle: OFF",
+                                color = if (showEnglishQuestion) GoldBright else ParchmentLight,
+                                fontSize = 10.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
                 }
             }
 
-            // Pop-up Hint if KBBI Opened
+            // Pop-up Hint if Opened
             if (isKbbiHintOpen) {
                 item {
                     ParchmentCard(modifier = Modifier.fillMaxWidth()) {
@@ -1339,7 +1482,7 @@ fun SolveQuestionsStage(
                         ) {
                             Icon(imageVector = Icons.Default.Lightbulb, contentDescription = null, tint = AmberWarning, modifier = Modifier.size(20.dp))
                             Text(
-                                text = "Kamus Detektif: ${question.contextReason}",
+                                text = "Petunjuk Kata: ${question.contextReason}",
                                 color = InkBrown,
                                 fontSize = 11.sp,
                                 fontStyle = FontStyle.Italic
@@ -1377,7 +1520,7 @@ fun SolveQuestionsStage(
                                 )
                             }
                             Text(
-                                text = "${storyline.selectedCharacter.name}: \"Ingatlah kaidah baku resmi dari ejaan bahasa Indonesia. Jangan terkecoh bentuk lisan populer!\"",
+                                text = "${storyline.selectedCharacter.name}: \"Perhatikan pilihan kata dan artinya dengan cermat!\"",
                                 color = ParchmentLight,
                                 fontSize = 11.sp,
                                 fontStyle = FontStyle.Italic
@@ -1387,7 +1530,7 @@ fun SolveQuestionsStage(
                 }
             }
 
-            // Challenge Parchment Card
+            // Challenge Parchment Card with English Decoding
             item {
                 ParchmentCard(modifier = Modifier.fillMaxWidth()) {
                     Column(
@@ -1420,12 +1563,54 @@ fun SolveQuestionsStage(
                             )
                         }
 
-                        Text(
-                            text = question.prompt,
-                            color = InkDark,
-                            fontSize = 13.sp,
-                            fontWeight = FontWeight.Bold
-                        )
+                        // Prompt with English Translation Subtitle (Hanya memberikan arti kata saja)
+                        Column(
+                            modifier = Modifier.fillMaxWidth(),
+                            verticalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            Text(
+                                text = question.prompt,
+                                color = InkDark,
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+
+                            // Subtitle: hanya memberikan arti kata saja
+                            if (showEnglishQuestion && questionEn != null && questionEn.targetWordMeaningEn.isNotBlank()) {
+                                Surface(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    shape = RoundedCornerShape(6.dp),
+                                    color = AntiqueGold.copy(alpha = 0.15f),
+                                    border = BorderStroke(1.dp, AntiqueGold.copy(alpha = 0.45f))
+                                ) {
+                                    Row(
+                                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 5.dp),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                                    ) {
+                                        Surface(
+                                            shape = RoundedCornerShape(3.dp),
+                                            color = AntiqueGold
+                                        ) {
+                                            Text(
+                                                text = "SUBTITLE",
+                                                color = InkDark,
+                                                fontSize = 9.sp,
+                                                fontWeight = FontWeight.Black,
+                                                modifier = Modifier.padding(horizontal = 4.dp, vertical = 1.dp)
+                                            )
+                                        }
+                                        Text(
+                                            text = "Arti Kata: \"${questionEn.targetWordMeaningEn}\"",
+                                            color = InkDark,
+                                            fontSize = 11.5.sp,
+                                            fontWeight = FontWeight.SemiBold,
+                                            fontStyle = FontStyle.Italic
+                                        )
+                                    }
+                                }
+                            }
+                        }
 
                         Surface(
                             modifier = Modifier.fillMaxWidth(),
@@ -1433,25 +1618,42 @@ fun SolveQuestionsStage(
                             color = WoodDark.copy(alpha = 0.08f),
                             border = BorderStroke(1.dp, ParchmentBorder)
                         ) {
-                            Text(
-                                text = question.targetWord,
-                                color = InkDark,
-                                fontSize = 20.sp,
-                                fontWeight = FontWeight.Black,
-                                textAlign = TextAlign.Center,
-                                modifier = Modifier.padding(vertical = 10.dp)
-                            )
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(vertical = 10.dp, horizontal = 12.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.spacedBy(2.dp)
+                            ) {
+                                Text(
+                                    text = question.targetWord,
+                                    color = InkDark,
+                                    fontSize = 22.sp,
+                                    fontWeight = FontWeight.Black,
+                                    textAlign = TextAlign.Center
+                                )
+                                if (showEnglishQuestion && questionEn != null && questionEn.targetWordMeaningEn.isNotBlank()) {
+                                    Text(
+                                        text = "Arti Kata: \"${questionEn.targetWordMeaningEn}\"",
+                                        color = AntiqueGold,
+                                        fontSize = 12.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        fontStyle = FontStyle.Italic
+                                    )
+                                }
+                            }
                         }
                     }
                 }
             }
 
-            // Options List
+            // Options List with English Subtitles
             items(question.options.mapIndexed { idx, opt -> idx to opt }) { (idx, optionText) ->
                 val isEliminated = eliminatedOptionIndices.contains(idx)
                 val isSelected = selectedOptionIndex == idx
                 val isAnswered = hasAnsweredCurrent
                 val isCorrectAnswer = idx == question.correctIndex
+                val optionEn = questionEn?.optionsEn?.getOrNull(idx)
 
                 val buttonColor = when {
                     isEliminated -> WoodDark.copy(alpha = 0.4f)
@@ -1468,7 +1670,7 @@ fun SolveQuestionsStage(
                     isSelected && isCorrectAnswer -> Color.White
                     isSelected && !isCorrectAnswer -> Color.White
                     isCorrectAnswer -> Color.White
-                    else -> ParchmentLight.copy(alpha = 0.6f)
+                    else -> ParchmentLight.copy(alpha = 0.7f)
                 }
 
                 Button(
@@ -1480,7 +1682,7 @@ fun SolveQuestionsStage(
                     },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(48.dp)
+                        .heightIn(min = 52.dp)
                         .testTag("option_${question.id}_$idx"),
                     shape = RoundedCornerShape(8.dp),
                     colors = ButtonDefaults.buttonColors(containerColor = buttonColor),
@@ -1488,19 +1690,36 @@ fun SolveQuestionsStage(
                         1.dp,
                         if (isSelected) GoldBright else CardBorder
                     ),
-                    enabled = !hasAnsweredCurrent && !isEliminated
+                    enabled = !hasAnsweredCurrent && !isEliminated,
+                    contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp)
                 ) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(
-                            text = if (isEliminated) "-- Tersingkir --" else "${('A'.code + idx).toChar()}. $optionText",
-                            color = textColor,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 13.sp
-                        )
+                        Column(
+                            modifier = Modifier.weight(1f),
+                            verticalArrangement = Arrangement.spacedBy(1.dp)
+                        ) {
+                            Text(
+                                text = if (isEliminated)
+                                    "-- Tersingkir --"
+                                else
+                                    "${('A'.code + idx).toChar()}. $optionText",
+                                color = textColor,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 13.sp
+                            )
+                            if (showEnglishQuestion && optionEn != null && !isEliminated) {
+                                Text(
+                                    text = "↳ Arti: $optionEn",
+                                    color = if (isSelected) Color.White.copy(alpha = 0.9f) else AntiqueGold.copy(alpha = 0.95f),
+                                    fontSize = 10.sp,
+                                    fontStyle = FontStyle.Italic
+                                )
+                            }
+                        }
 
                         if (isAnswered) {
                             if (idx == question.correctIndex) {
@@ -1567,6 +1786,16 @@ fun SolveQuestionsStage(
                                 fontSize = 12.sp,
                                 lineHeight = 16.sp
                             )
+
+                            if (showEnglishQuestion && questionEn != null && questionEn.targetWordMeaningEn.isNotBlank()) {
+                                Text(
+                                    text = "Arti Kata: \"${questionEn.targetWordMeaningEn}\"",
+                                    color = AntiqueGold,
+                                    fontSize = 11.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontStyle = FontStyle.Italic
+                                )
+                            }
 
                             if (answerResult.unlockedClueTitle != null) {
                                 Surface(
@@ -1720,6 +1949,7 @@ fun EvidenceAndInterrogationStage(
     val unlockedClues = activeCase.clues.filter { storyline.unlockedClueIds.contains(it.id) }
     val suspects = activeCase.suspects
     val selectedSuspect = storyline.selectedSuspectForInterrogation
+    val difficulty = viewModel.uiState.collectAsState().value.difficulty
 
     var activeTab by remember { mutableStateOf(0) } // 0 = Saksi, 1 = Petunjuk
     var interrogationActionMessage by remember { mutableStateOf<String?>(null) }
@@ -1816,7 +2046,11 @@ fun EvidenceAndInterrogationStage(
                         .clickable {
                             AudioEffects.playClick()
                             viewModel.selectSuspectForStoryInterrogation(suspect)
-                            suspectNervousness = if (suspect.isCulprit) 75 else 25
+                            suspectNervousness = when (difficulty) {
+                                GameDifficulty.SANTAI -> if (suspect.isCulprit) 85 else 20
+                                GameDifficulty.SEDANG -> if (suspect.isCulprit) 70 else 25
+                                GameDifficulty.SANGAT_SULIT -> 50 // SETARA 50% di mode Sangat Sulit!
+                            }
                             interrogationActionMessage = null
                         }
                         .testTag("story_suspect_${suspect.id}"),
@@ -1951,9 +2185,15 @@ fun EvidenceAndInterrogationStage(
                                     onClick = {
                                         AudioEffects.playClick()
                                         if (suspect.isCulprit) {
-                                            suspectNervousness = 95
-                                            interrogationActionMessage = "Saksi berkeringat dingin dan berdalih ragu-ragu! Alibinya goyah saat ditanyakan rincian jam kejadian!"
-                                            AudioEffects.playWrong()
+                                            if (difficulty == GameDifficulty.SANGAT_SULIT) {
+                                                suspectNervousness = 55
+                                                interrogationActionMessage = "[MODE SANGAT SULIT] Saksi bersilat kata secara lihai! Pertanyaan alibi jam biasa tidak cukup meruntuhkan keterangannya (gugup 55%). Pemain wajib berpikir kritis memilih uji bukti fisik presisi!"
+                                                AudioEffects.playWrong()
+                                            } else {
+                                                suspectNervousness = 90
+                                                interrogationActionMessage = "Saksi berkeringat dingin dan berdalih ragu-ragu! Alibinya goyah saat ditanyakan rincian jam kejadian!"
+                                                AudioEffects.playWrong()
+                                            }
                                         } else {
                                             suspectNervousness = 15
                                             interrogationActionMessage = "Saksi menjawab dengan sangat tenang dan menunjukkan jadwal kegiatan bersama orang banyak."
@@ -1973,8 +2213,8 @@ fun EvidenceAndInterrogationStage(
                                         AudioEffects.playClick()
                                         if (suspect.isCulprit) {
                                             suspectNervousness = 100
-                                            interrogationActionMessage = "Bercak dupa gaharu dan dokumen kapal jelas bertentangan dengan sanggahannya! Bukti tak terbantahkan!"
-                                            AudioEffects.playWrong()
+                                            interrogationActionMessage = "[DEDUKSI PRESISI CRITICAL!] Bukti fisik yang kamu sodorkan bertentangan mutlak dengan sanggahannya! Saksi berkeringat dingin dan pengukur kegugupan melonjak ke 100%!"
+                                            AudioEffects.playSkakmat()
                                         } else {
                                             suspectNervousness = 10
                                             interrogationActionMessage = "Bukti fisik cocok dengan pengakuannya. Tidak ada kecocokan jejak mencurigakan."
@@ -2344,6 +2584,18 @@ fun FinalConfrontationStage(
                                     fontStyle = FontStyle.Italic,
                                     lineHeight = 18.sp
                                 )
+
+                                val suspectEn = selectedSuspect?.let { EnglishTranslationProvider.getSuspectTranslation(it.id) }
+                                if (storyline.isEnglishEnabled && suspectEn != null && suspectEn.confessionEn.isNotBlank()) {
+                                    Text(
+                                        text = "🇬🇧 \"${suspectEn.confessionEn}\"",
+                                        color = InkBrown,
+                                        fontSize = 12.sp,
+                                        fontStyle = FontStyle.Italic,
+                                        lineHeight = 16.sp
+                                    )
+                                }
+
                                 Text(
                                     text = "- Berita Acara Pemeriksaan Sidang Adat",
                                     color = InkBrown,

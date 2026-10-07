@@ -42,11 +42,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.example.data.EnglishTranslationProvider
 import com.example.model.ChallengeQuestion
 import com.example.ui.theme.AntiqueGold
 import com.example.ui.theme.CardBorder
@@ -70,6 +72,7 @@ fun ChallengeModal(
 ) {
     var selectedOptionIndex by remember { mutableIntStateOf(-1) }
     val letters = listOf("A", "B", "C", "D")
+    val questionEn = remember(challenge.id) { EnglishTranslationProvider.getQuestionTranslation(challenge.id) }
 
     Dialog(onDismissRequest = onDismiss) {
         ParchmentCard(
@@ -83,7 +86,7 @@ fun ChallengeModal(
                     .fillMaxWidth()
                     .padding(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(12.dp)
+                verticalArrangement = Arrangement.spacedBy(10.dp)
             ) {
                 // Top Header
                 Row(
@@ -119,16 +122,39 @@ fun ChallengeModal(
                     }
                 }
 
-                // Prompt & Context
-                Text(
-                    text = challenge.prompt,
-                    color = InkBrown,
-                    fontSize = 13.sp,
-                    fontWeight = FontWeight.SemiBold,
-                    textAlign = TextAlign.Center
-                )
+                // Prompt & English Subtitle
+                Column(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Text(
+                        text = challenge.prompt,
+                        color = InkBrown,
+                        fontSize = 13.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        textAlign = TextAlign.Center
+                    )
+                    if (questionEn != null && questionEn.targetWordMeaningEn.isNotBlank()) {
+                        Surface(
+                            color = AntiqueGold.copy(alpha = 0.15f),
+                            shape = RoundedCornerShape(4.dp),
+                            modifier = Modifier.fillMaxWidth().padding(horizontal = 2.dp)
+                        ) {
+                            Text(
+                                text = "SUBTITLE: Arti Kata \"${questionEn.targetWordMeaningEn}\"",
+                                color = InkDark,
+                                fontSize = 10.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                fontStyle = FontStyle.Italic,
+                                textAlign = TextAlign.Center,
+                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 3.dp)
+                            )
+                        }
+                    }
+                }
 
-                // Target Word
+                // Target Word & Meaning
                 Surface(
                     modifier = Modifier.fillMaxWidth(),
                     color = Color.White.copy(alpha = 0.5f),
@@ -136,8 +162,9 @@ fun ChallengeModal(
                     border = BorderStroke(1.dp, ParchmentBorder)
                 ) {
                     Column(
-                        modifier = Modifier.padding(12.dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        modifier = Modifier.padding(10.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(2.dp)
                     ) {
                         Text(
                             text = challenge.targetWord,
@@ -146,7 +173,16 @@ fun ChallengeModal(
                             fontSize = 22.sp,
                             textAlign = TextAlign.Center
                         )
-                        Spacer(modifier = Modifier.height(2.dp))
+                        if (questionEn != null && questionEn.targetWordMeaningEn.isNotBlank()) {
+                            Text(
+                                text = "Arti Kata: \"${questionEn.targetWordMeaningEn}\"",
+                                color = AntiqueGold,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 11.sp,
+                                fontStyle = FontStyle.Italic,
+                                textAlign = TextAlign.Center
+                            )
+                        }
                         Text(
                             text = challenge.contextReason,
                             color = InkMuted,
@@ -157,7 +193,7 @@ fun ChallengeModal(
                     }
                 }
 
-                // Options (Grid of 2x2 or 4 rows)
+                // Options (Grid of 2x2 or 4 rows) with English Subtitles
                 Column(
                     modifier = Modifier.fillMaxWidth(),
                     verticalArrangement = Arrangement.spacedBy(8.dp)
@@ -173,6 +209,7 @@ fun ChallengeModal(
                                 val isAnswered = answerResult != null
                                 val isCorrectOption = isAnswered && challenge.correctIndex == index
                                 val isWrongSelection = isAnswered && answerResult?.selectedIndex == index && !answerResult.isCorrect
+                                val optEn = questionEn?.optionsEn?.getOrNull(index)
 
                                 val optionBorderColor = when {
                                     isCorrectOption -> EmeraldGreen
@@ -200,7 +237,7 @@ fun ChallengeModal(
                                     border = BorderStroke(1.5.dp, optionBorderColor)
                                 ) {
                                     Row(
-                                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 10.dp),
+                                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp),
                                         verticalAlignment = Alignment.CenterVertically,
                                         horizontalArrangement = Arrangement.spacedBy(6.dp)
                                     ) {
@@ -210,13 +247,22 @@ fun ChallengeModal(
                                             fontWeight = FontWeight.Bold,
                                             fontSize = 13.sp
                                         )
-                                        Text(
-                                            text = optionText,
-                                            color = InkDark,
-                                            fontWeight = FontWeight.SemiBold,
-                                            fontSize = 13.sp,
-                                            modifier = Modifier.weight(1f)
-                                        )
+                                        Column(modifier = Modifier.weight(1f)) {
+                                            Text(
+                                                text = optionText,
+                                                color = InkDark,
+                                                fontWeight = FontWeight.SemiBold,
+                                                fontSize = 12.sp
+                                            )
+                                            if (optEn != null) {
+                                                Text(
+                                                    text = "↳ Arti: $optEn",
+                                                    color = InkBrown.copy(alpha = 0.85f),
+                                                    fontSize = 9.sp,
+                                                    fontStyle = FontStyle.Italic
+                                                )
+                                            }
+                                        }
 
                                         if (isCorrectOption) {
                                             Icon(
@@ -270,6 +316,16 @@ fun ChallengeModal(
                                     fontSize = 11.sp,
                                     lineHeight = 15.sp
                                 )
+
+                                if (questionEn != null && questionEn.targetWordMeaningEn.isNotBlank()) {
+                                    Text(
+                                        text = "Arti Kata: \"${questionEn.targetWordMeaningEn}\"",
+                                        color = InkBrown,
+                                        fontSize = 10.sp,
+                                        fontWeight = FontWeight.SemiBold,
+                                        fontStyle = FontStyle.Italic
+                                    )
+                                }
 
                                 if (answerResult.isCorrect && answerResult.unlockedClueTitle != null) {
                                     Text(

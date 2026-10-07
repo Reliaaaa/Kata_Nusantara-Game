@@ -3,6 +3,7 @@ package com.example.ui.screens
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,11 +19,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Notifications
+import androidx.compose.material.icons.filled.MusicNote
 import androidx.compose.material.icons.filled.Refresh
-import androidx.compose.material.icons.filled.VolumeUp
+import androidx.compose.material.icons.filled.Speed
 import androidx.compose.material.icons.filled.Vibration
+import androidx.compose.material.icons.filled.VolumeUp
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -31,11 +32,14 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Slider
+import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,8 +51,9 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.data.local.AudioEffects
+import com.example.model.GameDifficulty
 import com.example.ui.theme.AntiqueGold
-import com.example.ui.theme.CardBackground
 import com.example.ui.theme.CardBorder
 import com.example.ui.theme.CorkBoard
 import com.example.ui.theme.CrimsonRed
@@ -57,15 +62,18 @@ import com.example.ui.theme.InkDark
 import com.example.ui.theme.ParchmentLight
 import com.example.ui.theme.WoodBoard
 import com.example.ui.theme.WoodDark
+import com.example.viewmodel.GameViewModel
 
 @Composable
 fun SettingsScreen(
+    viewModel: GameViewModel,
     onBack: () -> Unit,
     onResetProgress: () -> Unit
 ) {
     BackHandler { onBack() }
 
-    var soundEnabled by remember { mutableStateOf(true) }
+    val uiState by viewModel.uiState.collectAsState()
+    var soundEnabled by remember { mutableStateOf(AudioEffects.isSoundEnabled) }
     var hapticEnabled by remember { mutableStateOf(true) }
     var showResetDialog by remember { mutableStateOf(false) }
 
@@ -88,7 +96,10 @@ fun SettingsScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 IconButton(
-                    onClick = onBack,
+                    onClick = {
+                        AudioEffects.playClick()
+                        onBack()
+                    },
                     modifier = Modifier
                         .size(40.dp)
                         .testTag("settings_back_button")
@@ -108,7 +119,7 @@ fun SettingsScreen(
                     border = BorderStroke(1.5.dp, AntiqueGold)
                 ) {
                     Text(
-                        text = "PENGATURAN",
+                        text = "PENGATURAN DETEKTIF",
                         color = GoldBright,
                         fontWeight = FontWeight.Black,
                         fontSize = 15.sp,
@@ -121,7 +132,102 @@ fun SettingsScreen(
                 Box(modifier = Modifier.size(40.dp))
             }
 
-            // Audio & Haptics Card
+            // 1. Difficulty Level Card
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(10.dp),
+                colors = CardDefaults.cardColors(containerColor = WoodBoard),
+                border = BorderStroke(1.dp, AntiqueGold)
+            ) {
+                Column(
+                    modifier = Modifier.padding(14.dp),
+                    verticalArrangement = Arrangement.spacedBy(10.dp)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        Icon(imageVector = Icons.Default.Speed, contentDescription = null, tint = GoldBright)
+                        Text(
+                            text = "TINGKAT KESULITAN PERMAINAN",
+                            color = GoldBright,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 12.sp,
+                            letterSpacing = 1.sp
+                        )
+                    }
+
+                    Text(
+                        text = "Pilih tingkat tantangan investigasi. Di mode Sangat Sulit, kegugupan saksi di persidangan berada pada posisi setara (50%) meskipun seluruh petunjuk telah terkumpul!",
+                        color = ParchmentLight.copy(alpha = 0.8f),
+                        fontSize = 11.sp,
+                        lineHeight = 15.sp
+                    )
+
+                    GameDifficulty.entries.forEach { diff ->
+                        val isSelected = uiState.difficulty == diff
+
+                        Surface(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable {
+                                    AudioEffects.playClick()
+                                    viewModel.setDifficulty(diff)
+                                },
+                            shape = RoundedCornerShape(8.dp),
+                            color = if (isSelected) Color(diff.colorHex).copy(alpha = 0.25f) else CorkBoard,
+                            border = BorderStroke(
+                                if (isSelected) 2.dp else 1.dp,
+                                if (isSelected) Color(diff.colorHex) else CardBorder
+                            )
+                        ) {
+                            Column(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(10.dp),
+                                verticalArrangement = Arrangement.spacedBy(4.dp)
+                            ) {
+                                Row(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    verticalAlignment = Alignment.CenterVertically
+                                ) {
+                                    Text(
+                                        text = diff.title,
+                                        color = if (isSelected) Color(diff.colorHex) else ParchmentLight,
+                                        fontWeight = FontWeight.Bold,
+                                        fontSize = 13.sp
+                                    )
+
+                                    Surface(
+                                        shape = RoundedCornerShape(4.dp),
+                                        color = Color(diff.colorHex)
+                                    ) {
+                                        Text(
+                                            text = "${diff.badge} (+${((diff.xpMultiplier - 1.0f) * 100).toInt()}% XP)",
+                                            color = InkDark,
+                                            fontSize = 9.sp,
+                                            fontWeight = FontWeight.Black,
+                                            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                        )
+                                    }
+                                }
+
+                                Text(
+                                    text = diff.description,
+                                    color = ParchmentLight.copy(alpha = 0.85f),
+                                    fontSize = 10.5.sp,
+                                    lineHeight = 14.sp
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(14.dp))
+
+            // 2. Background Music & Sound Controls Card
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(10.dp),
@@ -133,13 +239,68 @@ fun SettingsScreen(
                     verticalArrangement = Arrangement.spacedBy(14.dp)
                 ) {
                     Text(
-                        text = "SUARA & RESPON GETAR",
+                        text = "MUSIK BACKSOUND & SUARA",
                         color = AntiqueGold,
                         fontWeight = FontWeight.Bold,
                         fontSize = 12.sp,
                         letterSpacing = 1.sp
                     )
 
+                    // BGM Switch
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(8.dp)
+                        ) {
+                            Icon(imageVector = Icons.Default.MusicNote, contentDescription = null, tint = AntiqueGold)
+                            Column {
+                                Text(text = "Musik Backsound Gamelan", color = ParchmentLight, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
+                                Text(text = "Alunan gamelan misteri detektif Nusantara", color = ParchmentLight.copy(alpha = 0.6f), fontSize = 11.sp)
+                            }
+                        }
+
+                        Switch(
+                            checked = uiState.isBgmEnabled,
+                            onCheckedChange = {
+                                AudioEffects.playClick()
+                                viewModel.toggleBgm(it)
+                            },
+                            colors = SwitchDefaults.colors(
+                                checkedThumbColor = AntiqueGold,
+                                checkedTrackColor = CorkBoard,
+                                uncheckedThumbColor = Color.Gray,
+                                uncheckedTrackColor = WoodDark
+                            )
+                        )
+                    }
+
+                    if (uiState.isBgmEnabled) {
+                        Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(text = "Volume Musik Backsound:", color = ParchmentLight.copy(alpha = 0.8f), fontSize = 11.sp)
+                                Text(text = "${(uiState.bgmVolume * 100).toInt()}%", color = GoldBright, fontSize = 11.sp, fontWeight = FontWeight.Bold)
+                            }
+                            Slider(
+                                value = uiState.bgmVolume,
+                                onValueChange = { viewModel.setBgmVolume(it) },
+                                valueRange = 0f..1f,
+                                colors = SliderDefaults.colors(
+                                    thumbColor = GoldBright,
+                                    activeTrackColor = AntiqueGold,
+                                    inactiveTrackColor = CorkBoard
+                                )
+                            )
+                        }
+                    }
+
+                    // Sound Effects Switch
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,
@@ -151,14 +312,17 @@ fun SettingsScreen(
                         ) {
                             Icon(imageVector = Icons.Default.VolumeUp, contentDescription = null, tint = AntiqueGold)
                             Column {
-                                Text(text = "Efek Suara Investigasi", color = ParchmentLight, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
-                                Text(text = "Suara teka-teki, kertas, dan stempel", color = ParchmentLight.copy(alpha = 0.6f), fontSize = 11.sp)
+                                Text(text = "Efek Suara Teka-Teki", color = ParchmentLight, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
+                                Text(text = "Suara kertas, ketuk palu, & stempel", color = ParchmentLight.copy(alpha = 0.6f), fontSize = 11.sp)
                             }
                         }
 
                         Switch(
                             checked = soundEnabled,
-                            onCheckedChange = { soundEnabled = it },
+                            onCheckedChange = {
+                                soundEnabled = it
+                                AudioEffects.isSoundEnabled = it
+                            },
                             colors = SwitchDefaults.colors(
                                 checkedThumbColor = AntiqueGold,
                                 checkedTrackColor = CorkBoard,
@@ -168,6 +332,7 @@ fun SettingsScreen(
                         )
                     }
 
+                    // Haptics Switch
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically,
@@ -180,7 +345,7 @@ fun SettingsScreen(
                             Icon(imageVector = Icons.Default.Vibration, contentDescription = null, tint = AntiqueGold)
                             Column {
                                 Text(text = "Umpan Balik Getaran", color = ParchmentLight, fontSize = 13.sp, fontWeight = FontWeight.SemiBold)
-                                Text(text = "Getar saat memilih jawaban & mencoret alibi", color = ParchmentLight.copy(alpha = 0.6f), fontSize = 11.sp)
+                                Text(text = "Getar saat memilih jawaban & interogasi saksi", color = ParchmentLight.copy(alpha = 0.6f), fontSize = 11.sp)
                             }
                         }
 
@@ -200,7 +365,7 @@ fun SettingsScreen(
 
             Spacer(modifier = Modifier.height(14.dp))
 
-            // About Project Card
+            // 3. About Project Card
             Card(
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(10.dp),
@@ -227,7 +392,7 @@ fun SettingsScreen(
                     )
 
                     Text(
-                        text = "Referensi Materi: KBBI (Kamus Besar Bahasa Indonesia) & Ragam Budaya Nusantara.",
+                        text = "Referensi Materi: Tata Bahasa Indonesia & Ragam Budaya Nusantara.",
                         color = ParchmentLight.copy(alpha = 0.7f),
                         fontSize = 11.sp
                     )

@@ -150,6 +150,9 @@ data class GameUiState(
     val music: MusicUiState = MusicUiState(),
     val video: VideoUiState = VideoUiState(),
     val cloud: CloudAuthUiState = CloudAuthUiState(),
+    val difficulty: com.example.model.GameDifficulty = com.example.model.GameDifficulty.SEDANG,
+    val isBgmEnabled: Boolean = true,
+    val bgmVolume: Float = 0.5f,
     val toastMessage: String? = null
 )
 
@@ -407,9 +410,29 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
         }
     }
 
+    fun setDifficulty(difficulty: com.example.model.GameDifficulty) {
+        _uiState.update { current ->
+            current.copy(
+                difficulty = difficulty,
+                toastMessage = "Tingkat Kesulitan: ${difficulty.title}!"
+            )
+        }
+    }
+
+    fun toggleBgm(enabled: Boolean) {
+        _uiState.update { it.copy(isBgmEnabled = enabled) }
+        com.example.data.local.AudioEffects.toggleBgm(enabled)
+    }
+
+    fun setBgmVolume(volume: Float) {
+        _uiState.update { it.copy(bgmVolume = volume) }
+        com.example.data.local.AudioEffects.bgmVolume = volume
+    }
+
     fun submitStoryConfrontation() {
         val state = _uiState.value.storyline
         val accusedId = state.accusedSuspectId
+        val diff = _uiState.value.difficulty
 
         if (accusedId == null) {
             _uiState.update { it.copy(storyline = it.storyline.copy(confrontationFeedback = "Pilih salah satu tersangka terlebih dahulu!")) }
@@ -418,14 +441,28 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
 
         val suspect = state.activeCase.suspects.find { it.id == accusedId } ?: return
 
+        // In SANGAT_SULIT mode: require thorough interrogation before accusing
+        if (diff == com.example.model.GameDifficulty.SANGAT_SULIT && !state.interrogatedSuspectIds.contains(suspect.id)) {
+            com.example.data.local.AudioEffects.playWrong()
+            _uiState.update { current ->
+                current.copy(
+                    storyline = current.storyline.copy(
+                        confrontationFeedback = "MODE SANGAT SULIT: Saksi ${suspect.name} belum diuji interogasi! Sidang menolak tuduhan tanpa uji bukti kritis terlebih dahulu."
+                    )
+                )
+            }
+            return
+        }
+
         if (suspect.isCulprit) {
             com.example.data.local.AudioEffects.playSkakmat()
+            val scoreBonus = (500 * diff.xpMultiplier).toInt()
             _uiState.update { current ->
                 current.copy(
                     storyline = current.storyline.copy(
                         isConfrontationSuccess = true,
-                        confrontationFeedback = "DEDUKSI TEPAT! ${suspect.name} terbukti bersalah dan mengakui seluruh perbuatannya!",
-                        chapterScore = current.storyline.chapterScore + 500
+                        confrontationFeedback = "DEDUKSI TEPAT (${diff.title.uppercase()})! ${suspect.name} terbukti bersalah dan mengakui seluruh perbuatannya!",
+                        chapterScore = current.storyline.chapterScore + scoreBonus
                     )
                 )
             }
