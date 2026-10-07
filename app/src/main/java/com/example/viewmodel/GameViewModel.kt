@@ -1179,5 +1179,6 @@ class GameViewModel(application: Application) : AndroidViewModel(application) {
     override fun onCleared() {
         super.onCleared()
         stopAudio()
+        com.example.data.local.AudioEffects.stopBgm()
     }
 }

@@ -89,6 +89,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -319,21 +320,21 @@ fun StorylineTopBar(
         shadowElevation = 4.dp,
         border = BorderStroke(1.dp, CardBorder)
     ) {
-        Row(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 8.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+                .padding(horizontal = 8.dp, vertical = 6.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
+            // Row 1: Back Button + Chapter Title + Difficulty Badge + Score Badge
             Row(
+                modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                modifier = Modifier.weight(1f, fill = false)
+                horizontalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 IconButton(
                     onClick = onBack,
-                    modifier = Modifier.size(34.dp).testTag("storyline_back_button")
+                    modifier = Modifier.size(32.dp).testTag("storyline_back_button")
                 ) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
@@ -343,116 +344,29 @@ fun StorylineTopBar(
                     )
                 }
 
-                Column {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(4.dp)
-                    ) {
-                        Text(
-                            text = "BAB $chapterNumber: $chapterTitle",
-                            color = GoldBright,
-                            fontSize = 11.5.sp,
-                            fontWeight = FontWeight.Bold,
-                            maxLines = 1
-                        )
-                        Surface(
-                            shape = RoundedCornerShape(3.dp),
-                            color = Color(difficulty.colorHex)
-                        ) {
-                            Text(
-                                text = difficulty.badge,
-                                color = InkDark,
-                                fontSize = 8.sp,
-                                fontWeight = FontWeight.Black,
-                                modifier = Modifier.padding(horizontal = 4.dp, vertical = 1.dp)
-                            )
-                        }
-                    }
-                    Text(
-                        text = if (isEnglishEnabled) "Stage ${stage.stageNumber}/6: ${stage.title}" else "Tahap ${stage.stageNumber}/6: ${stage.title}",
-                        color = ParchmentLight.copy(alpha = 0.8f),
-                        fontSize = 9.5.sp
-                    )
-                }
-            }
+                Text(
+                    text = "BAB $chapterNumber: $chapterTitle",
+                    color = GoldBright,
+                    fontSize = 12.5.sp,
+                    fontWeight = FontWeight.Black,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.weight(1f)
+                )
 
-            // Stats: Language Toggle & Sound & BGM & Hearts & Score
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp)
-            ) {
-                // Language Switcher (ID / EN)
                 Surface(
-                    shape = RoundedCornerShape(6.dp),
-                    color = if (isEnglishEnabled) EmeraldGreen.copy(alpha = 0.25f) else CorkBoard,
-                    border = BorderStroke(1.dp, if (isEnglishEnabled) EmeraldGreen else AntiqueGold.copy(alpha = 0.5f)),
-                    modifier = Modifier
-                        .clickable { onToggleEnglish() }
-                        .testTag("storyline_language_toggle")
+                    shape = RoundedCornerShape(4.dp),
+                    color = Color(difficulty.colorHex)
                 ) {
-                    Row(
-                        modifier = Modifier.padding(horizontal = 5.dp, vertical = 3.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(2.dp)
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Translate,
-                            contentDescription = "Terjemah Bahasa",
-                            tint = if (isEnglishEnabled) EmeraldGreen else AntiqueGold,
-                            modifier = Modifier.size(12.dp)
-                        )
-                        Text(
-                            text = if (isEnglishEnabled) "🇬🇧 EN" else "🇮🇩 ID",
-                            color = if (isEnglishEnabled) EmeraldGreen else ParchmentLight,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 9.5.sp
-                        )
-                    }
-                }
-
-                // BGM Music Toggle
-                IconButton(
-                    onClick = onToggleBgm,
-                    modifier = Modifier.size(28.dp).testTag("storyline_bgm_toggle")
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.MusicNote,
-                        contentDescription = "Musik Backsound",
-                        tint = if (isBgmEnabled) GoldBright else Color.Gray,
-                        modifier = Modifier.size(15.dp)
+                    Text(
+                        text = difficulty.badge,
+                        color = InkDark,
+                        fontSize = 8.5.sp,
+                        fontWeight = FontWeight.Black,
+                        modifier = Modifier.padding(horizontal = 5.dp, vertical = 2.dp)
                     )
                 }
 
-                // Sound Effects toggle
-                IconButton(
-                    onClick = onToggleSound,
-                    modifier = Modifier.size(28.dp).testTag("storyline_sound_toggle")
-                ) {
-                    Icon(
-                        imageVector = if (soundEnabled) Icons.Default.VolumeUp else Icons.Default.VolumeOff,
-                        contentDescription = "Audio Suara Game",
-                        tint = if (soundEnabled) AntiqueGold else Color.Gray,
-                        modifier = Modifier.size(15.dp)
-                    )
-                }
-
-                // Hearts
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(1.dp)
-                ) {
-                    repeat(maxHearts) { index ->
-                        val isAlive = index < heartsRemaining
-                        Icon(
-                            imageVector = Icons.Default.Favorite,
-                            contentDescription = "Hati Kesempatan",
-                            tint = if (isAlive) CrimsonRed else Color.Gray.copy(alpha = 0.4f),
-                            modifier = Modifier.size(14.dp)
-                        )
-                    }
-                }
-
-                // Score
                 Surface(
                     shape = RoundedCornerShape(6.dp),
                     color = CorkBoard,
@@ -463,8 +377,98 @@ fun StorylineTopBar(
                         color = AntiqueGold,
                         fontWeight = FontWeight.Bold,
                         fontSize = 10.sp,
-                        modifier = Modifier.padding(horizontal = 5.dp, vertical = 2.dp)
+                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
                     )
+                }
+            }
+
+            // Row 2: Stage Progress Subtitle + Action Controls (Language, BGM, Sound, Hearts)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = if (isEnglishEnabled) "Stage ${stage.stageNumber}/6: ${stage.title}" else "Tahap ${stage.stageNumber}/6: ${stage.title}",
+                    color = ParchmentLight.copy(alpha = 0.85f),
+                    fontSize = 10.5.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    // Language Switcher (ID / EN)
+                    Surface(
+                        shape = RoundedCornerShape(6.dp),
+                        color = if (isEnglishEnabled) EmeraldGreen.copy(alpha = 0.25f) else CorkBoard,
+                        border = BorderStroke(1.dp, if (isEnglishEnabled) EmeraldGreen else AntiqueGold.copy(alpha = 0.5f)),
+                        modifier = Modifier
+                            .clickable { onToggleEnglish() }
+                            .testTag("storyline_language_toggle")
+                    ) {
+                        Row(
+                            modifier = Modifier.padding(horizontal = 5.dp, vertical = 2.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(2.dp)
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Translate,
+                                contentDescription = "Terjemah Bahasa",
+                                tint = if (isEnglishEnabled) EmeraldGreen else AntiqueGold,
+                                modifier = Modifier.size(11.dp)
+                            )
+                            Text(
+                                text = if (isEnglishEnabled) "🇬🇧 EN" else "🇮🇩 ID",
+                                color = if (isEnglishEnabled) EmeraldGreen else ParchmentLight,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 9.5.sp
+                            )
+                        }
+                    }
+
+                    // BGM Music Toggle
+                    IconButton(
+                        onClick = onToggleBgm,
+                        modifier = Modifier.size(26.dp).testTag("storyline_bgm_toggle")
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.MusicNote,
+                            contentDescription = "Musik Backsound",
+                            tint = if (isBgmEnabled) GoldBright else Color.Gray,
+                            modifier = Modifier.size(15.dp)
+                        )
+                    }
+
+                    // Sound Effects toggle
+                    IconButton(
+                        onClick = onToggleSound,
+                        modifier = Modifier.size(26.dp).testTag("storyline_sound_toggle")
+                    ) {
+                        Icon(
+                            imageVector = if (soundEnabled) Icons.Default.VolumeUp else Icons.Default.VolumeOff,
+                            contentDescription = "Audio Suara Game",
+                            tint = if (soundEnabled) AntiqueGold else Color.Gray,
+                            modifier = Modifier.size(15.dp)
+                        )
+                    }
+
+                    // Hearts
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(1.dp)
+                    ) {
+                        repeat(maxHearts) { index ->
+                            val isAlive = index < heartsRemaining
+                            Icon(
+                                imageVector = Icons.Default.Favorite,
+                                contentDescription = "Hati Kesempatan",
+                                tint = if (isAlive) CrimsonRed else Color.Gray.copy(alpha = 0.4f),
+                                modifier = Modifier.size(13.dp)
+                            )
+                        }
+                    }
                 }
             }
         }

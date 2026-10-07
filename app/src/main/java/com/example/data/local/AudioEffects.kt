@@ -63,6 +63,29 @@ object AudioEffects {
         } catch (_: Exception) {}
     }
 
+    fun pauseBgm() {
+        try {
+            bgmPlayer?.let {
+                if (it.isPlaying) {
+                    it.pause()
+                }
+            }
+        } catch (_: Exception) {}
+    }
+
+    fun resumeBgm(context: Context? = null) {
+        if (!isBgmEnabled) return
+        try {
+            bgmPlayer?.let {
+                if (!it.isPlaying) {
+                    it.start()
+                }
+            } ?: run {
+                startBgm(context)
+            }
+        } catch (_: Exception) {}
+    }
+
     fun toggleBgm(context: Context? = null, enabled: Boolean = true, trackType: String = "MYSTERY") {
         isBgmEnabled = enabled
         if (enabled) {

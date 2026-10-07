@@ -19,6 +19,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.data.local.AudioEffects
 import com.example.ui.screens.AchievementsScreen
 import com.example.ui.screens.CaseSelectionScreen
 import com.example.ui.screens.DictionaryScreen
@@ -138,5 +139,22 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        AudioEffects.pauseBgm()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (viewModel.uiState.value.isBgmEnabled) {
+            AudioEffects.resumeBgm(this)
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        AudioEffects.stopBgm()
     }
 }
